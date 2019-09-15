@@ -34,30 +34,42 @@ import java.awt.event.ActionEvent;
 
 public class Window extends JFrame{
 
-	private JPanel contentPane;
 	private JLabel copia;
 	private JPanel panelPalette;
+	private JScrollPane scrollPane;
 	private boolean borrador = false;
-
+	
 	public Window() {
 		setResizable(false);
 		setTitle("Circuit Designer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1450, 872);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		setLocationRelativeTo(null);
+		iniciarComponentes();
+	}
+
+	private void iniciarComponentes() {
+
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(0,0,1500,1000);
+		
+		//contentPane = new JPanel();
+		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		
+		
+		//setContentPane(contentPane);
 		
 		Image i = Toolkit.getDefaultToolkit().getImage(Window.class.getResource("/com/circuitdesigner/media/img_borrador_cursor.PNG"));
 		Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(i, new Point(0,0), "cursor1"); 
-		contentPane.setLayout(null);
+		//contentPane.setLayout(null);
 		
 		panelPalette = new JPanel();
-		panelPalette.setBounds(0, 0, 1444, 837);
+		//panelPalette.setBounds(0, 0, 1444, 837);
 		panelPalette.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelPalette.setBackground(Color.WHITE);
 		
-		contentPane.add(panelPalette);
+		//contentPane.add(panelPalette);
 		panelPalette.setLayout(null);
 		
 		JLabel lbl_palette_and = new JLabel("");
@@ -134,6 +146,12 @@ public class Window extends JFrame{
 		btn_borrador.setBackground(Color.WHITE);
 		btn_borrador.setBounds(236, 0, 80, 80);
 		panelPalette.add(btn_borrador);
+		
+		panelPalette.setPreferredSize(new Dimension(2444, 1837));
+		
+		scrollPane.setViewportView(panelPalette);
+		
+		add(scrollPane);
 	}
 	
 	private void createMouseEvents(JLabel label) {
