@@ -8,7 +8,6 @@ public class Main {
 		// TODO Auto-generated method stub
 		Window w = new Window();
 		w.setVisible(true);
-		System.out.println("hola");
 	}
 
 }
