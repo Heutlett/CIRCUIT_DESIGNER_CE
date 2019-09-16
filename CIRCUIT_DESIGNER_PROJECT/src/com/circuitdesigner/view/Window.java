@@ -178,16 +178,18 @@ public class Window extends JFrame{
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
+				int y = 5;
 				if(e.getX()<189) {
 					panel.remove(copia);
 					panel.updateUI();
 				}else {
 					for(int i = 0; i < copiaCompuerta.getEntradas().size(); i++) {
 						copiaCompuerta.getEntradas().get(i).getLabelCompuerta().setVisible(true);
-						copiaCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX(), copiaCompuerta.getLabelCompuerta().getY());
+						copiaCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX()-17, copiaCompuerta.getLabelCompuerta().getY()+y);
+						y = y+20;
 					}
 					copiaCompuerta.getSalida().getLabelCompuerta().setVisible(true);
-					copiaCompuerta.getSalida().getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX(), copiaCompuerta.getLabelCompuerta().getY());
+					copiaCompuerta.getSalida().getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX()+75, copiaCompuerta.getLabelCompuerta().getY()+20);
 				}
 				
 				
