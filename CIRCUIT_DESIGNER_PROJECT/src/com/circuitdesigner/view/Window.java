@@ -43,6 +43,7 @@ public class Window extends JFrame{
 	private JScrollPane scrollPane;
 	private boolean borrador = false;
 	private Sistema s1;
+	private Compuerta copiaCompuerta;
 	
 	public Window() {
 		s1 = new Sistema();
@@ -173,14 +174,22 @@ public class Window extends JFrame{
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				copiarCompuerta(label);
+				copiaCompuerta = copiarCompuerta(label);
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				if(e.getX()<189) {
 					panel.remove(copia);
 					panel.updateUI();
+				}else {
+					for(int i = 0; i < copiaCompuerta.getEntradas().size(); i++) {
+						copiaCompuerta.getEntradas().get(i).getLabelCompuerta().setVisible(true);
+						copiaCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX(), copiaCompuerta.getLabelCompuerta().getY());
+					}
+					copiaCompuerta.getSalida().getLabelCompuerta().setVisible(true);
+					copiaCompuerta.getSalida().getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX(), copiaCompuerta.getLabelCompuerta().getY());
 				}
+				
 				
 			}
 		});
@@ -196,7 +205,7 @@ public class Window extends JFrame{
 	
 	private Compuerta crearCompuerta(String tipo, JLabel copiaLabel) {
 		
-		Compuerta newCompuerta;
+		Compuerta newCompuerta = null;
 		
 		if(tipo.equals("AND")) {
 			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.AND,copiaLabel);
@@ -216,7 +225,7 @@ public class Window extends JFrame{
 		if(tipo.equals("XOR")) {
 			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.XOR,copiaLabel);
 		}
-		else {
+		if(tipo.equals("XNOR")){
 			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.XNOR,copiaLabel);
 		}
 		
@@ -225,7 +234,22 @@ public class Window extends JFrame{
 		return newCompuerta;
 	}
 	
-	private void copiarCompuerta(JLabel label) {
+	private void ubicarEntradasYSalidas(Compuerta c) {
+		
+		int y = c.getLabelCompuerta().getY() - 20;
+		int x = c.getLabelCompuerta().getX();
+		
+		c.getSalida().getLabelCompuerta().setLocation(x+90,y+20);
+		for(int i = 0; i < c.getEntradas().size(); i++) {
+			
+			c.getEntradas().get(i).getLabelCompuerta().setLocation(x,y);
+			y += 20;
+			
+		}
+		
+	}
+	
+	private Compuerta copiarCompuerta(JLabel label) {
 		
 		JLabel copiaLabel = new JLabel();
 		
@@ -238,6 +262,8 @@ public class Window extends JFrame{
 		newCompuerta.getLabelCompuerta().setIcon(label.getIcon());
 		newCompuerta.getLabelCompuerta().setBounds(label.getBounds());
 		
+		ubicarEntradasYSalidas(newCompuerta);
+		
 		borrador = false;
 		panel.setCursor(Cursor.getDefaultCursor());
 		
@@ -245,9 +271,17 @@ public class Window extends JFrame{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				
+				int y = -7;
+				
 				newCompuerta.getLabelCompuerta().setLocation(e.getX()+copia.getX()-40, e.getY()+copia.getY()-35);
 				
-				//copiaLabel.setLocation(e.getX()+copia.getX()-40, e.getY()+copia.getY()-35);
+				for(int i = 0; i < newCompuerta.getEntradas().size();i++) {
+					newCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(e.getX()+copia.getX()-50, e.getY()+copia.getY()+y);
+					y = y - 20;
+					
+				}
+				newCompuerta.getSalida().getLabelCompuerta().setLocation(e.getX()+copia.getX()+45, e.getY()+copia.getY()-13);
+				
 				panel.updateUI();
 				
 			}
@@ -271,12 +305,13 @@ public class Window extends JFrame{
 				}
 			}
 		});		
-		
 
 		
 		
 		panel.add(copia);
 		panel.updateUI();
+		
+		return newCompuerta;
 		
 	}
 	

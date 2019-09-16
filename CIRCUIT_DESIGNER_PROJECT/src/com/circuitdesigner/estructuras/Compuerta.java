@@ -6,18 +6,16 @@ import javax.swing.JLabel;
 
 public class Compuerta {
 	
-	private char[] caracteres = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'};
-	
 	public static enum tipoCompuerta{
 		AND, NAND, OR, NOR, NOT, XOR, XNOR,ENTRADA,SALIDA
 	};
 
-	private static int cantProposiciones;
+	private static int cantProposicionesIn = 1;
+	private static int cantProposicionesOut = 1;
 	private static int cantCompuertas;
 	private boolean valorEntrada;
 	private String idCompuerta;
 	private String idProposicion;
-	private char caracterProposicion;
 	
 	private ArrayList<Compuerta> entradas;
 	private Compuerta salida;
@@ -27,14 +25,23 @@ public class Compuerta {
 	//Constructor para entradas y salidas
 	public Compuerta(boolean valorEntrada, tipoCompuerta tipo) {
 		
-		this.caracterProposicion = caracteres[cantProposiciones];
-		this.idProposicion = "P" + this.cantProposiciones;
-		cantProposiciones++;
+		if(tipo == tipoCompuerta.SALIDA) {
+			this.idProposicion = "o<" + cantProposicionesOut + ">";
+			cantProposicionesOut += 1;
+			//System.out.println("cantidad de outs: " + cantProposicionesOut);
+		}
+		if(tipo ==tipoCompuerta.ENTRADA) {
+			this.idProposicion = "i<" + cantProposicionesIn + ">";
+			cantProposicionesIn += 1;
+			//System.out.println("cantidad de in: " + cantProposicionesIn);
+		}
+		
 		this.valorEntrada = valorEntrada;
 		this.tipo = tipo;
 		this.labelCompuerta = new JLabel();
-		this.labelCompuerta.setText(""+caracterProposicion);
-		this.labelCompuerta.setSize(20, 20);
+		this.labelCompuerta.setText(idProposicion);
+		this.labelCompuerta.setSize(40, 40);
+		this.labelCompuerta.setVisible(false);
 		
 	}
 	
@@ -86,20 +93,20 @@ public class Compuerta {
 		this.labelCompuerta = labelCompuerta;
 	}
 
-	public char[] getCaracteres() {
-		return caracteres;
+	public static int getCantProposicionesIn() {
+		return cantProposicionesIn;
 	}
 
-	public void setCaracteres(char[] caracteres) {
-		this.caracteres = caracteres;
+	public static void setCantProposicionesIn(int cantProposicionesIn) {
+		Compuerta.cantProposicionesIn = cantProposicionesIn;
 	}
 
-	public static int getCantProposiciones() {
-		return cantProposiciones;
+	public static int getCantProposicionesOut() {
+		return cantProposicionesOut;
 	}
 
-	public static void setCantProposiciones(int cantProposiciones) {
-		Compuerta.cantProposiciones = cantProposiciones;
+	public static void setCantProposicionesOut(int cantProposicionesOut) {
+		Compuerta.cantProposicionesOut = cantProposicionesOut;
 	}
 
 	public boolean isValorEntrada() {
@@ -135,13 +142,6 @@ public class Compuerta {
 		this.idProposicion = idProposicion;
 	}
 
-	public char getCaracterProposicion() {
-		return caracterProposicion;
-	}
-
-	public void setCaracterProposicion(char caracterProposicion) {
-		this.caracterProposicion = caracterProposicion;
-	}
 	
 
 }
