@@ -36,6 +36,7 @@ public class Window extends JFrame{
 
 	private JLabel copia;
 	private JPanel panelPalette;
+	private JPanel panelWorkSpace;
 	private JScrollPane scrollPane;
 	private boolean borrador = false;
 	
@@ -43,93 +44,34 @@ public class Window extends JFrame{
 		setResizable(false);
 		setTitle("Circuit Designer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1450, 872);
+		setBounds(0, 0, 1450, 996);
 		setLocationRelativeTo(null);
+		setLayout(null);
 		iniciarComponentes();
 	}
 
 	private void iniciarComponentes() {
 
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0,0,1500,1000);
-		
-		//contentPane = new JPanel();
-		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		
-		
-		//setContentPane(contentPane);
-		
 		Image i = Toolkit.getDefaultToolkit().getImage(Window.class.getResource("/com/circuitdesigner/media/img_borrador_cursor.PNG"));
 		Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(i, new Point(0,0), "cursor1"); 
-		//contentPane.setLayout(null);
 		
-		panelPalette = new JPanel();
-		//panelPalette.setBounds(0, 0, 1444, 837);
-		panelPalette.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelPalette.setBackground(Color.WHITE);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(250, 0, 1000, 961);
+		add(scrollPane);
 		
-		//contentPane.add(panelPalette);
-		panelPalette.setLayout(null);
+		panelWorkSpace = new JPanel();
+		panelWorkSpace.setBounds(100, 0, 1444, 837);
+		panelWorkSpace.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelWorkSpace.setBackground(Color.BLUE);
+		panelWorkSpace.setLayout(null);
+		panelWorkSpace.setPreferredSize(new Dimension(2444, 1837));
 		
-		JLabel lbl_palette_and = new JLabel("");
-		lbl_palette_and.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_and.PNG")));
-		lbl_palette_and.setBounds(74, 100, 80, 80);
-		panelPalette.add(lbl_palette_and);
-		createMouseEvents(lbl_palette_and);
+		scrollPane.setViewportView(panelWorkSpace);
 		
-		JLabel lbl_palette_nand = new JLabel("");
-		lbl_palette_nand.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_nand.PNG")));
-		lbl_palette_nand.setBounds(74, 200, 80, 80);
-		panelPalette.add(lbl_palette_nand);
-		createMouseEvents(lbl_palette_nand);
 		
-		JLabel lbl_palette_or = new JLabel("");
-		lbl_palette_or.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_or.PNG")));
-		lbl_palette_or.setBounds(74, 300, 80, 80);
-		panelPalette.add(lbl_palette_or);
-		createMouseEvents(lbl_palette_or);
 		
-		JLabel lbl_palette_nor = new JLabel("");
-		lbl_palette_nor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_nor.PNG")));
-		lbl_palette_nor.setBounds(74, 400, 80, 80);
-		panelPalette.add(lbl_palette_nor);
-		createMouseEvents(lbl_palette_nor);
 		
-		JLabel lbl_palette_not = new JLabel("");
-		lbl_palette_not.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_not.PNG")));
-		lbl_palette_not.setBounds(74, 500, 80, 80);
-		panelPalette.add(lbl_palette_not);
-		createMouseEvents(lbl_palette_not);
-		
-		JLabel lbl_palette_xor = new JLabel("");
-		lbl_palette_xor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_xor.PNG")));
-		lbl_palette_xor.setBounds(74, 600, 80, 80);
-		panelPalette.add(lbl_palette_xor);
-		createMouseEvents(lbl_palette_xor);
-		
-		JLabel lbl_palette_xnor = new JLabel("");
-		lbl_palette_xnor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_xnor.PNG")));
-		lbl_palette_xnor.setBounds(74, 700, 80, 80);
-		panelPalette.add(lbl_palette_xnor);
-		createMouseEvents(lbl_palette_xnor);
-		
-		JLabel lblPalette = new JLabel("Palette");
-		lblPalette.setBounds(0, 0, 238, 59);
-		panelPalette.add(lblPalette);
-		lblPalette.setBackground(Color.WHITE);
-		lblPalette.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPalette.setFont(new Font("Tahoma", Font.PLAIN, 25));
-		
-		JLabel lbl_linea1 = new JLabel("");
-		lbl_linea1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lbl_linea1.setBounds(0, 0, 237, 841);
-		panelPalette.add(lbl_linea1);
-		
-		JLabel lbl_linea2 = new JLabel("");
-		lbl_linea2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lbl_linea2.setBounds(0, 65, 236, 1);
-		panelPalette.add(lbl_linea2);
+		/*
 		
 		JButton btn_borrador = new JButton("");
 		btn_borrador.setContentAreaFilled(false);
@@ -144,14 +86,80 @@ public class Window extends JFrame{
 		btn_borrador.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btn_borrador.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_borrador.png")));
 		btn_borrador.setBackground(Color.WHITE);
-		btn_borrador.setBounds(236, 0, 80, 80);
+		btn_borrador.setBounds(0, 0, 80, 80);
 		panelPalette.add(btn_borrador);
 		
-		panelPalette.setPreferredSize(new Dimension(2444, 1837));
+		panelWorkSpace = new JPanel();
+		panelWorkSpace.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelWorkSpace.setBackground(Color.WHITE);
+		panelWorkSpace.setBounds(0, 0, 236, 1000);
+		add(panelWorkSpace);
+		panelWorkSpace.setLayout(null);
 		
-		scrollPane.setViewportView(panelPalette);
+		JLabel lblPalette = new JLabel("Palette");
+		lblPalette.setBounds(76, 13, 75, 31);
+		panelWorkSpace.add(lblPalette);
+		lblPalette.setBackground(Color.WHITE);
+		lblPalette.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPalette.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		
-		add(scrollPane);
+		JLabel lbl_linea2 = new JLabel("");
+		lbl_linea2.setBounds(0, 64, 236, 1);
+		panelWorkSpace.add(lbl_linea2);
+		lbl_linea2.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		JLabel lbl_palette_and = new JLabel("");
+		lbl_palette_and.setBounds(71, 117, 80, 80);
+		panelWorkSpace.add(lbl_palette_and);
+		lbl_palette_and.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_and.PNG")));
+		createMouseEvents(lbl_palette_and);
+		
+		JLabel lbl_palette_nand = new JLabel("");
+		lbl_palette_nand.setBounds(71, 217, 80, 80);
+		panelWorkSpace.add(lbl_palette_nand);
+		lbl_palette_nand.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_nand.PNG")));
+		createMouseEvents(lbl_palette_nand);
+		
+		JLabel lbl_palette_or = new JLabel("");
+		lbl_palette_or.setBounds(71, 317, 80, 80);
+		panelWorkSpace.add(lbl_palette_or);
+		lbl_palette_or.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_or.PNG")));
+		createMouseEvents(lbl_palette_or);
+		
+		JLabel lbl_palette_nor = new JLabel("");
+		lbl_palette_nor.setBounds(71, 417, 80, 80);
+		panelWorkSpace.add(lbl_palette_nor);
+		lbl_palette_nor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_nor.PNG")));
+		createMouseEvents(lbl_palette_nor);
+		
+		JLabel lbl_palette_not = new JLabel("");
+		lbl_palette_not.setBounds(71, 517, 80, 80);
+		panelWorkSpace.add(lbl_palette_not);
+		lbl_palette_not.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_not.PNG")));
+		createMouseEvents(lbl_palette_not);
+		
+		JLabel lbl_palette_xor = new JLabel("");
+		lbl_palette_xor.setBounds(71, 617, 80, 80);
+		panelWorkSpace.add(lbl_palette_xor);
+		lbl_palette_xor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_xor.PNG")));
+		createMouseEvents(lbl_palette_xor);
+		
+		JLabel lbl_palette_xnor = new JLabel("");
+		lbl_palette_xnor.setBounds(71, 717, 80, 80);
+		panelWorkSpace.add(lbl_palette_xnor);
+		lbl_palette_xnor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_xnor.PNG")));
+		createMouseEvents(lbl_palette_xnor);
+		
+		
+		
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_output.png")));
+		label.setBounds(76, 817, 80, 80);
+		panel.add(label);
+		*/
+		
+		
+
 	}
 	
 	private void createMouseEvents(JLabel label) {
@@ -159,10 +167,13 @@ public class Window extends JFrame{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if(copia != null) {
-					copia.setLocation(e.getX()+label.getX()-40, e.getY()+label.getY()-35);
+					copia.setLocation(e.getX()-200, e.getY());
 					panelPalette.updateUI();
+					
 				}
 			}
+			
+			//+label.getX()-40 +label.getY()-35
 		});
 		label.addMouseListener(new MouseAdapter() {
 			@Override
@@ -194,6 +205,7 @@ public class Window extends JFrame{
 				copiaLabel.setLocation(e.getX()+copia.getX()-40, e.getY()+copia.getY()-35);
 				panelPalette.updateUI();
 				
+				
 			}
 			
 		});
@@ -210,14 +222,14 @@ public class Window extends JFrame{
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if(copiaLabel.getX()<189) {
-					copiaLabel.setLocation(235, copiaLabel.getY());
+				if(copiaLabel.getX()<0) {
+					copiaLabel.setLocation(0, copiaLabel.getY());
 				}
 			}
 		});		
 		
 		copia.setIcon(label.getIcon());
-		copia.setBounds(label.getBounds());
+		copia.setBounds(label.getX()-120,label.getY()-40,80,80);
 		
 		panelPalette.add(copia);
 		panelPalette.updateUI();
