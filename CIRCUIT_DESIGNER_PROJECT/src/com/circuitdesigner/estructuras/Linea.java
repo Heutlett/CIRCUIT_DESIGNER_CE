@@ -14,29 +14,45 @@ public class Linea {
 	private Compuerta cola;
 	private Compuerta pico;
 	private Color color;
-	private JLabel label;
+	private JLabel labelBorrarInicio;
+	private JLabel labelBorrarFinal;
 	
-	public Linea(int x1, int y1, int x2, int y2, Color color, JLabel label, Compuerta cola, Compuerta pico) {
+	public Linea(int x1, int y1, int x2, int y2, Color color, JLabel label1, JLabel label2, Compuerta cola, Compuerta pico) {
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;
 		this.y2 = y2;
-		this.label = label;
-		this.label.setForeground(Color.red);
-		this.label.setBounds(x1,y1-10,30,30);
+		this.labelBorrarInicio = label1;
+		this.labelBorrarInicio.setForeground(Color.red);
+		this.labelBorrarInicio.setBounds(x1,y1-10,30,30);
+		this.labelBorrarFinal = label2;
+		this.labelBorrarFinal.setForeground(Color.red);
+		this.labelBorrarFinal.setBounds(x2,y2-10,30,30);
 		this.color = color;
 		this.cola = cola;
 		this.pico = pico;
 	}
 
 	
-	public JLabel getLabel() {
-		return label;
+	public JLabel getLabelBorrarInicio() {
+		return labelBorrarInicio;
 	}
 
-	public void setLabel(JLabel label) {
-		this.label = label;
+
+	public void setLabelBorrarInicio(JLabel labelBorrarInicio) {
+		this.labelBorrarInicio = labelBorrarInicio;
 	}
+
+
+	public JLabel getLabelBorrarFinal() {
+		return labelBorrarFinal;
+	}
+
+
+	public void setLabelBorrarFinal(JLabel labelBorrarFinal) {
+		this.labelBorrarFinal = labelBorrarFinal;
+	}
+
 
 	public int getX1() {
 		return x1;

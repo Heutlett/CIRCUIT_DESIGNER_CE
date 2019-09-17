@@ -24,9 +24,10 @@ public class Compuerta {
 	private tipoCompuerta tipo;
 	private JLabel labelCompuerta;
 	private JLabel labelId;
+	private String idCompuertaPadre;
 	
 	//Constructor para entradas y salidas
-	public Compuerta(int valorEntrada, tipoCompuerta tipo) {
+	public Compuerta(int valorEntrada, tipoCompuerta tipo, String idCompuertaPadre) {
 		
 		if(tipo == tipoCompuerta.SALIDA) {
 			this.idProposicion = "o<" + cantProposicionesOut + ">";
@@ -46,14 +47,15 @@ public class Compuerta {
 		this.labelCompuerta.setSize(40, 20);
 		this.labelCompuerta.setVisible(false);
 		this.labelCompuerta.setName(idProposicion);
+		this.idCompuertaPadre = idCompuertaPadre;
 		
 	}
 	
 	public Compuerta(tipoCompuerta tipo, JLabel labelCompuerta) {
 		
-		
 		this.idCompuerta = "C" + this.cantCompuertas;
 		this.labelId = new JLabel(this.idCompuerta);
+		this.labelId.setForeground(Color.blue);
 		this.labelId.setSize(40,20);
 		this.labelId.setVisible(false);
 		cantCompuertas++;
@@ -61,13 +63,23 @@ public class Compuerta {
 		this.labelCompuerta = labelCompuerta;
 		entradas = new ArrayList<Compuerta>();
 		if(tipo != tipoCompuerta.NOT) {
-			entradas.add(new Compuerta(1, tipoCompuerta.ENTRADA));
-			entradas.add(new Compuerta(1,tipoCompuerta.ENTRADA));
+			entradas.add(new Compuerta(1, tipoCompuerta.ENTRADA,idCompuertaPadre));
+			entradas.add(new Compuerta(1,tipoCompuerta.ENTRADA,idCompuertaPadre));
 		}else {
-			entradas.add(new Compuerta(1,tipoCompuerta.ENTRADA));
+			entradas.add(new Compuerta(1,tipoCompuerta.ENTRADA,idCompuertaPadre));
 		}
-		salida = new Compuerta(1, tipoCompuerta.SALIDA);
+		salida = new Compuerta(1, tipoCompuerta.SALIDA,idCompuertaPadre);
 		this.labelCompuerta.setName(idCompuerta);
+	}
+	
+	public Compuerta buscarEntrada(String nombreEntrada) {
+		Compuerta c = null;
+		for(int j = 0; j < getEntradas().size(); j++) {
+			if(getEntradas().get(j).getLabelCompuerta().getName().equals(nombreEntrada)) {
+				return getEntradas().get(j);
+			}
+		}
+		return c;
 	}
 
 	public boolean isBloqueada() {

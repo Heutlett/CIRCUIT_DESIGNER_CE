@@ -95,31 +95,7 @@ public class Sistema {
 				datosFila[i][e] = tabla[i][e];
 			}
 		}
-		
-		/*
-		Object [][] datosFila = {
-				
-				{"asda", 123,123,false},
-				{"asda", 123,123,false},
-				{"asda", 123,123,false},
-				{"asda", 123,123,false},
-				{"asda", 123,123,false},
-				{"asda", 123,123,false},
-				{"asda", 123,123,false},
-				{"asda", 123,123,false}
-				
-				
-		};
-		*/
-				//new Object[2][3];
-		
-		//datosFila[0][0] = "1";
-		//datosFila[0][1] = "2";
-		//datosFila[0][2] = "3";
-		//datosFila[1][0] = "4";
-		//datosFila[1][1] = "5";
-		//datosFila[1][2] = "6";
-		
+
 		calcular(tabla, datosFila);
 		
 		Tabla t = new Tabla(datosFila, nombresColumnas);
@@ -140,6 +116,13 @@ public class Sistema {
 			if(listaOuts.get(i).getIdProposicion().equals(nombre)){
 				listaOuts.remove(i);
 			}
+		}
+	}
+	
+	private void borrarInsOutsCompuerta(Compuerta c) {
+		borrarOut(c.getSalida().getIdProposicion());
+		for(int i = 0; i < c.getEntradas().size(); i++) {
+			borrarIn(c.getEntradas().get(i).getIdProposicion());
 		}
 	}
 	
@@ -245,6 +228,13 @@ public class Sistema {
 			System.out.println();
 		}
 		
+	}
+	
+	public void borrarCompuerta(Compuerta c) {
+		borrarInsOutsCompuerta(c);
+		listaCompuertas.remove(c);
+		imprimirIns();
+		imprimirOuts();
 	}
 	
 	public static int[][] generarTabla(int n) {

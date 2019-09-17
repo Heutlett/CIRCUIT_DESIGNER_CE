@@ -70,7 +70,8 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			
 			if(l1.getX1() == x1 && l1.getX2() == x2 && l1.getY1() == y1 && l1.getY2() == y2 && l1.getColor().equals(c)) {
 				System.out.println("Encontrado");
-				this.remove(s1.getListaLineas().get(i).getLabel());
+				this.remove(s1.getListaLineas().get(i).getLabelBorrarFinal());
+				this.remove(s1.getListaLineas().get(i).getLabelBorrarInicio());
 				s1.getListaLineas().remove(i);
 			}
 			
@@ -131,7 +132,14 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 	
 	private void agregarComportamientoLinea(Linea l) {
 		
-		l.getLabel().addMouseListener(new MouseAdapter() {
+		l.getLabelBorrarFinal().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				borrarLinea(l);
+				System.out.println("Eliminando");
+			}
+		});
+		l.getLabelBorrarInicio().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				borrarLinea(l);
@@ -149,10 +157,13 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		JLabel label = new JLabel("  X");
-		label.setFont(new Font("Serif", Font.BOLD, 14));
-		this.add(label);
-		Linea l1 = new Linea(x1,y1,x2,y2,color,label,c1,c2);
+		JLabel label1 = new JLabel("  X");
+		label1.setFont(new Font("Serif", Font.BOLD, 14));
+		this.add(label1);
+		JLabel label2 = new JLabel("  X");
+		label2.setFont(new Font("Serif", Font.BOLD, 14));
+		this.add(label2);
+		Linea l1 = new Linea(x1,y1,x2,y2,color,label1, label2,c1,c2);
 		agregarComportamientoLinea(l1);
 		s1.getListaLineas().add(l1);
 		this.repaint();
@@ -373,64 +384,18 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 							JOptionPane.showMessageDialog(null, "No se puede conectar una entrada con otra entrada");
 						}else {
 							
-							
 							if(puntoInicio.getName().contains("i")) {
 								
-								Compuerta compuertaEntrada = s1.buscarCompuertaPorEntrada(puntoInicio.getName());
-								
-								if(compuertaEntrada != null) {
-									
-									Compuerta compuertaSalida = s1.buscarCompuertaPorSalida(puntoFinal.getName());
-									pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15,compuertaEntrada,compuertaSalida);
-									
-									for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
-										if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoInicio.getName())) {
-											compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
-											s1.borrarIn(compuertaEntrada.getEntradas().get(j).getIdProposicion());
-											compuertaEntrada.getEntradas().remove(j);
-											compuertaEntrada.getEntradas().add(j, compuertaSalida);
-										}
-									}
-									
-									compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
-									s1.borrarOut(compuertaSalida.getSalida().getIdProposicion());
-									compuertaSalida.setSalida(compuertaEntrada);
-									compuertaSalida.setBloqueada(true);
-									compuertaEntrada.setBloqueada(true);
-									
-								}
+								crearLinea(s1.buscarCompuertaPorEntrada(puntoInicio.getName()), s1.buscarCompuertaPorSalida(puntoFinal.getName()), (puntoInicio.getName()));
 								
 							}else {
 								if(puntoInicio.getName().contains("o")) {
 									
-									Compuerta compuertaSalida = s1.buscarCompuertaPorSalida(puntoInicio.getName());
-									
-									if(compuertaSalida != null) {
-										
-										Compuerta compuertaEntrada = s1.buscarCompuertaPorEntrada(puntoFinal.getName());
-										pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15,compuertaEntrada,compuertaSalida);
-										
-										for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
-											if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoFinal.getName())) {
-												compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
-												s1.borrarIn(compuertaEntrada.getEntradas().get(j).getIdProposicion());
-												compuertaEntrada.getEntradas().remove(j);
-												compuertaEntrada.getEntradas().add(j, compuertaSalida);
-											}
-										}
-										
-										compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
-										s1.borrarOut(compuertaSalida.getSalida().getIdProposicion());
-										compuertaSalida.setSalida(compuertaEntrada);
-										compuertaEntrada.setBloqueada(true);
-										compuertaSalida.setBloqueada(true);
-									
-									}
-								
+									crearLinea(s1.buscarCompuertaPorEntrada(puntoFinal.getName()), s1.buscarCompuertaPorSalida(puntoInicio.getName()), (puntoFinal.getName()));
 								}
 								
 							}
-							System.out.println("Conexion realizada entre " + puntoInicio.getName() + " y " + puntoFinal.getName());
+							
 							s1.imprimirIns();
 							s1.imprimirOuts();
 							
@@ -447,11 +412,34 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
+	private void crearLinea(Compuerta compuertaEntrada, Compuerta compuertaSalida, String idBorrar) {
+		
+		if(compuertaEntrada.getIdCompuerta().equals(compuertaSalida.getIdCompuerta())) {
+			JOptionPane.showMessageDialog(null, "No se puede hacer una conexion entre la misma compuerta");
+			return;
+		}
+		
+		pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15,compuertaEntrada,compuertaSalida);
+		
+		Compuerta compuertaBorrar = compuertaEntrada.buscarEntrada(idBorrar);
+		compuertaBorrar.getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
+		s1.borrarIn(compuertaBorrar.getIdProposicion());
+		compuertaEntrada.getEntradas().remove(compuertaBorrar);
+		compuertaEntrada.getEntradas().add(compuertaSalida);
+		
+		compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
+		s1.borrarOut(compuertaSalida.getSalida().getIdProposicion());
+		compuertaSalida.setSalida(compuertaEntrada);
+		compuertaSalida.setBloqueada(true);
+		compuertaEntrada.setBloqueada(true);
+		System.out.println("Conexion realizada entre " + puntoInicio.getName() + " y " + puntoFinal.getName());
+		
+	}
+	
 	private void comportamientoEntradas(Compuerta c) {
 		
 		//Solucionar problema de conectar entrada y salida de la misma compuerta
 		comprobacionDeLineas(c.getSalida().getLabelCompuerta());
-		
 		
 		for(int i = 0; i < c.getEntradas().size(); i++) {
 			
@@ -494,13 +482,13 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			public void mouseDragged(MouseEvent e) {
 				
 				if(!newCompuerta.isBloqueada()) {
-					int y = 3;
+					int y = -20;
 					
 					newCompuerta.getLabelCompuerta().setLocation(e.getX()+copia.getX()-40, e.getY()+copia.getY()-35);
 					
 					for(int i = 0; i < newCompuerta.getEntradas().size();i++) {
 						newCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(e.getX()+copia.getX()-50, e.getY()+copia.getY()+y);
-						y = y - 25;
+						y = y + 25;
 						
 					}
 					newCompuerta.getSalida().getLabelCompuerta().setLocation(e.getX()+copia.getX()+35, e.getY()+copia.getY()-10);
@@ -515,9 +503,10 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		copiaLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				copia = copiaLabel;
 				if(borrador) {
-					remove(copiaLabel);
+					borrarLabelsCompuerta(newCompuerta);
+					//remove(copiaLabel);
+					s1.borrarCompuerta(newCompuerta);
 					actualizarPantalla();
 					borrador = false;
 					setCursor(Cursor.getDefaultCursor());
@@ -541,6 +530,15 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 		return newCompuerta;
 		
+	}
+	
+	private void borrarLabelsCompuerta(Compuerta c) {
+		remove(c.getLabelCompuerta());
+		remove(c.getSalida().getLabelCompuerta());
+		remove(c.getLabelId());
+		for(int i = 0; i < c.getEntradas().size(); i++) {
+			remove(c.getEntradas().get(i).getLabelCompuerta());
+		}
 	}
 
 	@Override
