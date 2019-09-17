@@ -41,10 +41,54 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 	private int y2;
 	private Color color;
 	
+	private JLabel puntoInicio;
+	private JLabel puntoFinal;
+	
+	private JLabel ultimoLabel;
+	
+	private boolean trazarLinea = false;
+	
 	public PanelWorkspace() {
 		
 		s1 = Sistema.getInstance();
 		initComponents();
+		
+	}
+	
+	private void borrarLineaGrafico(Graphics g) {
+		g.setColor(Color.white);
+		borrarLineaLista(x1,y1,x2,y2,color);
+		borrarLinea = false;
+		
+	}
+	
+	private void borrarLineaLista(int x1,int y1,int x2,int y2,Color c) {
+		
+		for(int i = 0; i < s1.getListaLineas().size();i++) {
+			
+			Linea l1 = s1.getListaLineas().get(i);
+			
+			if(l1.getX1() == x1 && l1.getX2() == x2 && l1.getY1() == y1 && l1.getY2() == y2 && l1.getColor().equals(c)) {
+				System.out.println("Encontrado");
+				this.remove(s1.getListaLineas().get(i).getLabel());
+				s1.getListaLineas().remove(i);
+			}
+			
+		}
+		
+	}
+	
+	private void borrarLinea(Linea l) {
+		
+		this.x1 = l.getX1();
+		this.y1 = l.getY1();
+		this.x2 = l.getX2();
+		this.y2 = l.getY2();
+		this.color = l.getColor();
+		
+		borrarLinea = true;
+		
+		this.repaint();
 		
 	}
 	
@@ -53,7 +97,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		super.paintComponent(g);
 		
 		if(borrarLinea) {
-			borrarLinea(g);
+			borrarLineaGrafico(g);
 		}else {
 			g.setColor(color);
 		}
@@ -80,28 +124,6 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			g.drawLine(s1.getListaLineas().get(i).getX1(), s1.getListaLineas().get(i).getY1(), s1.getListaLineas().get(i).getX2(),s1.getListaLineas().get(i).getY2());
 		
 		}
-	}
-	
-	private void borrarLineaLista(int x1,int y1,int x2,int y2,Color c) {
-		
-		for(int i = 0; i < s1.getListaLineas().size();i++) {
-			
-			Linea l1 = s1.getListaLineas().get(i);
-			
-			if(l1.getX1() == x1 && l1.getX2() == x2 && l1.getY1() == y1 && l1.getY2() == y2 && l1.getColor().equals(c)) {
-				this.remove(s1.getListaLineas().get(i).getLabel());
-				s1.getListaLineas().remove(i);
-			}
-			
-		}
-		
-	}
-	
-	private void borrarLinea(Graphics g) {
-		g.setColor(Color.white);
-		borrarLinea = false;
-		borrarLineaLista(x1,y1,x2,y2,color);
-		
 	}
 	
 	private void agregarComportamientoLinea(Linea l) {
@@ -133,27 +155,15 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
-	private void borrarLinea(Linea l) {
-		
-		borrarLinea = true;
-		
-		this.x1 = l.getX1();
-		this.y1 = l.getY1();
-		this.x2 = l.getX2();
-		this.y2 = l.getY2();
-		this.repaint();
-		
-	}
-	
 	private void initComponents() {
 		
 		addMouseListener(this);
 		
-		pintarLinea(100,400,1000,100);
+		//pintarLinea(100,400,1000,100);
 		
-		pintarLinea(100,100,540,100);
+		//pintarLinea(100,100,540,100);
 		
-		pintarLinea(0,123,241,234);
+		//pintarLinea(0,123,241,234);
 		
 		actualizarPantalla();
 		
@@ -273,6 +283,8 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 					}
 					copiaCompuerta.getSalida().getLabelCompuerta().setVisible(true);
 					copiaCompuerta.getSalida().getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX()+75, copiaCompuerta.getLabelCompuerta().getY()+20);
+					copiaCompuerta.getLabelId().setVisible(true);
+					copiaCompuerta.getLabelId().setLocation(copiaCompuerta.getLabelCompuerta().getX()+37, copiaCompuerta.getLabelCompuerta().getY());
 				}
 				
 				
@@ -286,6 +298,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			add(c.getEntradas().get(i).getLabelCompuerta());
 		}
 		add(c.getSalida().getLabelCompuerta());
+		add(c.getLabelId());
 	}
 	
 	private Compuerta crearCompuerta(String tipo, JLabel copiaLabel) {
@@ -325,6 +338,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		int x = c.getLabelCompuerta().getX();
 		
 		c.getSalida().getLabelCompuerta().setLocation(x+90,y+20);
+		c.getLabelId().setLocation(x+40, y-20);
 		for(int i = 0; i < c.getEntradas().size(); i++) {
 			
 			c.getEntradas().get(i).getLabelCompuerta().setLocation(x,y);
@@ -334,6 +348,157 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
+	private void comprobacionDeLineas(JLabel l) {
+		
+		l.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(puntoInicio == null) {
+					puntoInicio = (JLabel)e.getComponent();
+					puntoInicio.setForeground(Color.red);
+					System.out.println("Inicio: " + puntoInicio.getName());
+				}else {
+					puntoFinal = (JLabel)e.getComponent();
+					System.out.println("Final: " + puntoFinal.getName());
+					puntoFinal.setForeground(Color.red);
+				}
+				
+				if(puntoInicio != null && puntoFinal != null) {
+					if(puntoInicio.getName().equals(puntoFinal.getName())) {
+						if(puntoInicio.getName().contains("o")) {
+							System.out.println("No se puede trazar linea en la misma salida");
+						}else {
+							System.out.println("No se puede trazar linea en la misma entrada");
+						}
+						
+						puntoInicio.setForeground(Color.black);
+						puntoInicio = null;
+						puntoFinal = null;
+					}else {
+						if(puntoInicio.getName().contains("o") && puntoFinal.getName().contains("o")) {
+							System.out.println("No se puede conectar una salida con otra salida");
+							
+						}else if(puntoInicio.getName().contains("i") && puntoFinal.getName().contains("i")) {
+							System.out.println("No se puede conectar una entrada con otra entrada");
+						}else {
+							pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15);
+							if(puntoInicio.getName().contains("i")) {
+								
+								Compuerta compuertaEntrada = buscarCompuertaPorEntrada(puntoInicio.getName());
+								
+								if(compuertaEntrada != null) {
+									
+									Compuerta compuertaSalida = buscarCompuertaPorSalida(puntoFinal.getName());
+									
+									for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
+										if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoInicio.getName())) {
+											compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
+											compuertaEntrada.getEntradas().remove(j);
+											compuertaEntrada.getEntradas().add(j, compuertaSalida);
+										}
+									}
+									
+									compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
+									compuertaSalida.setSalida(compuertaEntrada);
+									compuertaSalida.setBloqueada(true);
+									compuertaEntrada.setBloqueada(true);
+									
+								}
+								
+							}else {
+								
+								Compuerta compuertaSalida = buscarCompuertaPorSalida(puntoInicio.getName());
+								
+								if(compuertaSalida != null) {
+									
+									Compuerta compuertaEntrada = buscarCompuertaPorEntrada(puntoFinal.getName());
+									
+									for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
+										if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoFinal.getName())) {
+											compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
+											compuertaEntrada.getEntradas().remove(j);
+											compuertaEntrada.getEntradas().add(j, compuertaSalida);
+										}
+									}
+									
+									compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
+									compuertaSalida.setSalida(compuertaEntrada);
+									compuertaEntrada.setBloqueada(true);
+									compuertaSalida.setBloqueada(true);
+									
+								}
+								
+							}
+							System.out.println("Conexion realizada entre " + puntoInicio.getName() + " y " + puntoFinal.getName());
+						}
+						puntoInicio.setForeground(Color.black);
+						puntoFinal.setForeground(Color.black);
+						puntoInicio = null;
+						puntoFinal = null;
+					}
+				}
+
+			}
+		});		
+		
+	}
+	
+	private Compuerta buscarCompuertaPorSalida(String salida) {
+		
+		Compuerta c = null;
+		
+		for(int i = 0; i < s1.getListaCompuertas().size(); i++) {
+			
+			if(s1.getListaCompuertas().get(i).getSalida().getIdProposicion().equals(salida)){
+				
+				return s1.getListaCompuertas().get(i);
+				
+			}
+		}
+		
+		return c;
+		
+	}
+	
+	private Compuerta buscarCompuertaPorEntrada(String entrada) {
+		
+		Compuerta c = null;
+		
+		for(int i = 0; i < s1.getListaCompuertas().size(); i++) {
+			
+			for(int e = 0; e < s1.getListaCompuertas().get(i).getEntradas().size(); e++) {
+				
+				if(s1.getListaCompuertas().get(i).getEntradas().get(e).getIdProposicion().equals(entrada)){
+					
+					return s1.getListaCompuertas().get(i);
+					
+				}
+				
+			}
+		}
+		
+		return c;
+		
+	}
+	
+	private void comportamientoEntradas(Compuerta c) {
+		
+		
+		//Solucionar problema de conectar entrada y salida de la misma compuerta
+		comprobacionDeLineas(c.getSalida().getLabelCompuerta());
+		
+		
+		for(int i = 0; i < c.getEntradas().size(); i++) {
+			
+			JLabel actual = c.getEntradas().get(i).getLabelCompuerta();
+			
+			comprobacionDeLineas(actual);
+			
+		}
+		
+	}
+
 	private Compuerta copiarCompuerta(JLabel label) {
 		
 		JLabel copiaLabel = new JLabel();
@@ -346,8 +511,11 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 		newCompuerta.getLabelCompuerta().setIcon(label.getIcon());
 		newCompuerta.getLabelCompuerta().setBounds(label.getBounds());
+		newCompuerta.getLabelId().setLocation(label.getX()+10,label.getY()-90);
 		
 		ubicarEntradasYSalidas(newCompuerta);
+		
+		comportamientoEntradas(newCompuerta);
 		
 		borrador = false;
 		setCursor(Cursor.getDefaultCursor());
@@ -356,18 +524,21 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				
-				int y = -7;
-				
-				newCompuerta.getLabelCompuerta().setLocation(e.getX()+copia.getX()-40, e.getY()+copia.getY()-35);
-				
-				for(int i = 0; i < newCompuerta.getEntradas().size();i++) {
-					newCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(e.getX()+copia.getX()-50, e.getY()+copia.getY()+y);
-					y = y - 20;
+				if(!newCompuerta.isBloqueada()) {
+					int y = -7;
 					
+					newCompuerta.getLabelCompuerta().setLocation(e.getX()+copia.getX()-40, e.getY()+copia.getY()-35);
+					
+					for(int i = 0; i < newCompuerta.getEntradas().size();i++) {
+						newCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(e.getX()+copia.getX()-50, e.getY()+copia.getY()+y);
+						y = y - 20;
+						
+					}
+					newCompuerta.getSalida().getLabelCompuerta().setLocation(e.getX()+copia.getX()+45, e.getY()+copia.getY()-13);
+					newCompuerta.getLabelId().setLocation(e.getX()+copia.getX(), e.getY()+copia.getY()-35);
+					
+					actualizarPantalla();
 				}
-				newCompuerta.getSalida().getLabelCompuerta().setLocation(e.getX()+copia.getX()+45, e.getY()+copia.getY()-13);
-				
-				actualizarPantalla();
 				
 			}
 			
@@ -389,21 +560,46 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 					copiaLabel.setLocation(235, copiaLabel.getY());
 				}
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				imprimirDatosCompuertas(newCompuerta);
+			}
 		});		
 
-		
-		
 		add(copia);
 		actualizarPantalla();
 		
 		return newCompuerta;
 		
 	}
+	
+	private void imprimirDatosCompuertas(Compuerta newCompuerta) {
+		System.out.println();
+		System.out.println("Mostrando los datos de la compuerta: " + newCompuerta.getIdCompuerta());
+		for(int i = 0; i < newCompuerta.getEntradas().size(); i++) {
+			if(newCompuerta.getEntradas().get(i).getTipo() == Compuerta.tipoCompuerta.ENTRADA || newCompuerta.getEntradas().get(i).getTipo() == Compuerta.tipoCompuerta.SALIDA) {
+				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdProposicion());
+			}else {
+				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdCompuerta());
+			}
+			
+		}
+		if(newCompuerta.getSalida().getTipo() == Compuerta.tipoCompuerta.ENTRADA || newCompuerta.getSalida().getTipo() == Compuerta.tipoCompuerta.SALIDA) {
+			
+			System.out.println("Salida: " + newCompuerta.getSalida().getIdProposicion());
+			
+		}else {
+			System.out.println("Salida: " + newCompuerta.getSalida().getIdCompuerta());
+		}
+		System.out.println();
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		actualizarPantalla();
+		
 	}
 
 	@Override

@@ -14,13 +14,14 @@ public class Compuerta {
 	private static int cantProposicionesOut = 1;
 	private static int cantCompuertas;
 	private boolean valorEntrada;
-	private String idCompuerta;
-	private String idProposicion;
-	
+	private String idCompuerta ="";
+	private String idProposicion ="";
+	private boolean bloqueada = false;
 	private ArrayList<Compuerta> entradas;
 	private Compuerta salida;
 	private tipoCompuerta tipo;
 	private JLabel labelCompuerta;
+	private JLabel labelId;
 	
 	//Constructor para entradas y salidas
 	public Compuerta(boolean valorEntrada, tipoCompuerta tipo) {
@@ -42,12 +43,17 @@ public class Compuerta {
 		this.labelCompuerta.setText(idProposicion);
 		this.labelCompuerta.setSize(40, 40);
 		this.labelCompuerta.setVisible(false);
+		this.labelCompuerta.setName(idProposicion);
 		
 	}
 	
 	public Compuerta(tipoCompuerta tipo, JLabel labelCompuerta) {
 		
+		
 		this.idCompuerta = "C" + this.cantCompuertas;
+		this.labelId = new JLabel(this.idCompuerta);
+		this.labelId.setSize(20,20);
+		this.labelId.setVisible(false);
 		cantCompuertas++;
 		this.tipo = tipo;
 		this.labelCompuerta = labelCompuerta;
@@ -59,6 +65,15 @@ public class Compuerta {
 			entradas.add(new Compuerta(true,tipoCompuerta.ENTRADA));
 		}
 		salida = new Compuerta(true, tipoCompuerta.SALIDA);
+		this.labelCompuerta.setName(idCompuerta);
+	}
+
+	public boolean isBloqueada() {
+		return bloqueada;
+	}
+
+	public void setBloqueada(boolean bloqueada) {
+		this.bloqueada = bloqueada;
 	}
 
 	public ArrayList<Compuerta> getEntradas() {
@@ -140,6 +155,14 @@ public class Compuerta {
 
 	public void setIdProposicion(String idProposicion) {
 		this.idProposicion = idProposicion;
+	}
+
+	public JLabel getLabelId() {
+		return labelId;
+	}
+
+	public void setLabelId(JLabel labelId) {
+		this.labelId = labelId;
 	}
 
 	

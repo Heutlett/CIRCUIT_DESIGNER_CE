@@ -15,6 +15,9 @@ public class Sistema {
 		listaCompuertas = new ArrayList<Compuerta>();
 		listaLineas = new ArrayList<Linea>();
 		
+		//int [][] tabla = generarTabla(4);
+		//imprimirTabla(4, tabla);
+		
 	}
 	
     public static Sistema getInstance() {

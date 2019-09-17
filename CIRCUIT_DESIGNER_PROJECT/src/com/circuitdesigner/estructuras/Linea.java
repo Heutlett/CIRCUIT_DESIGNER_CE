@@ -21,7 +21,8 @@ public class Linea {
 		this.y1 = y1;
 		this.y2 = y2;
 		this.label = label;
-		this.label.setBounds(x1,y1-10,20,20);
+		this.label.setForeground(Color.red);
+		this.label.setBounds(x1,y1-10,40,20);
 		
 		this.color = color;
 	}
