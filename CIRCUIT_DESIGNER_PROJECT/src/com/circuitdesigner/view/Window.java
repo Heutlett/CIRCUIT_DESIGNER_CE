@@ -40,7 +40,7 @@ import java.awt.event.ActionEvent;
 public class Window extends JFrame{
 
 	private JLabel copia;
-	private JPanel panel;
+	private Panel panel;
 	private JScrollPane scrollPane;
 	private boolean borrador = false;
 	private Sistema s1;
@@ -69,7 +69,7 @@ public class Window extends JFrame{
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(Color.WHITE);
 		
-		//panel.paintComponents(getGraphics(), );
+		
 		
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
