@@ -20,6 +20,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 
 import com.circuitdesigner.estructuras.Compuerta;
+import com.circuitdesigner.estructuras.Panel;
 import com.circuitdesigner.estructuras.Sistema;
 
 import javax.swing.JLabel;
@@ -60,23 +61,24 @@ public class Window extends JFrame{
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0,0,1500,1000);
 		
-		//contentPane = new JPanel();
-		//contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		
-		
-		//setContentPane(contentPane);
-		
 		Image i = Toolkit.getDefaultToolkit().getImage(Window.class.getResource("/com/circuitdesigner/media/img_borrador_cursor.PNG"));
 		Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(i, new Point(0,0), "cursor1"); 
-		//contentPane.setLayout(null);
+	
+		panel = new Panel();
 		
-		panel = new JPanel();
-		//panelPalette.setBounds(0, 0, 1444, 837);
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(Color.WHITE);
 		
-		//contentPane.add(panelPalette);
+		//panel.paintComponents(getGraphics(), );
+		
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println(e.getX() + "," + e.getY());
+			}
+
+		});
+		
 		panel.setLayout(null);
 		
 		JLabel lbl_palette_and = new JLabel("AND");

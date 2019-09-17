@@ -16,7 +16,7 @@ public class Sistema {
 		listaCompuertas.add(c);
 	}
 	
-	private static void imprimirTabla(int n, int [][]tablaFinal) {
+	public static void imprimirTabla(int n, int [][]tablaFinal) {
 		
 		for(int  i =0; i < (int) Math.pow(2, n); i++) {
 			
@@ -28,7 +28,7 @@ public class Sistema {
 		
 	}
 	
-	private static int[][] generarTabla(int n) {
+	public static int[][] generarTabla(int n) {
 		
 		int numero = 1;
 		int [][] tabla = new int[n][(int) Math.pow(2, n)];
