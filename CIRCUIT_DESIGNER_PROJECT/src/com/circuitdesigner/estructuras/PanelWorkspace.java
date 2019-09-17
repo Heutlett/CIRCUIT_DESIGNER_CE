@@ -1,12 +1,15 @@
 package com.circuitdesigner.estructuras;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +18,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Path2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -103,7 +109,9 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		}
 		
 		if(dibujar) {
-			g.drawLine(x1, y1, x2, y2);
+			Graphics2D g2d = (Graphics2D)g;
+			g2d.setStroke(new BasicStroke(3));
+			g2d.drawLine(x1, y1, x2, y2);
 			dibujar = false;
 		}
 		
@@ -158,12 +166,6 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 	private void initComponents() {
 		
 		addMouseListener(this);
-		
-		//pintarLinea(100,400,1000,100);
-		
-		//pintarLinea(100,100,540,100);
-		
-		//pintarLinea(0,123,241,234);
 		
 		actualizarPantalla();
 		
@@ -385,15 +387,16 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 							pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15);
 							if(puntoInicio.getName().contains("i")) {
 								
-								Compuerta compuertaEntrada = buscarCompuertaPorEntrada(puntoInicio.getName());
+								Compuerta compuertaEntrada = s1.buscarCompuertaPorEntrada(puntoInicio.getName());
 								
 								if(compuertaEntrada != null) {
 									
-									Compuerta compuertaSalida = buscarCompuertaPorSalida(puntoFinal.getName());
+									Compuerta compuertaSalida = s1.buscarCompuertaPorSalida(puntoFinal.getName());
 									
 									for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
 										if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoInicio.getName())) {
 											compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
+											borrarInicial(compuertaEntrada.getEntradas().get(j).getIdProposicion());
 											compuertaEntrada.getEntradas().remove(j);
 											compuertaEntrada.getEntradas().add(j, compuertaSalida);
 										}
@@ -407,30 +410,36 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 								}
 								
 							}else {
-								
-								Compuerta compuertaSalida = buscarCompuertaPorSalida(puntoInicio.getName());
-								
-								if(compuertaSalida != null) {
+								if(puntoInicio.getName().contains("o")) {
 									
-									Compuerta compuertaEntrada = buscarCompuertaPorEntrada(puntoFinal.getName());
+									Compuerta compuertaSalida = s1.buscarCompuertaPorSalida(puntoInicio.getName());
 									
-									for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
-										if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoFinal.getName())) {
-											compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
-											compuertaEntrada.getEntradas().remove(j);
-											compuertaEntrada.getEntradas().add(j, compuertaSalida);
+									if(compuertaSalida != null) {
+										
+										Compuerta compuertaEntrada = s1.buscarCompuertaPorEntrada(puntoFinal.getName());
+										
+										for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
+											if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoFinal.getName())) {
+												compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
+												borrarInicial(compuertaEntrada.getEntradas().get(j).getIdProposicion());
+												compuertaEntrada.getEntradas().remove(j);
+												compuertaEntrada.getEntradas().add(j, compuertaSalida);
+											}
 										}
+										
+										compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
+										compuertaSalida.setSalida(compuertaEntrada);
+										compuertaEntrada.setBloqueada(true);
+										compuertaSalida.setBloqueada(true);
+									
 									}
-									
-									compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
-									compuertaSalida.setSalida(compuertaEntrada);
-									compuertaEntrada.setBloqueada(true);
-									compuertaSalida.setBloqueada(true);
-									
+								
 								}
 								
 							}
 							System.out.println("Conexion realizada entre " + puntoInicio.getName() + " y " + puntoFinal.getName());
+							s1.imprimirIniciales();
+							
 						}
 						puntoInicio.setForeground(Color.black);
 						puntoFinal.setForeground(Color.black);
@@ -444,46 +453,19 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
-	private Compuerta buscarCompuertaPorSalida(String salida) {
-		
-		Compuerta c = null;
-		
-		for(int i = 0; i < s1.getListaCompuertas().size(); i++) {
-			
-			if(s1.getListaCompuertas().get(i).getSalida().getIdProposicion().equals(salida)){
-				
-				return s1.getListaCompuertas().get(i);
-				
+
+	
+	private void borrarInicial(String nombre) {
+		for(int i = 0; i < s1.getListaIns().size();i++) {
+			if(s1.getListaIns().get(i).getIdProposicion().equals(nombre)){
+				s1.getListaIns().remove(i);
 			}
 		}
-		
-		return c;
-		
 	}
 	
-	private Compuerta buscarCompuertaPorEntrada(String entrada) {
-		
-		Compuerta c = null;
-		
-		for(int i = 0; i < s1.getListaCompuertas().size(); i++) {
-			
-			for(int e = 0; e < s1.getListaCompuertas().get(i).getEntradas().size(); e++) {
-				
-				if(s1.getListaCompuertas().get(i).getEntradas().get(e).getIdProposicion().equals(entrada)){
-					
-					return s1.getListaCompuertas().get(i);
-					
-				}
-				
-			}
-		}
-		
-		return c;
-		
-	}
+
 	
 	private void comportamientoEntradas(Compuerta c) {
-		
 		
 		//Solucionar problema de conectar entrada y salida de la misma compuerta
 		comprobacionDeLineas(c.getSalida().getLabelCompuerta());
@@ -504,6 +486,10 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		JLabel copiaLabel = new JLabel();
 		
 		Compuerta newCompuerta = crearCompuerta(label.getText(),copiaLabel);
+		
+		s1.agregarInsOuts(newCompuerta);
+		
+		s1.imprimirIniciales();
 		
 		s1.addCompuertas(newCompuerta);
 		
@@ -563,7 +549,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				imprimirDatosCompuertas(newCompuerta);
+				Compuerta.imprimirDatosCompuertas(newCompuerta);
 			}
 		});		
 
@@ -572,27 +558,6 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 		return newCompuerta;
 		
-	}
-	
-	private void imprimirDatosCompuertas(Compuerta newCompuerta) {
-		System.out.println();
-		System.out.println("Mostrando los datos de la compuerta: " + newCompuerta.getIdCompuerta());
-		for(int i = 0; i < newCompuerta.getEntradas().size(); i++) {
-			if(newCompuerta.getEntradas().get(i).getTipo() == Compuerta.tipoCompuerta.ENTRADA || newCompuerta.getEntradas().get(i).getTipo() == Compuerta.tipoCompuerta.SALIDA) {
-				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdProposicion());
-			}else {
-				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdCompuerta());
-			}
-			
-		}
-		if(newCompuerta.getSalida().getTipo() == Compuerta.tipoCompuerta.ENTRADA || newCompuerta.getSalida().getTipo() == Compuerta.tipoCompuerta.SALIDA) {
-			
-			System.out.println("Salida: " + newCompuerta.getSalida().getIdProposicion());
-			
-		}else {
-			System.out.println("Salida: " + newCompuerta.getSalida().getIdCompuerta());
-		}
-		System.out.println();
 	}
 
 	@Override

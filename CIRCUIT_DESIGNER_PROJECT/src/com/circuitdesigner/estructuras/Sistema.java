@@ -8,19 +8,95 @@ public class Sistema {
 	
 	private ArrayList<Compuerta> listaCompuertas;
 	private ArrayList<Linea> listaLineas;
-	
+	private ArrayList<Compuerta> listaIns;
+	private ArrayList<Compuerta> listaOuts;
 
 	private Sistema() {
 		
 		listaCompuertas = new ArrayList<Compuerta>();
 		listaLineas = new ArrayList<Linea>();
+		listaIns = new ArrayList<Compuerta>();
+		listaOuts = new ArrayList<Compuerta>();
 		
 		//int [][] tabla = generarTabla(4);
 		//imprimirTabla(4, tabla);
 		
 	}
 	
-    public static Sistema getInstance() {
+	public Compuerta buscarCompuertaPorSalida(String salida) {
+		
+		Compuerta c = null;
+		
+		for(int i = 0; i < listaCompuertas.size(); i++) {
+			
+			if(listaCompuertas.get(i).getSalida().getIdProposicion().equals(salida)){
+				
+				return listaCompuertas.get(i);
+				
+			}
+		}
+		
+		return c;
+		
+	}
+	
+	public Compuerta buscarCompuertaPorEntrada(String entrada) {
+		
+		Compuerta c = null;
+		
+		for(int i = 0; i < listaCompuertas.size(); i++) {
+			
+			for(int e = 0; e < listaCompuertas.get(i).getEntradas().size(); e++) {
+				
+				if(listaCompuertas.get(i).getEntradas().get(e).getIdProposicion().equals(entrada)){
+					
+					return listaCompuertas.get(i);
+					
+				}
+				
+			}
+		}
+		
+		return c;
+		
+	}
+	
+	public void agregarInsOuts(Compuerta c) {
+		
+		for(int i = 0; i < c.getEntradas().size(); i++) {
+			listaIns.add(c.getEntradas().get(i));
+		}
+		listaOuts.add(c.getSalida());
+		
+	}
+	
+	public void imprimirIniciales() {
+		System.out.print("Iniciales: ");
+		for(int i = 0; i < listaIns.size();i++) {
+			
+			System.out.print(listaIns.get(i).getIdProposicion() + " ");
+			
+		}
+		System.out.println();
+	}
+	
+    public ArrayList<Compuerta> getListaIns() {
+		return listaIns;
+	}
+
+	public void setListaIns(ArrayList<Compuerta> listaIns) {
+		this.listaIns = listaIns;
+	}
+
+	public ArrayList<Compuerta> getListaOuts() {
+		return listaOuts;
+	}
+
+	public void setListaOuts(ArrayList<Compuerta> listaOuts) {
+		this.listaOuts = listaOuts;
+	}
+
+	public static Sistema getInstance() {
         return INSTANCE;
     }
     

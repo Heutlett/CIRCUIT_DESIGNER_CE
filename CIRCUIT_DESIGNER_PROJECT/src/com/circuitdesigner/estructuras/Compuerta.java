@@ -165,6 +165,25 @@ public class Compuerta {
 		this.labelId = labelId;
 	}
 
-	
+	public static void imprimirDatosCompuertas(Compuerta newCompuerta) {
+		System.out.println();
+		System.out.println("Mostrando los datos de la compuerta: " + newCompuerta.getIdCompuerta());
+		for(int i = 0; i < newCompuerta.getEntradas().size(); i++) {
+			if(newCompuerta.getEntradas().get(i).getTipo() == Compuerta.tipoCompuerta.ENTRADA || newCompuerta.getEntradas().get(i).getTipo() == Compuerta.tipoCompuerta.SALIDA) {
+				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdProposicion());
+			}else {
+				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdCompuerta());
+			}
+			
+		}
+		if(newCompuerta.getSalida().getTipo() == Compuerta.tipoCompuerta.ENTRADA || newCompuerta.getSalida().getTipo() == Compuerta.tipoCompuerta.SALIDA) {
+			
+			System.out.println("Salida: " + newCompuerta.getSalida().getIdProposicion());
+			
+		}else {
+			System.out.println("Salida: " + newCompuerta.getSalida().getIdCompuerta());
+		}
+		System.out.println();
+	}
 
 }
