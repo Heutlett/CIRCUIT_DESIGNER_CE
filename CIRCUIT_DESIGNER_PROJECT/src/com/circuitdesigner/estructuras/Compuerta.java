@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 public class Compuerta {
 	
 	public static enum tipoCompuerta{
-		AND, NAND, OR, NOR, NOT, XOR, XNOR,ENTRADA,SALIDA
+		AND, NAND, OR, NOR, NOT, XOR, XNOR, ENTRADA, SALIDA
 	};
 
 	private static int cantProposicionesIn = 1;

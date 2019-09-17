@@ -4,14 +4,23 @@ import java.util.ArrayList;
 
 public class Sistema {
 	
-	private ArrayList<Compuerta> listaCompuertas;
+	private static final Sistema INSTANCE = new Sistema();
 	
-	public Sistema() {
+	private ArrayList<Compuerta> listaCompuertas;
+	private ArrayList<Linea> listaLineas;
+	
+
+	private Sistema() {
 		
 		listaCompuertas = new ArrayList<Compuerta>();
+		listaLineas = new ArrayList<Linea>();
 		
 	}
 	
+    public static Sistema getInstance() {
+        return INSTANCE;
+    }
+    
 	public void addCompuertas(Compuerta c) {
 		listaCompuertas.add(c);
 	}
@@ -65,5 +74,22 @@ public class Sistema {
 
 		return tablaFinal;
 	}
+	
+	public ArrayList<Compuerta> getListaCompuertas() {
+		return listaCompuertas;
+	}
+
+	public void setListaCompuertas(ArrayList<Compuerta> listaCompuertas) {
+		this.listaCompuertas = listaCompuertas;
+	}
+
+	public ArrayList<Linea> getListaLineas() {
+		return listaLineas;
+	}
+
+	public void setListaLineas(ArrayList<Linea> listaLineas) {
+		this.listaLineas = listaLineas;
+	}
+
 
 }
