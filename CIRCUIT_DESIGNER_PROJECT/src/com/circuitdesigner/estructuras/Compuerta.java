@@ -185,5 +185,23 @@ public class Compuerta {
 		}
 		System.out.println();
 	}
+	
+	public void ubicarEntradasYSalidas() {
+		
+		int y = this.getLabelCompuerta().getY() - 20;
+		int x = this.getLabelCompuerta().getX();
+		
+		this.getSalida().getLabelCompuerta().setLocation(x+90,y+20);
+		this.getLabelId().setLocation(x+40, y-20);
+		for(int i = 0; i < this.getEntradas().size(); i++) {
+			
+			this.getEntradas().get(i).getLabelCompuerta().setLocation(x,y);
+			y += 20;
+			
+		}
+		
+	}
+	
+	
 
 }

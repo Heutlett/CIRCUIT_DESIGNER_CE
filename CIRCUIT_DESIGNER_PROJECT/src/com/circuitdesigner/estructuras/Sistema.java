@@ -2,6 +2,8 @@ package com.circuitdesigner.estructuras;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Sistema {
 	
 	private static final Sistema INSTANCE = new Sistema();
@@ -21,6 +23,30 @@ public class Sistema {
 		//int [][] tabla = generarTabla(4);
 		//imprimirTabla(4, tabla);
 		
+	}
+	
+	public void calcularTabla() {
+		
+		if(listaOuts.size()>1) {
+			JOptionPane.showMessageDialog(null, "Solo puede existir una salida!!!");
+		}
+		
+	}
+	
+	public void borrarIn(String nombre) {
+		for(int i = 0; i < listaIns.size();i++) {
+			if(listaIns.get(i).getIdProposicion().equals(nombre)){
+				listaIns.remove(i);
+			}
+		}
+	}
+	
+	public void borrarOut(String nombre) {
+		for(int i = 0; i < listaOuts.size();i++) {
+			if(listaOuts.get(i).getIdProposicion().equals(nombre)){
+				listaOuts.remove(i);
+			}
+		}
 	}
 	
 	public Compuerta buscarCompuertaPorSalida(String salida) {
@@ -70,13 +96,24 @@ public class Sistema {
 		
 	}
 	
-	public void imprimirIniciales() {
-		System.out.print("Iniciales: ");
+	public void imprimirIns() {
+		System.out.print("Ins: ");
 		for(int i = 0; i < listaIns.size();i++) {
 			
 			System.out.print(listaIns.get(i).getIdProposicion() + " ");
 			
 		}
+		System.out.println();
+	}
+	
+	public void imprimirOuts() {
+		System.out.print("Outs: ");
+		for(int i = 0; i < listaOuts.size();i++) {
+			
+			System.out.print(listaOuts.get(i).getIdProposicion() + " ");
+			
+		}
+		System.out.println();
 		System.out.println();
 	}
 	

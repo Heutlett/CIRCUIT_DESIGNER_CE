@@ -25,6 +25,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -37,22 +38,15 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 	private Sistema s1;
 	private boolean borrador = false;
 	private Compuerta copiaCompuerta;
-	
 	private boolean borrarLinea = false;
 	private boolean dibujar = false;
-	
 	private int x1;
 	private int x2;
 	private int y1;
 	private int y2;
 	private Color color;
-	
 	private JLabel puntoInicio;
 	private JLabel puntoFinal;
-	
-	private JLabel ultimoLabel;
-	
-	private boolean trazarLinea = false;
 	
 	public PanelWorkspace() {
 		
@@ -154,7 +148,8 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		JLabel label = new JLabel("X");
+		JLabel label = new JLabel("  X");
+		label.setFont(new Font("Serif", Font.BOLD, 14));
 		this.add(label);
 		Linea l1 = new Linea(x1,y1,x2,y2,color,label);
 		agregarComportamientoLinea(l1);
@@ -334,21 +329,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		return newCompuerta;
 	}
 	
-	private void ubicarEntradasYSalidas(Compuerta c) {
-		
-		int y = c.getLabelCompuerta().getY() - 20;
-		int x = c.getLabelCompuerta().getX();
-		
-		c.getSalida().getLabelCompuerta().setLocation(x+90,y+20);
-		c.getLabelId().setLocation(x+40, y-20);
-		for(int i = 0; i < c.getEntradas().size(); i++) {
-			
-			c.getEntradas().get(i).getLabelCompuerta().setLocation(x,y);
-			y += 20;
-			
-		}
-		
-	}
+	
 	
 	private void comprobacionDeLineas(JLabel l) {
 		
@@ -359,19 +340,17 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 				if(puntoInicio == null) {
 					puntoInicio = (JLabel)e.getComponent();
 					puntoInicio.setForeground(Color.red);
-					System.out.println("Inicio: " + puntoInicio.getName());
 				}else {
 					puntoFinal = (JLabel)e.getComponent();
-					System.out.println("Final: " + puntoFinal.getName());
 					puntoFinal.setForeground(Color.red);
 				}
 				
 				if(puntoInicio != null && puntoFinal != null) {
 					if(puntoInicio.getName().equals(puntoFinal.getName())) {
 						if(puntoInicio.getName().contains("o")) {
-							System.out.println("No se puede trazar linea en la misma salida");
+							JOptionPane.showMessageDialog(null, "No se puede trazar linea en la misma salida");
 						}else {
-							System.out.println("No se puede trazar linea en la misma entrada");
+							JOptionPane.showMessageDialog(null, "No se puede trazar linea en la misma entrada");
 						}
 						
 						puntoInicio.setForeground(Color.black);
@@ -379,10 +358,9 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 						puntoFinal = null;
 					}else {
 						if(puntoInicio.getName().contains("o") && puntoFinal.getName().contains("o")) {
-							System.out.println("No se puede conectar una salida con otra salida");
-							
+							JOptionPane.showMessageDialog(null, "No se puede conectar una salida con otra salida");
 						}else if(puntoInicio.getName().contains("i") && puntoFinal.getName().contains("i")) {
-							System.out.println("No se puede conectar una entrada con otra entrada");
+							JOptionPane.showMessageDialog(null, "No se puede conectar una entrada con otra entrada");
 						}else {
 							pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15);
 							if(puntoInicio.getName().contains("i")) {
@@ -396,13 +374,14 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 									for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
 										if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoInicio.getName())) {
 											compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
-											borrarInicial(compuertaEntrada.getEntradas().get(j).getIdProposicion());
+											s1.borrarIn(compuertaEntrada.getEntradas().get(j).getIdProposicion());
 											compuertaEntrada.getEntradas().remove(j);
 											compuertaEntrada.getEntradas().add(j, compuertaSalida);
 										}
 									}
 									
 									compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
+									s1.borrarOut(compuertaSalida.getSalida().getIdProposicion());
 									compuertaSalida.setSalida(compuertaEntrada);
 									compuertaSalida.setBloqueada(true);
 									compuertaEntrada.setBloqueada(true);
@@ -421,13 +400,14 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 										for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
 											if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoFinal.getName())) {
 												compuertaEntrada.getEntradas().get(j).getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
-												borrarInicial(compuertaEntrada.getEntradas().get(j).getIdProposicion());
+												s1.borrarIn(compuertaEntrada.getEntradas().get(j).getIdProposicion());
 												compuertaEntrada.getEntradas().remove(j);
 												compuertaEntrada.getEntradas().add(j, compuertaSalida);
 											}
 										}
 										
 										compuertaSalida.getSalida().getLabelCompuerta().setText(compuertaEntrada.getIdCompuerta());
+										s1.borrarOut(compuertaSalida.getSalida().getIdProposicion());
 										compuertaSalida.setSalida(compuertaEntrada);
 										compuertaEntrada.setBloqueada(true);
 										compuertaSalida.setBloqueada(true);
@@ -438,7 +418,8 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 								
 							}
 							System.out.println("Conexion realizada entre " + puntoInicio.getName() + " y " + puntoFinal.getName());
-							s1.imprimirIniciales();
+							s1.imprimirIns();
+							s1.imprimirOuts();
 							
 						}
 						puntoInicio.setForeground(Color.black);
@@ -452,18 +433,6 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		});		
 		
 	}
-	
-
-	
-	private void borrarInicial(String nombre) {
-		for(int i = 0; i < s1.getListaIns().size();i++) {
-			if(s1.getListaIns().get(i).getIdProposicion().equals(nombre)){
-				s1.getListaIns().remove(i);
-			}
-		}
-	}
-	
-
 	
 	private void comportamientoEntradas(Compuerta c) {
 		
@@ -489,7 +458,8 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 		s1.agregarInsOuts(newCompuerta);
 		
-		s1.imprimirIniciales();
+		s1.imprimirIns();
+		s1.imprimirOuts();
 		
 		s1.addCompuertas(newCompuerta);
 		
@@ -499,7 +469,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		newCompuerta.getLabelCompuerta().setBounds(label.getBounds());
 		newCompuerta.getLabelId().setLocation(label.getX()+10,label.getY()-90);
 		
-		ubicarEntradasYSalidas(newCompuerta);
+		newCompuerta.ubicarEntradasYSalidas();
 		
 		comportamientoEntradas(newCompuerta);
 		

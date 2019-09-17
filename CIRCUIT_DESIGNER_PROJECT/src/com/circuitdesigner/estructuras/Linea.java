@@ -3,6 +3,7 @@ package com.circuitdesigner.estructuras;
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.border.LineBorder;
 
 public class Linea {
 	
@@ -22,8 +23,8 @@ public class Linea {
 		this.y2 = y2;
 		this.label = label;
 		this.label.setForeground(Color.red);
-		this.label.setBounds(x1,y1-10,40,20);
-		
+		this.label.setBounds(x1,y1-10,30,30);
+		this.label.setBorder(new LineBorder(Color.red));
 		this.color = color;
 	}
 
