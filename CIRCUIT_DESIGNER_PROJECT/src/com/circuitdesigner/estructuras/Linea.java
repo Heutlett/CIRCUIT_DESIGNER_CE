@@ -16,7 +16,7 @@ public class Linea {
 	private Color color;
 	private JLabel label;
 	
-	public Linea(int x1, int y1, int x2, int y2, Color color, JLabel label) {
+	public Linea(int x1, int y1, int x2, int y2, Color color, JLabel label, Compuerta cola, Compuerta pico) {
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;
@@ -24,10 +24,12 @@ public class Linea {
 		this.label = label;
 		this.label.setForeground(Color.red);
 		this.label.setBounds(x1,y1-10,30,30);
-		this.label.setBorder(new LineBorder(Color.red));
 		this.color = color;
+		this.cola = cola;
+		this.pico = pico;
 	}
 
+	
 	public JLabel getLabel() {
 		return label;
 	}

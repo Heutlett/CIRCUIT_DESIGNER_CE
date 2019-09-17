@@ -95,6 +95,8 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setStroke(new BasicStroke(3));
 		
 		if(borrarLinea) {
 			borrarLineaGrafico(g);
@@ -103,13 +105,12 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		}
 		
 		if(dibujar) {
-			Graphics2D g2d = (Graphics2D)g;
-			g2d.setStroke(new BasicStroke(3));
+			
 			g2d.drawLine(x1, y1, x2, y2);
 			dibujar = false;
 		}
 		
-		repintar(g);
+		repintar(g2d);
 	}
 	
 	private void actualizarPantalla() {
@@ -118,7 +119,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
-	private void repintar(Graphics g) {
+	private void repintar(Graphics2D g) {
 		
 		for(int i = 0; i < s1.getListaLineas().size();i++) {
 			
@@ -140,7 +141,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
-	private void pintarLinea(int x1, int y1, int x2, int y2) {
+	private void pintarLinea(int x1, int y1, int x2, int y2, Compuerta c1, Compuerta c2) {
 		
 		dibujar = true;
 		color = new Color((int) (Math.random() * 255) + 1,(int) (Math.random() * 255) + 1,(int) (Math.random() * 255) + 1);
@@ -151,7 +152,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		JLabel label = new JLabel("  X");
 		label.setFont(new Font("Serif", Font.BOLD, 14));
 		this.add(label);
-		Linea l1 = new Linea(x1,y1,x2,y2,color,label);
+		Linea l1 = new Linea(x1,y1,x2,y2,color,label,c1,c2);
 		agregarComportamientoLinea(l1);
 		s1.getListaLineas().add(l1);
 		this.repaint();
@@ -249,6 +250,15 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 		setPreferredSize(new Dimension(2444, 1837));
 		
+		JButton btnPlay = new JButton("Play");
+		btnPlay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				s1.calcularTabla();
+			}
+		});
+		btnPlay.setBounds(164, 22, 69, 25);
+		add(btnPlay);
+		
 	}
 	
 	private void createMouseEvents(JLabel label) {
@@ -268,18 +278,18 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				int y = 5;
+				int y = 12;
 				if(e.getX()<189) {
 					remove(copia);
 					actualizarPantalla();
 				}else {
 					for(int i = 0; i < copiaCompuerta.getEntradas().size(); i++) {
 						copiaCompuerta.getEntradas().get(i).getLabelCompuerta().setVisible(true);
-						copiaCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX()-17, copiaCompuerta.getLabelCompuerta().getY()+y);
-						y = y+20;
+						copiaCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX()-10, copiaCompuerta.getLabelCompuerta().getY()+y);
+						y = y+25;
 					}
 					copiaCompuerta.getSalida().getLabelCompuerta().setVisible(true);
-					copiaCompuerta.getSalida().getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX()+75, copiaCompuerta.getLabelCompuerta().getY()+20);
+					copiaCompuerta.getSalida().getLabelCompuerta().setLocation(copiaCompuerta.getLabelCompuerta().getX()+75, copiaCompuerta.getLabelCompuerta().getY()+28);
 					copiaCompuerta.getLabelId().setVisible(true);
 					copiaCompuerta.getLabelId().setLocation(copiaCompuerta.getLabelCompuerta().getX()+37, copiaCompuerta.getLabelCompuerta().getY());
 				}
@@ -362,7 +372,8 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 						}else if(puntoInicio.getName().contains("i") && puntoFinal.getName().contains("i")) {
 							JOptionPane.showMessageDialog(null, "No se puede conectar una entrada con otra entrada");
 						}else {
-							pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15);
+							
+							
 							if(puntoInicio.getName().contains("i")) {
 								
 								Compuerta compuertaEntrada = s1.buscarCompuertaPorEntrada(puntoInicio.getName());
@@ -370,6 +381,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 								if(compuertaEntrada != null) {
 									
 									Compuerta compuertaSalida = s1.buscarCompuertaPorSalida(puntoFinal.getName());
+									pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15,compuertaEntrada,compuertaSalida);
 									
 									for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
 										if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoInicio.getName())) {
@@ -396,6 +408,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 									if(compuertaSalida != null) {
 										
 										Compuerta compuertaEntrada = s1.buscarCompuertaPorEntrada(puntoFinal.getName());
+										pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15,compuertaEntrada,compuertaSalida);
 										
 										for(int j = 0; j < compuertaEntrada.getEntradas().size(); j++) {
 											if(compuertaEntrada.getEntradas().get(j).getLabelCompuerta().getName().equals(puntoFinal.getName())) {
@@ -481,16 +494,16 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			public void mouseDragged(MouseEvent e) {
 				
 				if(!newCompuerta.isBloqueada()) {
-					int y = -7;
+					int y = 3;
 					
 					newCompuerta.getLabelCompuerta().setLocation(e.getX()+copia.getX()-40, e.getY()+copia.getY()-35);
 					
 					for(int i = 0; i < newCompuerta.getEntradas().size();i++) {
 						newCompuerta.getEntradas().get(i).getLabelCompuerta().setLocation(e.getX()+copia.getX()-50, e.getY()+copia.getY()+y);
-						y = y - 20;
+						y = y - 25;
 						
 					}
-					newCompuerta.getSalida().getLabelCompuerta().setLocation(e.getX()+copia.getX()+45, e.getY()+copia.getY()-13);
+					newCompuerta.getSalida().getLabelCompuerta().setLocation(e.getX()+copia.getX()+35, e.getY()+copia.getY()-10);
 					newCompuerta.getLabelId().setLocation(e.getX()+copia.getX(), e.getY()+copia.getY()-35);
 					
 					actualizarPantalla();
@@ -534,7 +547,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		actualizarPantalla();
-		
+		setCursor(Cursor.getDefaultCursor());
 	}
 
 	@Override
@@ -560,6 +573,4 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
 }

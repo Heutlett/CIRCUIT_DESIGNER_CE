@@ -1,5 +1,6 @@
 package com.circuitdesigner.main;
 
+import com.circuitdesigner.view.Tabla;
 import com.circuitdesigner.view.Window;
 
 public class Main {
@@ -8,6 +9,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Window w = new Window();
 		w.setVisible(true);
+
 	}
 	
 	

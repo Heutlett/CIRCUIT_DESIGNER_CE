@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import com.circuitdesigner.view.Tabla;
+
 public class Sistema {
 	
 	private static final Sistema INSTANCE = new Sistema();
@@ -20,16 +22,108 @@ public class Sistema {
 		listaIns = new ArrayList<Compuerta>();
 		listaOuts = new ArrayList<Compuerta>();
 		
-		//int [][] tabla = generarTabla(4);
+		//
 		//imprimirTabla(4, tabla);
+		
+	}
+	
+	private String[] generarNombresColumnas() {
+		
+		String [] nombresColumnas = new String[listaIns.size()+1];
+		
+		for(int i = 0; i < listaIns.size(); i++) {
+			nombresColumnas[i] = listaIns.get(i).getIdProposicion();
+		}
+		nombresColumnas[listaIns.size()] = listaOuts.get(0).getIdProposicion();
+		return nombresColumnas;
+	}
+	
+	private void calcular(int [][] tabla, Object [][] resultado) {
+	
+		int cantTrues = 0;
+		int cantFalses = 0;
+		
+		for(int i = 0; i < (int)Math.pow(2, listaIns.size()); i++) {
+			
+			
+			for(int e = 0; e < listaIns.size(); e++) {
+				
+				listaIns.get(e).setValorEntrada(tabla[i][e]);
+				
+			}
+			//si es and
+			for(int e = 0; e < listaIns.size(); e++) {
+				
+				if(listaIns.get(e).getValorEntrada() == 0) {
+					cantFalses++;
+				}
+				
+			}
+			if(cantFalses > 0) {
+				cantFalses = 0;
+				resultado[i][listaIns.size()] = 0;
+			}else {
+				cantFalses = 0;
+				resultado[i][listaIns.size()] = 1;
+			}
+			
+			
+		}
 		
 	}
 	
 	public void calcularTabla() {
 		
+		if(listaIns.size()<1) {
+			JOptionPane.showMessageDialog(null, "No se puede ejecutar si se encuentra vacio!!!");
+			return;
+		}
+		
 		if(listaOuts.size()>1) {
 			JOptionPane.showMessageDialog(null, "Solo puede existir una salida!!!");
+			return;
 		}
+		
+		int [][] tabla = generarTabla(listaIns.size());
+		
+		String [] nombresColumnas = generarNombresColumnas();
+		
+		Object [][] datosFila = new Object [(int)Math.pow(2, listaIns.size())][listaIns.size()+1];
+		
+		for(int i = 0; i < (int)Math.pow(2, listaIns.size()); i++) {
+			for(int e = 0; e < listaIns.size(); e++) {
+				datosFila[i][e] = tabla[i][e];
+			}
+		}
+		
+		/*
+		Object [][] datosFila = {
+				
+				{"asda", 123,123,false},
+				{"asda", 123,123,false},
+				{"asda", 123,123,false},
+				{"asda", 123,123,false},
+				{"asda", 123,123,false},
+				{"asda", 123,123,false},
+				{"asda", 123,123,false},
+				{"asda", 123,123,false}
+				
+				
+		};
+		*/
+				//new Object[2][3];
+		
+		//datosFila[0][0] = "1";
+		//datosFila[0][1] = "2";
+		//datosFila[0][2] = "3";
+		//datosFila[1][0] = "4";
+		//datosFila[1][1] = "5";
+		//datosFila[1][2] = "6";
+		
+		calcular(tabla, datosFila);
+		
+		Tabla t = new Tabla(datosFila, nombresColumnas);
+		t.setVisible(true);
 		
 	}
 	
