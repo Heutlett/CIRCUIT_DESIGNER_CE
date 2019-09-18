@@ -10,18 +10,18 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JTable;
 
-public class Tabla extends JFrame {
+public class Table extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
 
-	public Tabla(Object[][] datosFila, String [] nombresColumnas) {
+	public Table(Object[][] rowData, String [] columnNames) {
 		
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		
 		setBounds(100, 100, 1000, 900);
 		
-		table = new JTable(datosFila, nombresColumnas);
+		table = new JTable(rowData, columnNames);
 		
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		

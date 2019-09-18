@@ -20,8 +20,8 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 
 import com.circuitdesigner.estructuras.Gate;
-import com.circuitdesigner.estructuras.PanelWorkspace;
-import com.circuitdesigner.estructuras.Sistema;
+import com.circuitdesigner.estructuras.WorkspacePanel;
+import com.circuitdesigner.estructuras.Model;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -56,7 +56,7 @@ public class Window extends JFrame{
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(0,0,1500,1000);
 		
-		panel = new PanelWorkspace();
+		panel = new WorkspacePanel();
 		
 		scrollPane.setViewportView(panel);
 		

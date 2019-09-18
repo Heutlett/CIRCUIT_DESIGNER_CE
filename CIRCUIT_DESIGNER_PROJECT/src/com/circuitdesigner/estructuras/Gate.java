@@ -8,212 +8,216 @@ import javax.swing.border.LineBorder;
 
 public class Gate {
 	
-	public static enum tipoCompuerta{
-		AND, NAND, OR, NOR, NOT, XOR, XNOR, ENTRADA, SALIDA
+	public static enum GateType{
+		AND, NAND, OR, NOR, NOT, XOR, XNOR, INPUT, OUTPUT
 	};
+	
+	private String gateID ="";
+	private String propID ="";
+	private static int inQuantity = 1;
+	private static int outQuantity = 1;
+	private static int gatesQuantity;
+	private int inValue;
+	private int outValue;
+	private boolean locked = false;
+	private ArrayList<Gate> inputs;
+	private Gate outputs;
+	private GateType type;
+	private JLabel gateLabel;
+	private JLabel labelID;
 
-	private static int cantProposicionesIn = 1;
-	private static int cantProposicionesOut = 1;
-	private static int cantCompuertas;
-	private int valorEntrada;
-	private String idCompuerta ="";
-	private String idProposicion ="";
-	private boolean bloqueada = false;
-	private ArrayList<Gate> entradas;
-	private Gate salida;
-	private tipoCompuerta tipo;
-	private JLabel labelCompuerta;
-	private JLabel labelId;
-	private String idCompuertaPadre;
 	
 	//Constructor para entradas y salidas
-	public Gate(int valorEntrada, tipoCompuerta tipo, String idCompuertaPadre) {
+	public Gate(int inValue, GateType type) {
 		
-		if(tipo == tipoCompuerta.SALIDA) {
-			this.idProposicion = "o<" + cantProposicionesOut + ">";
-			cantProposicionesOut += 1;
-			//System.out.println("cantidad de outs: " + cantProposicionesOut);
+		if(type == GateType.OUTPUT) {
+			this.propID = "o<" + outQuantity + ">";
+			outQuantity += 1;
 		}
-		if(tipo ==tipoCompuerta.ENTRADA) {
-			this.idProposicion = "i<" + cantProposicionesIn + ">";
-			cantProposicionesIn += 1;
-			//System.out.println("cantidad de in: " + cantProposicionesIn);
+		if(type ==GateType.INPUT) {
+			this.propID = "i<" + inQuantity + ">";
+			inQuantity += 1;
 		}
 		
-		this.valorEntrada = valorEntrada;
-		this.tipo = tipo;
-		this.labelCompuerta = new JLabel();
-		this.labelCompuerta.setText(idProposicion);
-		this.labelCompuerta.setSize(40, 20);
-		this.labelCompuerta.setVisible(false);
-		this.labelCompuerta.setName(idProposicion);
-		this.idCompuertaPadre = idCompuertaPadre;
-		
+		this.inValue = inValue;
+		this.type = type;
+		this.gateLabel = new JLabel();
+		this.gateLabel.setText(propID);
+		this.gateLabel.setSize(40, 20);
+		this.gateLabel.setVisible(false);
+		this.gateLabel.setName(propID);
 	}
 	
-	public Gate(tipoCompuerta tipo, JLabel labelCompuerta) {
+	public Gate(GateType type, JLabel gateLabel) {
 		
-		this.idCompuerta = "C" + this.cantCompuertas;
-		this.labelId = new JLabel(this.idCompuerta);
-		this.labelId.setForeground(Color.blue);
-		this.labelId.setSize(40,20);
-		this.labelId.setVisible(false);
-		cantCompuertas++;
-		this.tipo = tipo;
-		this.labelCompuerta = labelCompuerta;
-		entradas = new ArrayList<Gate>();
-		if(tipo != tipoCompuerta.NOT) {
-			entradas.add(new Gate(1, tipoCompuerta.ENTRADA,idCompuertaPadre));
-			entradas.add(new Gate(1,tipoCompuerta.ENTRADA,idCompuertaPadre));
+		this.gateID = "C" + this.gatesQuantity;
+		this.labelID = new JLabel(this.gateID);
+		this.labelID.setForeground(Color.blue);
+		this.labelID.setSize(40,20);
+		this.labelID.setVisible(false);
+		gatesQuantity++;
+		this.type = type;
+		this.gateLabel = gateLabel;
+		inputs = new ArrayList<Gate>();
+		if(type != GateType.NOT) {
+			inputs.add(new Gate(1, GateType.INPUT));
+			inputs.add(new Gate(1,GateType.INPUT));
 		}else {
-			entradas.add(new Gate(1,tipoCompuerta.ENTRADA,idCompuertaPadre));
+			inputs.add(new Gate(1,GateType.INPUT));
 		}
-		salida = new Gate(1, tipoCompuerta.SALIDA,idCompuertaPadre);
-		this.labelCompuerta.setName(idCompuerta);
+		outputs = new Gate(1, GateType.OUTPUT);
+		this.gateLabel.setName(gateID);
 	}
 	
-	public Gate buscarEntrada(String nombreEntrada) {
-		Gate c = null;
-		for(int j = 0; j < getEntradas().size(); j++) {
-			if(getEntradas().get(j).getLabelCompuerta().getName().equals(nombreEntrada)) {
-				return getEntradas().get(j);
+	public Gate findInput(String pInputName) {
+		Gate gate = null;
+		for(int j = 0; j < getInputs().size(); j++) {
+			if(getInputs().get(j).getGateLabel().getName().equals(pInputName)) {
+				return getInputs().get(j);
 			}
 		}
-		return c;
+		return gate;
 	}
-
-	public boolean isBloqueada() {
-		return bloqueada;
-	}
-
-	public void setBloqueada(boolean bloqueada) {
-		this.bloqueada = bloqueada;
-	}
-
-	public ArrayList<Gate> getEntradas() {
-		return entradas;
-	}
-
-	public void setEntradas(ArrayList<Gate> entradas) {
-		this.entradas = entradas;
-	}
-
-	public Gate getSalida() {
-		return salida;
-	}
-
-	public void setSalida(Gate salida) {
-		this.salida = salida;
-	}
-
-	public tipoCompuerta getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(tipoCompuerta tipo) {
-		this.tipo = tipo;
-	}
-
-	public JLabel getLabelCompuerta() {
-		return labelCompuerta;
-	}
-
-	public void setLabelCompuerta(JLabel labelCompuerta) {
-		this.labelCompuerta = labelCompuerta;
-	}
-
-	public static int getCantProposicionesIn() {
-		return cantProposicionesIn;
-	}
-
-	public static void setCantProposicionesIn(int cantProposicionesIn) {
-		Gate.cantProposicionesIn = cantProposicionesIn;
-	}
-
-	public static int getCantProposicionesOut() {
-		return cantProposicionesOut;
-	}
-
-	public static void setCantProposicionesOut(int cantProposicionesOut) {
-		Gate.cantProposicionesOut = cantProposicionesOut;
-	}
-
-	public int getValorEntrada() {
-		return valorEntrada;
-	}
-
-	public void setValorEntrada(int valorEntrada) {
-		this.valorEntrada = valorEntrada;
-	}
-
-
-	public static int getCantCompuertas() {
-		return cantCompuertas;
-	}
-
-	public static void setCantCompuertas(int cantCompuertas) {
-		Gate.cantCompuertas = cantCompuertas;
-	}
-
-	public String getIdCompuerta() {
-		return idCompuerta;
-	}
-
-	public void setIdCompuerta(String idCompuerta) {
-		this.idCompuerta = idCompuerta;
-	}
-
-	public String getIdProposicion() {
-		return idProposicion;
-	}
-
-	public void setIdProposicion(String idProposicion) {
-		this.idProposicion = idProposicion;
-	}
-
-	public JLabel getLabelId() {
-		return labelId;
-	}
-
-	public void setLabelId(JLabel labelId) {
-		this.labelId = labelId;
-	}
-
-	public static void imprimirDatosCompuertas(Gate newCompuerta) {
+	
+	public static void printGatesInformation(Gate pGate) {
 		System.out.println();
-		System.out.println("Mostrando los datos de la compuerta: " + newCompuerta.getIdCompuerta());
-		for(int i = 0; i < newCompuerta.getEntradas().size(); i++) {
-			if(newCompuerta.getEntradas().get(i).getTipo() == Gate.tipoCompuerta.ENTRADA || newCompuerta.getEntradas().get(i).getTipo() == Gate.tipoCompuerta.SALIDA) {
-				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdProposicion());
+		System.out.println("Mostrando los datos de la compuerta: " + pGate.getGateID());
+		for(int i = 0; i < pGate.getInputs().size(); i++) {
+			if(pGate.getInputs().get(i).getType() == Gate.GateType.INPUT || pGate.getInputs().get(i).getType() == Gate.GateType.OUTPUT) {
+				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getPropID());
 			}else {
-				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdCompuerta());
+				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getGateID());
 			}
 			
 		}
-		if(newCompuerta.getSalida().getTipo() == Gate.tipoCompuerta.ENTRADA || newCompuerta.getSalida().getTipo() == Gate.tipoCompuerta.SALIDA) {
+		if(pGate.getOutputs().getType() == Gate.GateType.INPUT || pGate.getOutputs().getType() == Gate.GateType.OUTPUT) {
 			
-			System.out.println("Salida: " + newCompuerta.getSalida().getIdProposicion());
+			System.out.println("Salida: " + pGate.getOutputs().getPropID());
 			
 		}else {
-			System.out.println("Salida: " + newCompuerta.getSalida().getIdCompuerta());
+			System.out.println("Salida: " + pGate.getOutputs().getGateID());
 		}
 		System.out.println();
 	}
 	
-	public void ubicarEntradasYSalidas() {
+	public void setInputOutputLocations() {
 		
-		int y = this.getLabelCompuerta().getY() - 20;
-		int x = this.getLabelCompuerta().getX();
+		int y = this.getGateLabel().getY() - 20;
+		int x = this.getGateLabel().getX();
 		
-		this.getSalida().getLabelCompuerta().setLocation(x+90,y+20);
-		this.getLabelId().setLocation(x+40, y-20);
-		for(int i = 0; i < this.getEntradas().size(); i++) {
+		this.getOutputs().getGateLabel().setLocation(x+90,y+20);
+		this.getLabelID().setLocation(x+40, y-20);
+		for(int i = 0; i < this.getInputs().size(); i++) {
 			
-			this.getEntradas().get(i).getLabelCompuerta().setLocation(x,y);
-			y += 30;
-			
+			this.getInputs().get(i).getGateLabel().setLocation(x,y);
+			y += 30;	
 		}
 		
+	}
+
+	public boolean isLocked() {
+		return locked;
+	}
+
+	public void setLocked(boolean bloqueada) {
+		this.locked = bloqueada;
+	}
+
+	public ArrayList<Gate> getInputs() {
+		return inputs;
+	}
+
+	public void setInputs(ArrayList<Gate> entradas) {
+		this.inputs = entradas;
+	}
+
+	public Gate getOutputs() {
+		return outputs;
+	}
+
+	public void setOutputs(Gate salida) {
+		this.outputs = salida;
+	}
+
+	public GateType getType() {
+		return type;
+	}
+
+	public void setType(GateType tipo) {
+		this.type = tipo;
+	}
+
+	public JLabel getGateLabel() {
+		return gateLabel;
+	}
+
+	public void setGateLabel(JLabel labelCompuerta) {
+		this.gateLabel = labelCompuerta;
+	}
+
+	public static int getInQuantity() {
+		return inQuantity;
+	}
+
+	public static void setInQuantity(int cantProposicionesIn) {
+		Gate.inQuantity = cantProposicionesIn;
+	}
+
+	public static int getOutQuantity() {
+		return outQuantity;
+	}
+
+	public static void setOutQuantity(int cantProposicionesOut) {
+		Gate.outQuantity = cantProposicionesOut;
+	}
+
+	public int getInValue() {
+		return inValue;
+	}
+
+	public void setInValue(int valorEntrada) {
+		this.inValue = valorEntrada;
+	}
+
+
+	public static int getGatesQuantity() {
+		return gatesQuantity;
+	}
+
+	public static void setGatesQuantity(int cantCompuertas) {
+		Gate.gatesQuantity = cantCompuertas;
+	}
+
+	public String getGateID() {
+		return gateID;
+	}
+
+	public void setGateID(String idCompuerta) {
+		this.gateID = idCompuerta;
+	}
+
+	public String getPropID() {
+		return propID;
+	}
+
+	public void setPropID(String idProposicion) {
+		this.propID = idProposicion;
+	}
+
+	public JLabel getLabelID() {
+		return labelID;
+	}
+
+	public void setLabelID(JLabel labelId) {
+		this.labelID = labelId;
+	}
+	
+	public int getOutValue() {
+		return outValue;
+	}
+
+	public void setOutValue(int outValue) {
+		this.outValue = outValue;
 	}
 	
 	

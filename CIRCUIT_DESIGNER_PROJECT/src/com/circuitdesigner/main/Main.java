@@ -1,6 +1,6 @@
 package com.circuitdesigner.main;
 
-import com.circuitdesigner.view.Tabla;
+import com.circuitdesigner.view.Table;
 import com.circuitdesigner.view.Window;
 
 public class Main {
