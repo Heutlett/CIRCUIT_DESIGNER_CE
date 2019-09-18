@@ -27,7 +27,6 @@ public class Model {
 	
 	private String[] generateColumnNames() {
 		
-		//String [] columnNames = new String[inputList.size()+1];
 		
 		String [] columnNames = new String[inputList.size()+outputList.size()];
 		
@@ -42,18 +41,14 @@ public class Model {
 		for(int i = 0; i < inputList.size()+outputList.size(); i++){
 			System.out.print(columnNames[i] +" ");
 		}
-		//columnNames[inputList.size()] = outputList.get(0).getGateID();
+
 		return columnNames;
 	}
 	
 	private void recalculate(Object [][] result, int indice) {
 		
-		
-		//int resultado = outputGate.calculate();
 		int resultado;
 
-		//result[indice][inputList.size()] = resultado;
-		
 		for(int i = 0; i < outputList.size(); i++) {
 			
 			outputGate = gateList.getById(outputList.get(i).getPreviusGateOutputID());
@@ -91,14 +86,6 @@ public class Model {
 			JOptionPane.showMessageDialog(null, "No se puede ejecutar si se encuentra vacio!!!");
 			return;
 		}
-		/*
-		if(outputList.size()>1) {
-			JOptionPane.showMessageDialog(null, "Solo puede existir una salida!!!");
-			return;
-		}
-		*/
-		//outputGate = gateList.getById(outputList.get(0).getPreviusGateOutputID());
-		
 		int [][] table = generateTable(inputList.size());
 		
 		String [] columnNames = generateColumnNames();
@@ -163,10 +150,10 @@ public class Model {
 	 */
 	private void removeInsOutsGate(Gate gate) {
 		removeInsOutsSons(gate);
-		outputList.remove(gate);
+		outputList.remove(gate.getOutput());
 		
 		for(int i = 0; i < gate.getInputs().size(); i++) {
-			inputList.remove(gate);
+			inputList.remove(gate.getInputs().get(i));
 		}
 	}
 	/*

@@ -564,9 +564,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		eraser = false;
 		setCursor(Cursor.getDefaultCursor());
 		
-		m1.removeInsOutsSons(gate);
+		//m1.removeInsOutsSons(gate);
 		
-		checkOutputsInputs();
+		//checkOutputsInputs();
 	}
 	/*
 	 * 
