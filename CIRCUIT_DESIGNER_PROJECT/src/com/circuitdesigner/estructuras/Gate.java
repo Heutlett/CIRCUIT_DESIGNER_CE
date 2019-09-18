@@ -13,7 +13,6 @@ public class Gate {
 	};
 	
 	private String gateID ="";
-	private String propID ="";
 	private static int inQuantity = 1;
 	private static int outQuantity = 1;
 	private static int gatesQuantity;
@@ -31,21 +30,21 @@ public class Gate {
 	public Gate(int inValue, GateType type) {
 		
 		if(type == GateType.OUTPUT) {
-			this.propID = "o<" + outQuantity + ">";
+			this.gateID = "o<" + outQuantity + ">";
 			outQuantity += 1;
 		}
 		if(type ==GateType.INPUT) {
-			this.propID = "i<" + inQuantity + ">";
+			this.gateID = "i<" + inQuantity + ">";
 			inQuantity += 1;
 		}
 		
 		this.inValue = inValue;
 		this.type = type;
 		this.gateLabel = new JLabel();
-		this.gateLabel.setText(propID);
+		this.gateLabel.setText(gateID);
 		this.gateLabel.setSize(40, 20);
 		this.gateLabel.setVisible(false);
-		this.gateLabel.setName(propID);
+		this.gateLabel.setName(gateID);
 	}
 	
 	public Gate(GateType type, JLabel gateLabel) {
@@ -84,7 +83,7 @@ public class Gate {
 		System.out.println("Mostrando los datos de la compuerta: " + pGate.getGateID());
 		for(int i = 0; i < pGate.getInputs().size(); i++) {
 			if(pGate.getInputs().get(i).getType() == Gate.GateType.INPUT || pGate.getInputs().get(i).getType() == Gate.GateType.OUTPUT) {
-				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getPropID());
+				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getGateID());
 			}else {
 				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getGateID());
 			}
@@ -92,7 +91,7 @@ public class Gate {
 		}
 		if(pGate.getOutputs().getType() == Gate.GateType.INPUT || pGate.getOutputs().getType() == Gate.GateType.OUTPUT) {
 			
-			System.out.println("Salida: " + pGate.getOutputs().getPropID());
+			System.out.println("Salida: " + pGate.getOutputs().getGateID());
 			
 		}else {
 			System.out.println("Salida: " + pGate.getOutputs().getGateID());
@@ -194,14 +193,6 @@ public class Gate {
 
 	public void setGateID(String idCompuerta) {
 		this.gateID = idCompuerta;
-	}
-
-	public String getPropID() {
-		return propID;
-	}
-
-	public void setPropID(String idProposicion) {
-		this.propID = idProposicion;
 	}
 
 	public JLabel getLabelID() {

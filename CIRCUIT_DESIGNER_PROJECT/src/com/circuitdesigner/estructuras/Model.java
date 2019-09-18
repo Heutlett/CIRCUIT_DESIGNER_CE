@@ -10,14 +10,14 @@ public class Model {
 	
 	private static final Model INSTANCE = new Model();
 	
-	private ArrayList<Gate> gateList;
+	private GateLinkedList gateList;
 	private ArrayList<Line> lineList;
 	private ArrayList<Gate> inputList;
 	private ArrayList<Gate> outputList;
 
 	private Model() {
 		
-		gateList = new ArrayList<Gate>();
+		gateList = new GateLinkedList();
 		lineList = new ArrayList<Line>();
 		inputList = new ArrayList<Gate>();
 		outputList = new ArrayList<Gate>();
@@ -29,9 +29,9 @@ public class Model {
 		String [] columnNames = new String[inputList.size()+1];
 		
 		for(int i = 0; i < inputList.size(); i++) {
-			columnNames[i] = inputList.get(i).getPropID();
+			columnNames[i] = inputList.get(i).getGateID();
 		}
-		columnNames[inputList.size()] = outputList.get(0).getPropID();
+		columnNames[inputList.size()] = outputList.get(0).getGateID();
 		return columnNames;
 	}
 	
@@ -100,7 +100,7 @@ public class Model {
 	
 	public void removeInput(String inputName) {
 		for(int i = 0; i < inputList.size();i++) {
-			if(inputList.get(i).getPropID().equals(inputName)){
+			if(inputList.get(i).getGateID().equals(inputName)){
 				inputList.remove(i);
 			}
 		}
@@ -108,16 +108,16 @@ public class Model {
 	
 	public void removeOutput(String outputName) {
 		for(int i = 0; i < outputList.size();i++) {
-			if(outputList.get(i).getPropID().equals(outputName)){
+			if(outputList.get(i).getGateID().equals(outputName)){
 				outputList.remove(i);
 			}
 		}
 	}
 	
 	private void removeInsOutsGate(Gate gate) {
-		removeOutput(gate.getOutputs().getPropID());
+		removeOutput(gate.getOutputs().getGateID());
 		for(int i = 0; i < gate.getInputs().size(); i++) {
-			removeInput(gate.getInputs().get(i).getPropID());
+			removeInput(gate.getInputs().get(i).getGateID());
 		}
 	}
 	
@@ -127,7 +127,7 @@ public class Model {
 		
 		for(int i = 0; i < gateList.size(); i++) {
 			
-			if(gateList.get(i).getOutputs().getPropID().equals(output)){
+			if(gateList.get(i).getOutputs().getGateID().equals(output)){
 				return gateList.get(i);
 			}
 		}
@@ -142,7 +142,7 @@ public class Model {
 			
 			for(int e = 0; e < gateList.get(i).getInputs().size(); e++) {
 				
-				if(gateList.get(i).getInputs().get(e).getPropID().equals(input)){
+				if(gateList.get(i).getInputs().get(e).getGateID().equals(input)){
 					return gateList.get(i);
 				}
 			}
@@ -163,7 +163,7 @@ public class Model {
 		System.out.print("Ins: ");
 		for(int i = 0; i < inputList.size();i++) {
 			
-			System.out.print(inputList.get(i).getPropID() + " ");
+			System.out.print(inputList.get(i).getGateID() + " ");
 			
 		}
 		System.out.println();
@@ -173,7 +173,7 @@ public class Model {
 		System.out.print("Outs: ");
 		for(int i = 0; i < outputList.size();i++) {
 			
-			System.out.print(outputList.get(i).getPropID() + " ");
+			System.out.print(outputList.get(i).getGateID() + " ");
 			
 		}
 		System.out.println();
@@ -261,11 +261,11 @@ public class Model {
 		return finalTable;
 	}
 	
-	public ArrayList<Gate> getGateList() {
+	public GateLinkedList getGateList() {
 		return gateList;
 	}
 
-	public void setGateList(ArrayList<Gate> gateList) {
+	public void setGateList(GateLinkedList gateList) {
 		this.gateList = gateList;
 	}
 
@@ -275,6 +275,14 @@ public class Model {
 
 	public void setLineList(ArrayList<Line> lineList) {
 		this.lineList = lineList;
+	}
+	
+	public void printGates() {
+		for(int i = 0; i < gateList.size(); i++) {
+
+			Gate.printGatesInformation(gateList.get(i));
+			
+		}
 	}
 
 

@@ -270,6 +270,15 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		btnPlay.setBounds(164, 22, 69, 25);
 		add(btnPlay);
 		
+		JButton btnPrint = new JButton("Print");
+		btnPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				m1.printGates();
+			}
+		});
+		btnPrint.setBounds(12, 22, 59, 25);
+		add(btnPrint);
+		
 	}
 	
 	private void createMouseEvents(JLabel label) {
@@ -426,12 +435,12 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 		Gate compuertaBorrar = compuertaEntrada.findInput(idBorrar);
 		compuertaBorrar.getGateLabel().setText(compuertaSalida.getGateID());
-		m1.removeInput(compuertaBorrar.getPropID());
+		m1.removeInput(compuertaBorrar.getGateID());
 		compuertaEntrada.getInputs().remove(compuertaBorrar);
 		compuertaEntrada.getInputs().add(compuertaSalida);
 		
 		compuertaSalida.getOutputs().getGateLabel().setText(compuertaEntrada.getGateID());
-		m1.removeOutput(compuertaSalida.getOutputs().getPropID());
+		m1.removeOutput(compuertaSalida.getOutputs().getGateID());
 		compuertaSalida.setOutputs(compuertaEntrada);
 		compuertaSalida.setLocked(true);
 		compuertaEntrada.setLocked(true);
@@ -539,6 +548,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		remove(c.getOutputs().getGateLabel());
 		remove(c.getLabelID());
 		for(int i = 0; i < c.getInputs().size(); i++) {
+			//if(c.getInputs().get(i).get
 			remove(c.getInputs().get(i).getGateLabel());
 		}
 	}
