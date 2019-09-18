@@ -113,7 +113,7 @@ public class Gate {
 		}else {
 			System.out.println("Salida: null");
 		}
-
+		System.out.println("Cantidad de lineas: " + pGate.getLines().size());
 		System.out.println();
 	}
 	

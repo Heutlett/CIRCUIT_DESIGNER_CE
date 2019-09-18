@@ -110,6 +110,9 @@ public class Line {
 		this.color = color;
 	}
 	
+	public String toString() {
+		return " tail: " + getTail().getGateID() + "   peak: " + getPeak().getGateID();
+	}
 	
 	
 

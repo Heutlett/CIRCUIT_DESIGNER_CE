@@ -262,11 +262,28 @@ public class Model {
 		printOutputs();
 	}
 	
+	public void printLines() {
+		System.out.println("Lineas actuales");
+		for(int i = 0; i < lineList.size(); i++) {
+			System.out.println("Linea: " + i + lineList.get(i).toString());
+		}
+		System.out.println();
+	}
+	
 	public void printGates() {
 		for(int i = 0; i < gateList.size(); i++) {
 
 			Gate.printGatesInformation(gateList.get(i));
 			
+		}
+	}
+	
+	public void removeLine(Line l) {
+		for(int i = 0; i < lineList.size(); i++) {
+			if(lineList.get(i).getTail().getGateID().equals(l.getTail().getGateID()) && lineList.get(i).getPeak().getGateID().equals(l.getPeak().getGateID())) {
+				lineList.remove(i);
+				System.out.println("borre la linea " + l.toString());
+			}
 		}
 	}
 	

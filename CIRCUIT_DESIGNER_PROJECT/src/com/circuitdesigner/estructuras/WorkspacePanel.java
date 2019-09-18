@@ -49,7 +49,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	private JLabel endPoint;
 	private String[] stringTypeGates = {"AND", "NAND", "OR","NOR", "NOT","XOR","XNOR", "INPUT","OUTPUT"};
 	private GateType[] typeGates = {GateType.AND, GateType.NAND, GateType.OR, GateType.NOR, GateType.NOT, GateType.XOR, GateType.XNOR, GateType.INPUT, GateType.OUTPUT};
-	
+	private Line lineaBorrar;
 	
 	public WorkspacePanel() {
 		
@@ -58,43 +58,22 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
-	private void borrarLineaGrafico(Graphics g) {
-		g.setColor(Color.white);
-		borrarLineaLista(x1,y1,x2,y2,color);
-		removeLine = false;
+	private void borrarLineasCompuerta(Gate c) {
+		System.out.println("Cantidad de lineas a borrar: " + c.getLines().size() + "\n");
+		m1.printLines();
 		
-	}
-	
-	private void borrarLineaLista(int x1,int y1,int x2,int y2,Color c) {
-		
-		for(int i = 0; i < m1.getLineList().size();i++) {
+		for(int i = 0; i < c.getLines().size(); i++) {
 			
-			Line l1 = m1.getLineList().get(i);
+			//c.getLines().get(i).getTail().getLines().remove(c.getLines().get(i));
+			//c.getLines().get(i).getPeak().getLines().remove(c.getLines().get(i));
+			this.remove(c.getLines().get(i).getPeakDeleteLabel());
+			this.remove(c.getLines().get(i).getTailDeleteLabel());
+			m1.removeLine(c.getLines().get(i));
 			
-			if(l1.getX1() == x1 && l1.getX2() == x2 && l1.getY1() == y1 && l1.getY2() == y2 && l1.getColor().equals(c)) {
-				System.out.println("Encontrado");
-				this.remove(m1.getLineList().get(i).getPeakDeleteLabel());
-				this.remove(m1.getLineList().get(i).getTailDeleteLabel());
-				m1.getLineList().remove(i);
-			}
+			this.repaint();
+			
 		}
-	}
-	
-	private void borrarLinea(Line l) {
-		
-		this.x1 = l.getX1();
-		this.y1 = l.getY1();
-		this.x2 = l.getX2();
-		this.y2 = l.getY2();
-		this.color = l.getColor();
-		
-		l.getTail().getLines().remove(l);
-		l.getPeak().getLines().remove(l);
-		
-		removeLine = true;
-		
-		this.repaint();
-		
+
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -102,12 +81,6 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setStroke(new BasicStroke(3));
-		
-		if(removeLine) {
-			borrarLineaGrafico(g);
-		}else {
-			g.setColor(color);
-		}
 		
 		if(draw) {
 			
@@ -138,14 +111,14 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		l.getPeakDeleteLabel().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				borrarLinea(l);
+				m1.removeLine(l);
 				System.out.println("Eliminando");
 			}
 		});
 		l.getTailDeleteLabel().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				borrarLinea(l);
+				m1.removeLine(l);
 				System.out.println("Eliminando");
 			}
 		});
@@ -557,8 +530,11 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	 * 
 	 */
 	private void removeGate(Gate gate) {
+		
 		borrarLabelsCompuerta(gate);
+		
 		borrarLineasCompuerta(gate);
+		
 		m1.removeGate(gate);
 		actualizarPantalla();
 		eraser = false;
@@ -591,16 +567,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			}
 		}
 	}
-	
-	private void borrarLineasCompuerta(Gate c) {
-		
-		for(int i = 0; i < c.getLines().size(); i++) {
-			
-			borrarLinea(c.getLines().get(i));
-			
-		}
-		
-	}
+
 	
 	private void borrarLabelsCompuerta(Gate c) {
 		remove(c.getGateLabel());
