@@ -25,6 +25,8 @@ public class Gate {
 	private JLabel labelID;
 	private ArrayList<Line> lines;
 	private String previusGateOutputID;
+	private int cantTrue = 0;
+	private int cantFalse = 0;
 	
 	//Constructor para entradas y salidas
 	public Gate(int value, GateType type, String previusGateOutputID) {
@@ -227,9 +229,10 @@ public class Gate {
 	
 	public int calculate() {
 		
+		cantTrue = 0;
+		cantFalse = 0;
 		
 		for(int i = 0; i < this.inputs.size();i++) {
-
 			
 			if(this.inputs.get(i).getValue() == 3) {
 				
@@ -246,6 +249,28 @@ public class Gate {
 				if(this.type == GateType.OR) {
 					if(inputs.get(i).calculate() == 1) {
 						return 1;
+					}
+				}
+				if(this.type == GateType.NOR) {
+					if(inputs.get(i).calculate() == 1) {
+						return 0;
+					}
+				}
+				if(this.type == GateType.NOT) {
+					if(inputs.get(i).calculate() == 1) {
+						return 0;
+					}else {
+						return 1;
+					}
+				}
+				if(this.type == GateType.XOR) {
+					if(inputs.get(i).calculate() == 1) {
+						cantTrue++;
+					}
+				}
+				if(this.type == GateType.XNOR) {
+					if(inputs.get(i).calculate() == 0) {
+						cantFalse++;
 					}
 				}
 			}
@@ -267,7 +292,28 @@ public class Gate {
 						return 1;
 					}
 				}
-
+				if(this.type == GateType.NOR) {
+					if(this.inputs.get(i).getValue() == 1) {
+						return 0;
+					}
+				}
+				if(this.type == GateType.NOT) {
+					if(this.inputs.get(i).getValue() == 1) {
+						return 0;
+					}else {
+						return 1;
+					}
+				}
+				if(this.type == GateType.XOR) {
+					if(this.inputs.get(i).getValue() == 1) {
+						cantTrue++;
+					}
+				}
+				if(this.type == GateType.XNOR) {
+					if(this.inputs.get(i).getValue() == 0) {
+						cantFalse++;
+					}
+				}
 			}
 			
 		}
@@ -280,6 +326,23 @@ public class Gate {
 		}
 		if(this.type == GateType.OR) {
 			return 0;
+		}
+		if(this.type == GateType.NOR) {
+			return 1;
+		}
+		if(this.type == GateType.XOR) {
+			if(cantTrue==1) {
+				return 1;
+			}else {
+				return 0;
+			}
+		}
+		if(this.type == GateType.XNOR) {
+			if(cantFalse==1) {
+				return 0;
+			}else {
+				return 1;
+			}
 		}
 		return 9;
 		
