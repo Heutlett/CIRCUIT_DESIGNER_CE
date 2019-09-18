@@ -30,14 +30,14 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import com.circuitdesigner.estructuras.Gate.GateType;
 import com.circuitdesigner.view.Window;
 
 public class WorkspacePanel extends JPanel implements MouseListener{
 
-	private JLabel labelCopy;
 	private Model m1;
 	private boolean eraser = false;
-	private Gate gateCopy;
+	private Gate lastGateCreated;
 	private boolean removeLine = false;
 	private boolean draw = false;
 	private int x1;
@@ -47,6 +47,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	private Color color;
 	private JLabel startPoint;
 	private JLabel endPoint;
+	private String[] stringTypeGates = {"AND", "NAND", "OR","NOR", "NOT","XOR","XNOR", "INPUT","OUTPUT"};
+	private GateType[] typeGates = {GateType.AND, GateType.NAND, GateType.OR, GateType.NOR, GateType.NOT, GateType.XOR, GateType.XNOR, GateType.INPUT, GateType.OUTPUT};
+	
 	
 	public WorkspacePanel() {
 		
@@ -74,9 +77,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 				this.remove(m1.getLineList().get(i).getTailDeleteLabel());
 				m1.getLineList().remove(i);
 			}
-			
 		}
-		
 	}
 	
 	private void borrarLinea(Line l) {
@@ -113,7 +114,6 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			g2d.drawLine(x1, y1, x2, y2);
 			draw = false;
 		}
-		
 		repintar(g2d);
 	}
 	
@@ -290,39 +290,37 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		label.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if(labelCopy != null) {
-					labelCopy.setLocation(e.getX()+label.getX()-40, e.getY()+label.getY()-35);
-					actualizarPantalla();
-				}
+				lastGateCreated.getGateLabel().setLocation(e.getX()+label.getX()-40, e.getY()+label.getY()-35);
 			}
 		});
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				gateCopy = copiarCompuerta(label);
+				lastGateCreated = createGate(label);
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				int y = 17;
 				if(e.getX()<189) {
-					remove(labelCopy);
-					actualizarPantalla();
+					remove(lastGateCreated.getGateLabel());
+					removeGate(lastGateCreated);
+					Gate.decreaseQuantity();
 				}else {
-					for(int i = 0; i < gateCopy.getInputs().size(); i++) {
-						gateCopy.getInputs().get(i).getGateLabel().setVisible(true);
-						gateCopy.getInputs().get(i).getGateLabel().setLocation(gateCopy.getGateLabel().getX()-25, gateCopy.getGateLabel().getY()+y);
+					for(int i = 0; i < lastGateCreated.getInputs().size(); i++) {
+						lastGateCreated.getInputs().get(i).getGateLabel().setVisible(true);
+						lastGateCreated.getInputs().get(i).getGateLabel().setLocation(lastGateCreated.getGateLabel().getX()-25, lastGateCreated.getGateLabel().getY()+y);
 						y = y+25;
 					}
-					gateCopy.getOutput().getGateLabel().setVisible(true);
-					gateCopy.getOutput().getGateLabel().setLocation(gateCopy.getGateLabel().getX()+83, gateCopy.getGateLabel().getY()+28);
-					gateCopy.getLabelID().setVisible(true);
-					gateCopy.getLabelID().setLocation(gateCopy.getGateLabel().getX()+37, gateCopy.getGateLabel().getY());
+					lastGateCreated.getOutput().getGateLabel().setVisible(true);
+					lastGateCreated.getOutput().getGateLabel().setLocation(lastGateCreated.getGateLabel().getX()+83, lastGateCreated.getGateLabel().getY()+28);
+					lastGateCreated.getLabelID().setVisible(true);
+					lastGateCreated.getLabelID().setLocation(lastGateCreated.getGateLabel().getX()+37, lastGateCreated.getGateLabel().getY());
 				}
-				
-				
 			}
 		});
 	}
+	
+	
 	
 	private void agregarEntradaSalida(Gate c) {
 		
@@ -333,36 +331,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		add(c.getLabelID());
 	}
 	
-	private Gate crearCompuerta(String tipo, JLabel copiaLabel) {
-		
-		Gate newCompuerta = null;
-		
-		if(tipo.equals("AND")) {
-			newCompuerta = new Gate(Gate.GateType.AND,copiaLabel);
-		}
-		if(tipo.equals("NAND")) {
-			newCompuerta = new Gate(Gate.GateType.NAND,copiaLabel);
-		}
-		if(tipo.equals("OR")) {
-			newCompuerta = new Gate(Gate.GateType.OR,copiaLabel);
-		}
-		if(tipo.equals("NOR")) {
-			newCompuerta = new Gate(Gate.GateType.NOR,copiaLabel);
-		}
-		if(tipo.equals("NOT")) {
-			newCompuerta = new Gate(Gate.GateType.NOT,copiaLabel);
-		}
-		if(tipo.equals("XOR")) {
-			newCompuerta = new Gate(Gate.GateType.XOR,copiaLabel);
-		}
-		if(tipo.equals("XNOR")){
-			newCompuerta = new Gate(Gate.GateType.XNOR,copiaLabel);
-		}
-		
-		agregarEntradaSalida(newCompuerta);
-		
-		return newCompuerta;
-	}
+	
 	
 	private void comprobacionDeLineas(JLabel l) {
 		
@@ -440,12 +409,12 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 		Gate compuertaBorrar = compuertaEntrada.findInput(idBorrar);
 		remove(compuertaBorrar.getGateLabel());
-		m1.removeInput(compuertaBorrar.getGateID());
+		m1.getInputList().remove(compuertaBorrar);
 		compuertaEntrada.getInputs().remove(compuertaBorrar);
 		compuertaEntrada.getInputs().add(compuertaSalida);
 		
 		remove(compuertaSalida.getOutput().getGateLabel());
-		m1.removeOutput(compuertaSalida.getOutput().getGateID());
+		m1.getOutputList().remove(compuertaSalida.getOutput());
 		compuertaSalida.setOutput(compuertaEntrada);
 		compuertaSalida.setLocked(true);
 		compuertaEntrada.setLocked(true);
@@ -472,87 +441,155 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 
-	private Gate copiarCompuerta(JLabel label) {
+	private GateType stringToGateType(String type) {
 		
-		JLabel copiaLabel = new JLabel();
+		for(int i = 0; i < 7; i++) {
+			if(type.equals(stringTypeGates[i])){
+				return typeGates[i];
+			}
+		}
+		return null;
+	}
+	/*
+	 * 
+	 * Inicia los atributos de la compuerta y la agrega al modelo
+	 * 
+	 */
+	private void initGate(Gate gate, JLabel labelModel) {
+		agregarEntradaSalida(gate);
 		
-		Gate newCompuerta = crearCompuerta(label.getText(),copiaLabel);
-		
-		m1.addInputsOutputs(newCompuerta);
-		
+		m1.addInputsOutputs(gate);
 		m1.printInputs();
 		m1.printOutputs();
+		m1.addCompuertas(gate);
 		
-		m1.addCompuertas(newCompuerta);
+		gate.getGateLabel().setIcon(labelModel.getIcon());
+		gate.getGateLabel().setBounds(labelModel.getBounds());
+		gate.getLabelID().setLocation(labelModel.getX()+10,labelModel.getY()-90);
 		
-		labelCopy = copiaLabel;
+		gate.setInputOutputLocations();
 		
-		newCompuerta.getGateLabel().setIcon(label.getIcon());
-		newCompuerta.getGateLabel().setBounds(label.getBounds());
-		newCompuerta.getLabelID().setLocation(label.getX()+10,label.getY()-90);
+		comportamientoEntradas(gate);
+	}
+	
+	private Gate createGate(JLabel labelModel) {
 		
-		newCompuerta.setInputOutputLocations();
+		Gate newGate = new Gate(stringToGateType(labelModel.getText()));
 		
-		comportamientoEntradas(newCompuerta);
+		initGate(newGate, labelModel);
 		
 		eraser = false;
+		
 		setCursor(Cursor.getDefaultCursor());
 		
-		copiaLabel.addMouseMotionListener(new MouseMotionAdapter() {
+		newGate.getGateLabel().addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				
-				if(!newCompuerta.isLocked()) {
-					labelCopy = newCompuerta.getGateLabel();
-					
-					int y = -20;
-					
-					newCompuerta.getGateLabel().setLocation(e.getX()+labelCopy.getX()-40, e.getY()+labelCopy.getY()-35);
-					
-					for(int i = 0; i < newCompuerta.getInputs().size();i++) {
-						newCompuerta.getInputs().get(i).getGateLabel().setLocation(e.getX()+labelCopy.getX()-65, e.getY()+labelCopy.getY()+y);
-						y = y + 25;
-						
-					}
-					newCompuerta.getOutput().getGateLabel().setLocation(e.getX()+labelCopy.getX()+42, e.getY()+labelCopy.getY()-7);
-					newCompuerta.getLabelID().setLocation(e.getX()+labelCopy.getX(), e.getY()+labelCopy.getY()-35);
-					
-					actualizarPantalla();
-				}
-				
+				dragGate(newGate, e);
 			}
 			
 		});
-		copiaLabel.addMouseListener(new MouseAdapter() {
+		newGate.getGateLabel().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if(eraser) {
-					borrarLabelsCompuerta(newCompuerta);
-					borrarLineasCompuerta(newCompuerta);
-					m1.removeGate(newCompuerta);
-					actualizarPantalla();
-					eraser = false;
-					setCursor(Cursor.getDefaultCursor());
+					removeGate(newGate);
 				}
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				if(copiaLabel.getX()<189) {
-					copiaLabel.setLocation(235, copiaLabel.getY());
-				}
+				limitLocation(newGate);
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
-				Gate.printGatesInformation(newCompuerta);
+				Gate.printGatesInformation(newGate);
 			}
 		});		
 
-		add(labelCopy);
+		add(newGate.getGateLabel());
 		actualizarPantalla();
 		
-		return newCompuerta;
+		return newGate;
+	}
+	
+	/*
+	 * Arrastra el gate por la pantalla
+	 */
+	private void dragGate(Gate gate, MouseEvent e) {
+		if(!gate.isLocked()) {
+			int myPositionX = gate.getGateLabel().getX();
+			int myPositionY = gate.getGateLabel().getY();
+			
+			int y = -20;
+			
+			gate.getGateLabel().setLocation(e.getX()+myPositionX-40, e.getY()+myPositionY-35);
+			
+			for(int i = 0; i < gate.getInputs().size();i++) {
+				gate.getInputs().get(i).getGateLabel().setLocation(e.getX()+myPositionX-65, e.getY()+myPositionY+y);
+				y = y + 25;
+				
+			}
+			gate.getOutput().getGateLabel().setLocation(e.getX()+myPositionX+42, e.getY()+myPositionY-7);
+			gate.getLabelID().setLocation(e.getX()+myPositionX, e.getY()+myPositionY-35);
+			
+			actualizarPantalla();
+		}
+	}
+	
+	/*
+	 * 
+	 * Reubica la compuerta si se sale del borde del panel
+	 * 
+	 */
+	private void limitLocation(Gate gate) {
+		if(gate.getGateLabel().getX()<189) {
+			gate.getGateLabel().setLocation(270, gate.getGateLabel().getY());
+			for(int i = 0; i < gate.getInputs().size(); i++) {
+				gate.getInputs().get(i).getGateLabel().setLocation(245, gate.getInputs().get(i).getGateLabel().getY());
+			}
+			gate.getOutput().getGateLabel().setLocation(350, gate.getOutput().getGateLabel().getY());
+			gate.getLabelID().setLocation(300, gate.getLabelID().getY());
+		}
+	}
+	/*
+	 * 
+	 * Elimina la compuerta
+	 * 
+	 */
+	private void removeGate(Gate gate) {
+		borrarLabelsCompuerta(gate);
+		borrarLineasCompuerta(gate);
+		m1.removeGate(gate);
+		actualizarPantalla();
+		eraser = false;
+		setCursor(Cursor.getDefaultCursor());
 		
+		m1.removeInsOutsSons(gate);
+		
+		checkOutputsInputs();
+	}
+	/*
+	 * 
+	 * 
+	 * Recorre la lista de compuertas en busca de una compuerta con menos de 2 entradas o sin salida y se las agrega
+	 * 
+	 * atrapar excepcion de not
+	 * 
+	 */
+	private void checkOutputsInputs() {
+		
+		for(int i = 0; i < m1.getGateList().size();i++) {
+			if(m1.getGateList().get(i).getType() != GateType.NOT && m1.getGateList().get(i).getInputs().size() > 2) {
+				while(m1.getGateList().get(i).getInputs().size() < 2) {
+					m1.getGateList().get(i).getInputs().add(new Gate(1, GateType.INPUT,m1.getGateList().get(i).getGateID()));
+				}
+			}else if(m1.getGateList().get(i).getType() == GateType.NOT && m1.getGateList().get(i).getInputs().size() == 0) {
+				m1.getGateList().get(i).getInputs().add(new Gate(1, GateType.INPUT,m1.getGateList().get(i).getGateID()));
+			}
+			if(m1.getGateList().get(i).getOutput() == null) {
+				m1.getGateList().get(i).setOutput(new Gate(1, GateType.OUTPUT,m1.getGateList().get(i).getGateID()));
+			}
+		}
 	}
 	
 	private void borrarLineasCompuerta(Gate c) {

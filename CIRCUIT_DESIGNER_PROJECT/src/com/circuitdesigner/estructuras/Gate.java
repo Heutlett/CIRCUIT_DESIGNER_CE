@@ -51,17 +51,17 @@ public class Gate {
 		this.gateLabel.setName(gateID);
 	}
 	
-	public Gate(GateType type, JLabel gateLabel) {
+	public Gate(GateType type) {
 		
 		this.lines = new ArrayList<Line>();
-		this.gateID = "C" + this.gatesQuantity;
+		this.gateID = getNewGateID();
 		this.labelID = new JLabel(this.gateID);
 		this.labelID.setForeground(Color.blue);
 		this.labelID.setSize(40,20);
 		this.labelID.setVisible(false);
-		gatesQuantity++;
 		this.type = type;
-		this.gateLabel = gateLabel;
+		//this.gateLabel = gateLabel;
+		this.gateLabel = new JLabel();
 		inputs = new ArrayList<Gate>();
 		if(type != GateType.NOT) {
 			inputs.add(new Gate(1, GateType.INPUT,this.gateID));
@@ -74,7 +74,12 @@ public class Gate {
 		this.value = 3;
 	}
 	
-	
+	public String getNewGateID() {
+		
+		String id = "C" + this.gatesQuantity;
+		gatesQuantity++;
+		return id;
+	}
 	
 	public Gate findInput(String pInputName) {
 		Gate gate = null;
@@ -97,13 +102,18 @@ public class Gate {
 			}
 			
 		}
-		if(pGate.getOutput().getType() == Gate.GateType.INPUT || pGate.getOutput().getType() == Gate.GateType.OUTPUT) {
-			
-			System.out.println("Salida: " + pGate.getOutput().getGateID());
-			
+		if(pGate.getOutput()!= null) {
+			if(pGate.getOutput().getType() == Gate.GateType.INPUT || pGate.getOutput().getType() == Gate.GateType.OUTPUT) {
+				
+				System.out.println("Salida: " + pGate.getOutput().getGateID());
+				
+			}else {
+				System.out.println("Salida: " + pGate.getOutput().getGateID());
+			}
 		}else {
-			System.out.println("Salida: " + pGate.getOutput().getGateID());
+			System.out.println("Salida: null");
 		}
+
 		System.out.println();
 	}
 	
@@ -346,6 +356,11 @@ public class Gate {
 		}
 		return 9;
 		
+	}
+	public static void decreaseQuantity() {
+		inQuantity-=2;
+		outQuantity--;
+		gatesQuantity--;
 	}
 	
 

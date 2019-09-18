@@ -158,27 +158,37 @@ public class Model {
 		return finalTable;
 	}
 	
-	public void removeInput(String inputName) {
-		for(int i = 0; i < inputList.size();i++) {
-			if(inputList.get(i).getGateID().equals(inputName)){
-				inputList.remove(i);
-			}
-		}
-	}
-	
-	public void removeOutput(String outputName) {
-		for(int i = 0; i < outputList.size();i++) {
-			if(outputList.get(i).getGateID().equals(outputName)){
-				outputList.remove(i);
-			}
-		}
-	}
-	
+	/*
+	 * 
+	 */
 	private void removeInsOutsGate(Gate gate) {
-		removeOutput(gate.getOutput().getGateID());
+		removeInsOutsSons(gate);
+		outputList.remove(gate);
+		
 		for(int i = 0; i < gate.getInputs().size(); i++) {
-			removeInput(gate.getInputs().get(i).getGateID());
+			inputList.remove(gate);
 		}
+	}
+	/*
+	 * 
+	 * elimina los inputs y outputs a los que estaba conectado el gate que se borrara
+	 * 
+	 */
+	public void removeInsOutsSons(Gate gate) {
+		
+		if(gate.getOutput().getGateID().contains("C")) {
+			gate.getOutput().getInputs().remove(gate);
+			System.out.println("Soy " + gate.getOutput().getGateID() + " y borre mi entrada : " + gate.getGateID());
+		}
+		
+		for(int i = 0; i < gate.getInputs().size(); i++) {
+			if(gate.getInputs().get(i).getGateID().contains("C")) {
+				if(gate.getInputs().get(i).getOutput().equals(gate)) {
+					gate.getInputs().get(i).setOutput(null);
+				}
+			}
+		}
+		
 	}
 	
 	public Gate findGateByOutput(String output) {
