@@ -87,6 +87,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		this.y2 = l.getY2();
 		this.color = l.getColor();
 		
+		l.getTail().getLines().remove(l);
+		l.getPeak().getLines().remove(l);
+		
 		removeLine = true;
 		
 		this.repaint();
@@ -149,7 +152,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
-	private void pintarLinea(int x1, int y1, int x2, int y2, Gate c1, Gate c2) {
+	private Line pintarLinea(int x1, int y1, int x2, int y2, Gate c1, Gate c2) {
 		
 		draw = true;
 		color = new Color((int) (Math.random() * 255) + 1,(int) (Math.random() * 255) + 1,(int) (Math.random() * 255) + 1);
@@ -167,6 +170,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		agregarComportamientoLinea(l1);
 		m1.getLineList().add(l1);
 		this.repaint();
+		
+		return l1;
 		
 	}
 	
@@ -298,18 +303,18 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				int y = 12;
+				int y = 17;
 				if(e.getX()<189) {
 					remove(labelCopy);
 					actualizarPantalla();
 				}else {
 					for(int i = 0; i < gateCopy.getInputs().size(); i++) {
 						gateCopy.getInputs().get(i).getGateLabel().setVisible(true);
-						gateCopy.getInputs().get(i).getGateLabel().setLocation(gateCopy.getGateLabel().getX()-10, gateCopy.getGateLabel().getY()+y);
+						gateCopy.getInputs().get(i).getGateLabel().setLocation(gateCopy.getGateLabel().getX()-25, gateCopy.getGateLabel().getY()+y);
 						y = y+25;
 					}
 					gateCopy.getOutputs().getGateLabel().setVisible(true);
-					gateCopy.getOutputs().getGateLabel().setLocation(gateCopy.getGateLabel().getX()+75, gateCopy.getGateLabel().getY()+28);
+					gateCopy.getOutputs().getGateLabel().setLocation(gateCopy.getGateLabel().getX()+83, gateCopy.getGateLabel().getY()+28);
 					gateCopy.getLabelID().setVisible(true);
 					gateCopy.getLabelID().setLocation(gateCopy.getGateLabel().getX()+37, gateCopy.getGateLabel().getY());
 				}
@@ -431,19 +436,23 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			return;
 		}
 		
-		pintarLinea(startPoint.getX()+28,startPoint.getY()+21,endPoint.getX(),endPoint.getY()+15,compuertaEntrada,compuertaSalida);
+		Line line = pintarLinea(startPoint.getX(),startPoint.getY()+11,endPoint.getX()-5,endPoint.getY()+5,compuertaEntrada,compuertaSalida);
 		
 		Gate compuertaBorrar = compuertaEntrada.findInput(idBorrar);
-		compuertaBorrar.getGateLabel().setText(compuertaSalida.getGateID());
+		remove(compuertaBorrar.getGateLabel());
 		m1.removeInput(compuertaBorrar.getGateID());
 		compuertaEntrada.getInputs().remove(compuertaBorrar);
 		compuertaEntrada.getInputs().add(compuertaSalida);
 		
-		compuertaSalida.getOutputs().getGateLabel().setText(compuertaEntrada.getGateID());
+		remove(compuertaSalida.getOutputs().getGateLabel());
 		m1.removeOutput(compuertaSalida.getOutputs().getGateID());
 		compuertaSalida.setOutputs(compuertaEntrada);
 		compuertaSalida.setLocked(true);
 		compuertaEntrada.setLocked(true);
+		
+		compuertaEntrada.getLines().add(line);
+		compuertaSalida.getLines().add(line);
+		
 		System.out.println("Conexion realizada entre " + startPoint.getName() + " y " + endPoint.getName());
 		
 	}
@@ -494,16 +503,18 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			public void mouseDragged(MouseEvent e) {
 				
 				if(!newCompuerta.isLocked()) {
+					labelCopy = newCompuerta.getGateLabel();
+					
 					int y = -20;
 					
 					newCompuerta.getGateLabel().setLocation(e.getX()+labelCopy.getX()-40, e.getY()+labelCopy.getY()-35);
 					
 					for(int i = 0; i < newCompuerta.getInputs().size();i++) {
-						newCompuerta.getInputs().get(i).getGateLabel().setLocation(e.getX()+labelCopy.getX()-50, e.getY()+labelCopy.getY()+y);
+						newCompuerta.getInputs().get(i).getGateLabel().setLocation(e.getX()+labelCopy.getX()-65, e.getY()+labelCopy.getY()+y);
 						y = y + 25;
 						
 					}
-					newCompuerta.getOutputs().getGateLabel().setLocation(e.getX()+labelCopy.getX()+35, e.getY()+labelCopy.getY()-10);
+					newCompuerta.getOutputs().getGateLabel().setLocation(e.getX()+labelCopy.getX()+42, e.getY()+labelCopy.getY()-7);
 					newCompuerta.getLabelID().setLocation(e.getX()+labelCopy.getX(), e.getY()+labelCopy.getY()-35);
 					
 					actualizarPantalla();
@@ -517,6 +528,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			public void mousePressed(MouseEvent e) {
 				if(eraser) {
 					borrarLabelsCompuerta(newCompuerta);
+					borrarLineasCompuerta(newCompuerta);
 					m1.removeGate(newCompuerta);
 					actualizarPantalla();
 					eraser = false;
@@ -543,13 +555,27 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
+	private void borrarLineasCompuerta(Gate c) {
+		
+		for(int i = 0; i < c.getLines().size(); i++) {
+			
+			borrarLinea(c.getLines().get(i));
+			
+		}
+		
+	}
+	
 	private void borrarLabelsCompuerta(Gate c) {
 		remove(c.getGateLabel());
-		remove(c.getOutputs().getGateLabel());
+		if(!c.getOutputs().getGateID().contains("C")) {
+			remove(c.getOutputs().getGateLabel());
+		}
 		remove(c.getLabelID());
 		for(int i = 0; i < c.getInputs().size(); i++) {
-			//if(c.getInputs().get(i).get
-			remove(c.getInputs().get(i).getGateLabel());
+			if(!c.getInputs().get(i).getGateID().contains("C")) {
+				remove(c.getInputs().get(i).getGateLabel());
+			}
+			
 		}
 	}
 

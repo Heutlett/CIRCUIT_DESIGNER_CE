@@ -24,7 +24,7 @@ public class Gate {
 	private GateType type;
 	private JLabel gateLabel;
 	private JLabel labelID;
-
+	private ArrayList<Line> lines;
 	
 	//Constructor para entradas y salidas
 	public Gate(int inValue, GateType type) {
@@ -49,6 +49,7 @@ public class Gate {
 	
 	public Gate(GateType type, JLabel gateLabel) {
 		
+		this.lines = new ArrayList<Line>();
 		this.gateID = "C" + this.gatesQuantity;
 		this.labelID = new JLabel(this.gateID);
 		this.labelID.setForeground(Color.blue);
@@ -67,6 +68,8 @@ public class Gate {
 		outputs = new Gate(1, GateType.OUTPUT);
 		this.gateLabel.setName(gateID);
 	}
+	
+	
 	
 	public Gate findInput(String pInputName) {
 		Gate gate = null;
@@ -209,6 +212,14 @@ public class Gate {
 
 	public void setOutValue(int outValue) {
 		this.outValue = outValue;
+	}
+
+	public ArrayList<Line> getLines() {
+		return lines;
+	}
+
+	public void setLines(ArrayList<Line> lines) {
+		this.lines = lines;
 	}
 	
 	
