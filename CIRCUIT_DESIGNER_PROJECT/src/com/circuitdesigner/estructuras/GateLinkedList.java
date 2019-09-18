@@ -58,6 +58,22 @@ public class GateLinkedList {
     	return null;
     }
     
+    public Gate getById(String id) {
+    	
+    	if(isEmpty()) {
+    		return null;
+    	}else {
+    		Node aux = first;
+    		while(aux != null) {
+    			if(aux.gate.getGateID().equals(id)) {
+    				return aux.gate;
+    			}
+    			aux = aux.next;
+    		}
+    	}
+    	return null;
+    }
+    
     public boolean find(Gate gate){
 
         Node aux = first;

@@ -16,29 +16,31 @@ public class Gate {
 	private static int inQuantity = 1;
 	private static int outQuantity = 1;
 	private static int gatesQuantity;
-	private int inValue;
-	private int outValue;
+	private int value;
 	private boolean locked = false;
 	private ArrayList<Gate> inputs;
-	private Gate outputs;
+	private Gate output;
 	private GateType type;
 	private JLabel gateLabel;
 	private JLabel labelID;
 	private ArrayList<Line> lines;
+	private String previusGateOutputID;
 	
 	//Constructor para entradas y salidas
-	public Gate(int inValue, GateType type) {
+	public Gate(int value, GateType type, String previusGateOutputID) {
 		
 		if(type == GateType.OUTPUT) {
 			this.gateID = "o<" + outQuantity + ">";
 			outQuantity += 1;
+			this.value = 2;
+			this.previusGateOutputID = previusGateOutputID;
 		}
 		if(type ==GateType.INPUT) {
 			this.gateID = "i<" + inQuantity + ">";
 			inQuantity += 1;
+			this.value = value;
 		}
 		
-		this.inValue = inValue;
 		this.type = type;
 		this.gateLabel = new JLabel();
 		this.gateLabel.setText(gateID);
@@ -60,13 +62,14 @@ public class Gate {
 		this.gateLabel = gateLabel;
 		inputs = new ArrayList<Gate>();
 		if(type != GateType.NOT) {
-			inputs.add(new Gate(1, GateType.INPUT));
-			inputs.add(new Gate(1,GateType.INPUT));
+			inputs.add(new Gate(1, GateType.INPUT,this.gateID));
+			inputs.add(new Gate(1,GateType.INPUT,this.gateID));
 		}else {
-			inputs.add(new Gate(1,GateType.INPUT));
+			inputs.add(new Gate(1,GateType.INPUT,this.gateID));
 		}
-		outputs = new Gate(1, GateType.OUTPUT);
+		output = new Gate(1, GateType.OUTPUT,this.gateID);
 		this.gateLabel.setName(gateID);
+		this.value = 3;
 	}
 	
 	
@@ -92,12 +95,12 @@ public class Gate {
 			}
 			
 		}
-		if(pGate.getOutputs().getType() == Gate.GateType.INPUT || pGate.getOutputs().getType() == Gate.GateType.OUTPUT) {
+		if(pGate.getOutput().getType() == Gate.GateType.INPUT || pGate.getOutput().getType() == Gate.GateType.OUTPUT) {
 			
-			System.out.println("Salida: " + pGate.getOutputs().getGateID());
+			System.out.println("Salida: " + pGate.getOutput().getGateID());
 			
 		}else {
-			System.out.println("Salida: " + pGate.getOutputs().getGateID());
+			System.out.println("Salida: " + pGate.getOutput().getGateID());
 		}
 		System.out.println();
 	}
@@ -107,7 +110,7 @@ public class Gate {
 		int y = this.getGateLabel().getY() - 20;
 		int x = this.getGateLabel().getX();
 		
-		this.getOutputs().getGateLabel().setLocation(x+90,y+20);
+		this.getOutput().getGateLabel().setLocation(x+90,y+20);
 		this.getLabelID().setLocation(x+40, y-20);
 		for(int i = 0; i < this.getInputs().size(); i++) {
 			
@@ -133,12 +136,12 @@ public class Gate {
 		this.inputs = entradas;
 	}
 
-	public Gate getOutputs() {
-		return outputs;
+	public Gate getOutput() {
+		return output;
 	}
 
-	public void setOutputs(Gate salida) {
-		this.outputs = salida;
+	public void setOutput(Gate salida) {
+		this.output = salida;
 	}
 
 	public GateType getType() {
@@ -173,12 +176,12 @@ public class Gate {
 		Gate.outQuantity = cantProposicionesOut;
 	}
 
-	public int getInValue() {
-		return inValue;
+	public int getValue() {
+		return value;
 	}
 
-	public void setInValue(int valorEntrada) {
-		this.inValue = valorEntrada;
+	public void setValue(int valorEntrada) {
+		this.value = valorEntrada;
 	}
 
 
@@ -205,14 +208,6 @@ public class Gate {
 	public void setLabelID(JLabel labelId) {
 		this.labelID = labelId;
 	}
-	
-	public int getOutValue() {
-		return outValue;
-	}
-
-	public void setOutValue(int outValue) {
-		this.outValue = outValue;
-	}
 
 	public ArrayList<Line> getLines() {
 		return lines;
@@ -221,7 +216,48 @@ public class Gate {
 	public void setLines(ArrayList<Line> lines) {
 		this.lines = lines;
 	}
+
+	public String getPreviusGateOutputID() {
+		return previusGateOutputID;
+	}
+
+	public void setPreviusGateOutputID(String previusGateOutputID) {
+		this.previusGateOutputID = previusGateOutputID;
+	}
 	
+	private boolean sonInputs() {
+		for(int i = 0; i < inputs.size(); i++) {
+			if(inputs.get(i).getValue() == 3) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public int calculate() {
+		
+		
+		for(int i = 0; i < this.inputs.size();i++) {
+
+			
+			if(this.inputs.get(i).getValue() == 3) {
+				
+				if(inputs.get(i).calculate() == 0) {
+					return 0;
+				}
+				
+			}
+			else if(this.inputs.get(i).getValue() == 0) {
+				return 0;
+			}
+			
+		}
+
+		return 1;
+
+		
+		
+	}
 	
 
 }

@@ -14,6 +14,7 @@ public class Model {
 	private ArrayList<Line> lineList;
 	private ArrayList<Gate> inputList;
 	private ArrayList<Gate> outputList;
+	private Gate outputGate;
 
 	private Model() {
 		
@@ -35,34 +36,30 @@ public class Model {
 		return columnNames;
 	}
 	
-	private void calculate(int [][] table, Object [][] result) {
+	private void recalculate(Object [][] result, int indice) {
+		
+		
+		int resultado = outputGate.calculate();
+
+		result[indice][inputList.size()] = resultado;
+
+		
+		
+	}
 	
-		int truesQuantity = 0;
-		int falsesQuantity = 0;
+	private void calculate(int [][] table, Object [][] result) {
 		
 		for(int i = 0; i < (int)Math.pow(2, inputList.size()); i++) {
 			
 			
 			for(int e = 0; e < inputList.size(); e++) {
 				
-				inputList.get(e).setInValue(table[i][e]);
+				inputList.get(e).setValue(table[i][e]);
+				System.out.println(inputList.get(e).getGateID() + " = " + inputList.get(e).getValue());
 				
 			}
-			//si es and
-			for(int e = 0; e < inputList.size(); e++) {
-				
-				if(inputList.get(e).getInValue() == 0) {
-					falsesQuantity++;
-				}
-				
-			}
-			if(falsesQuantity > 0) {
-				falsesQuantity = 0;
-				result[i][inputList.size()] = 0;
-			}else {
-				falsesQuantity = 0;
-				result[i][inputList.size()] = 1;
-			}
+			
+			recalculate(result, i);
 		}
 		
 	}
@@ -78,6 +75,8 @@ public class Model {
 			JOptionPane.showMessageDialog(null, "Solo puede existir una salida!!!");
 			return;
 		}
+		
+		outputGate = gateList.getById(outputList.get(0).getPreviusGateOutputID());
 		
 		int [][] table = generateTable(inputList.size());
 		
@@ -98,130 +97,7 @@ public class Model {
 		
 	}
 	
-	public void removeInput(String inputName) {
-		for(int i = 0; i < inputList.size();i++) {
-			if(inputList.get(i).getGateID().equals(inputName)){
-				inputList.remove(i);
-			}
-		}
-	}
-	
-	public void removeOutput(String outputName) {
-		for(int i = 0; i < outputList.size();i++) {
-			if(outputList.get(i).getGateID().equals(outputName)){
-				outputList.remove(i);
-			}
-		}
-	}
-	
-	private void removeInsOutsGate(Gate gate) {
-		removeOutput(gate.getOutputs().getGateID());
-		for(int i = 0; i < gate.getInputs().size(); i++) {
-			removeInput(gate.getInputs().get(i).getGateID());
-		}
-	}
-	
-	public Gate findGateByOutput(String output) {
-		
-		Gate gate = null;
-		
-		for(int i = 0; i < gateList.size(); i++) {
-			
-			if(gateList.get(i).getOutputs().getGateID().equals(output)){
-				return gateList.get(i);
-			}
-		}
-		return gate;
-	}
-	
-	public Gate findGateByInput(String input) {
-		
-		Gate gate = null;
-		
-		for(int i = 0; i < gateList.size(); i++) {
-			
-			for(int e = 0; e < gateList.get(i).getInputs().size(); e++) {
-				
-				if(gateList.get(i).getInputs().get(e).getGateID().equals(input)){
-					return gateList.get(i);
-				}
-			}
-		}
-		return gate;
-	}
 
-	public void addInputsOutputs(Gate gate) {
-		
-		for(int i = 0; i < gate.getInputs().size(); i++) {
-			inputList.add(gate.getInputs().get(i));
-		}
-		outputList.add(gate.getOutputs());
-		
-	}
-	
-	public void printInputs() {
-		System.out.print("Ins: ");
-		for(int i = 0; i < inputList.size();i++) {
-			
-			System.out.print(inputList.get(i).getGateID() + " ");
-			
-		}
-		System.out.println();
-	}
-	
-	public void printOutputs() {
-		System.out.print("Outs: ");
-		for(int i = 0; i < outputList.size();i++) {
-			
-			System.out.print(outputList.get(i).getGateID() + " ");
-			
-		}
-		System.out.println();
-		System.out.println();
-	}
-	
-    public ArrayList<Gate> getInputList() {
-		return inputList;
-	}
-
-	public void setInputList(ArrayList<Gate> inputList) {
-		this.inputList = inputList;
-	}
-
-	public ArrayList<Gate> getOutputList() {
-		return outputList;
-	}
-
-	public void setOutputList(ArrayList<Gate> outputList) {
-		this.outputList = outputList;
-	}
-
-	public static Model getInstance() {
-        return INSTANCE;
-    }
-    
-	public void addCompuertas(Gate c) {
-		gateList.add(c);
-	}
-	
-	public static void printTable(int n, int [][]finalTable) {
-		
-		for(int  i =0; i < (int) Math.pow(2, n); i++) {
-			
-			for(int e = 0; e < n; e++) {
-				System.out.print(finalTable[i][e] + " ");
-			}
-			System.out.println();
-		}
-		
-	}
-	
-	public void removeGate(Gate gate) {
-		removeInsOutsGate(gate);
-		gateList.remove(gate);
-		printInputs();
-		printOutputs();
-	}
 	
 	public static int[][] generateTable(int n) {
 		
@@ -261,6 +137,141 @@ public class Model {
 		return finalTable;
 	}
 	
+	public void removeInput(String inputName) {
+		for(int i = 0; i < inputList.size();i++) {
+			if(inputList.get(i).getGateID().equals(inputName)){
+				inputList.remove(i);
+			}
+		}
+	}
+	
+	public void removeOutput(String outputName) {
+		for(int i = 0; i < outputList.size();i++) {
+			if(outputList.get(i).getGateID().equals(outputName)){
+				outputList.remove(i);
+			}
+		}
+	}
+	
+	private void removeInsOutsGate(Gate gate) {
+		removeOutput(gate.getOutput().getGateID());
+		for(int i = 0; i < gate.getInputs().size(); i++) {
+			removeInput(gate.getInputs().get(i).getGateID());
+		}
+	}
+	
+	public Gate findGateByOutput(String output) {
+		
+		Gate gate = null;
+		
+		for(int i = 0; i < gateList.size(); i++) {
+			
+			if(gateList.get(i).getOutput().getGateID().equals(output)){
+				return gateList.get(i);
+			}
+		}
+		return gate;
+	}
+	
+	public Gate findGateByInput(String input) {
+		
+		Gate gate = null;
+		
+		for(int i = 0; i < gateList.size(); i++) {
+			
+			for(int e = 0; e < gateList.get(i).getInputs().size(); e++) {
+				
+				if(gateList.get(i).getInputs().get(e).getGateID().equals(input)){
+					return gateList.get(i);
+				}
+			}
+		}
+		return gate;
+	}
+
+	public void addInputsOutputs(Gate gate) {
+		
+		for(int i = 0; i < gate.getInputs().size(); i++) {
+			inputList.add(gate.getInputs().get(i));
+		}
+		outputList.add(gate.getOutput());
+		
+	}
+	
+	public void printInputs() {
+		System.out.print("Ins: ");
+		for(int i = 0; i < inputList.size();i++) {
+			
+			System.out.print(inputList.get(i).getGateID() + " ");
+			
+		}
+		System.out.println();
+	}
+	
+	public void printOutputs() {
+		System.out.print("Outs: ");
+		for(int i = 0; i < outputList.size();i++) {
+			
+			System.out.print(outputList.get(i).getGateID() + " ");
+			
+		}
+		System.out.println();
+		System.out.println();
+	}
+	
+    
+    
+	public void addCompuertas(Gate c) {
+		gateList.add(c);
+	}
+	
+	public static void printTable(int n, int [][]finalTable) {
+		
+		for(int  i =0; i < (int) Math.pow(2, n); i++) {
+			
+			for(int e = 0; e < n; e++) {
+				System.out.print(finalTable[i][e] + " ");
+			}
+			System.out.println();
+		}
+		
+	}
+	
+	public void removeGate(Gate gate) {
+		removeInsOutsGate(gate);
+		gateList.remove(gate);
+		printInputs();
+		printOutputs();
+	}
+	
+	public void printGates() {
+		for(int i = 0; i < gateList.size(); i++) {
+
+			Gate.printGatesInformation(gateList.get(i));
+			
+		}
+	}
+	
+	public ArrayList<Gate> getInputList() {
+		return inputList;
+	}
+
+	public void setInputList(ArrayList<Gate> inputList) {
+		this.inputList = inputList;
+	}
+
+	public ArrayList<Gate> getOutputList() {
+		return outputList;
+	}
+
+	public void setOutputList(ArrayList<Gate> outputList) {
+		this.outputList = outputList;
+	}
+
+	public static Model getInstance() {
+        return INSTANCE;
+    }
+	
 	public GateLinkedList getGateList() {
 		return gateList;
 	}
@@ -277,13 +288,7 @@ public class Model {
 		this.lineList = lineList;
 	}
 	
-	public void printGates() {
-		for(int i = 0; i < gateList.size(); i++) {
 
-			Gate.printGatesInformation(gateList.get(i));
-			
-		}
-	}
 
 
 }
