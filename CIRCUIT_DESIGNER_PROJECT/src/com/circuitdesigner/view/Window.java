@@ -19,7 +19,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 
-import com.circuitdesigner.estructuras.Compuerta;
+import com.circuitdesigner.estructuras.Gate;
 import com.circuitdesigner.estructuras.PanelWorkspace;
 import com.circuitdesigner.estructuras.Sistema;
 

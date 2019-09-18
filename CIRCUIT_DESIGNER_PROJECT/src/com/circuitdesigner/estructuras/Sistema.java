@@ -10,17 +10,17 @@ public class Sistema {
 	
 	private static final Sistema INSTANCE = new Sistema();
 	
-	private ArrayList<Compuerta> listaCompuertas;
+	private ArrayList<Gate> listaCompuertas;
 	private ArrayList<Linea> listaLineas;
-	private ArrayList<Compuerta> listaIns;
-	private ArrayList<Compuerta> listaOuts;
+	private ArrayList<Gate> listaIns;
+	private ArrayList<Gate> listaOuts;
 
 	private Sistema() {
 		
-		listaCompuertas = new ArrayList<Compuerta>();
+		listaCompuertas = new ArrayList<Gate>();
 		listaLineas = new ArrayList<Linea>();
-		listaIns = new ArrayList<Compuerta>();
-		listaOuts = new ArrayList<Compuerta>();
+		listaIns = new ArrayList<Gate>();
+		listaOuts = new ArrayList<Gate>();
 		
 		//
 		//imprimirTabla(4, tabla);
@@ -119,16 +119,16 @@ public class Sistema {
 		}
 	}
 	
-	private void borrarInsOutsCompuerta(Compuerta c) {
+	private void borrarInsOutsCompuerta(Gate c) {
 		borrarOut(c.getSalida().getIdProposicion());
 		for(int i = 0; i < c.getEntradas().size(); i++) {
 			borrarIn(c.getEntradas().get(i).getIdProposicion());
 		}
 	}
 	
-	public Compuerta buscarCompuertaPorSalida(String salida) {
+	public Gate buscarCompuertaPorSalida(String salida) {
 		
-		Compuerta c = null;
+		Gate c = null;
 		
 		for(int i = 0; i < listaCompuertas.size(); i++) {
 			
@@ -143,9 +143,9 @@ public class Sistema {
 		
 	}
 	
-	public Compuerta buscarCompuertaPorEntrada(String entrada) {
+	public Gate buscarCompuertaPorEntrada(String entrada) {
 		
-		Compuerta c = null;
+		Gate c = null;
 		
 		for(int i = 0; i < listaCompuertas.size(); i++) {
 			
@@ -164,7 +164,7 @@ public class Sistema {
 		
 	}
 	
-	public void agregarInsOuts(Compuerta c) {
+	public void agregarInsOuts(Gate c) {
 		
 		for(int i = 0; i < c.getEntradas().size(); i++) {
 			listaIns.add(c.getEntradas().get(i));
@@ -194,19 +194,19 @@ public class Sistema {
 		System.out.println();
 	}
 	
-    public ArrayList<Compuerta> getListaIns() {
+    public ArrayList<Gate> getListaIns() {
 		return listaIns;
 	}
 
-	public void setListaIns(ArrayList<Compuerta> listaIns) {
+	public void setListaIns(ArrayList<Gate> listaIns) {
 		this.listaIns = listaIns;
 	}
 
-	public ArrayList<Compuerta> getListaOuts() {
+	public ArrayList<Gate> getListaOuts() {
 		return listaOuts;
 	}
 
-	public void setListaOuts(ArrayList<Compuerta> listaOuts) {
+	public void setListaOuts(ArrayList<Gate> listaOuts) {
 		this.listaOuts = listaOuts;
 	}
 
@@ -214,7 +214,7 @@ public class Sistema {
         return INSTANCE;
     }
     
-	public void addCompuertas(Compuerta c) {
+	public void addCompuertas(Gate c) {
 		listaCompuertas.add(c);
 	}
 	
@@ -230,7 +230,7 @@ public class Sistema {
 		
 	}
 	
-	public void borrarCompuerta(Compuerta c) {
+	public void borrarCompuerta(Gate c) {
 		borrarInsOutsCompuerta(c);
 		listaCompuertas.remove(c);
 		imprimirIns();
@@ -275,11 +275,11 @@ public class Sistema {
 		return tablaFinal;
 	}
 	
-	public ArrayList<Compuerta> getListaCompuertas() {
+	public ArrayList<Gate> getListaCompuertas() {
 		return listaCompuertas;
 	}
 
-	public void setListaCompuertas(ArrayList<Compuerta> listaCompuertas) {
+	public void setListaCompuertas(ArrayList<Gate> listaCompuertas) {
 		this.listaCompuertas = listaCompuertas;
 	}
 

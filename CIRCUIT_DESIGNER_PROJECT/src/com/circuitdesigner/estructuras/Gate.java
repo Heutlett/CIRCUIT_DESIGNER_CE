@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
-public class Compuerta {
+public class Gate {
 	
 	public static enum tipoCompuerta{
 		AND, NAND, OR, NOR, NOT, XOR, XNOR, ENTRADA, SALIDA
@@ -19,15 +19,15 @@ public class Compuerta {
 	private String idCompuerta ="";
 	private String idProposicion ="";
 	private boolean bloqueada = false;
-	private ArrayList<Compuerta> entradas;
-	private Compuerta salida;
+	private ArrayList<Gate> entradas;
+	private Gate salida;
 	private tipoCompuerta tipo;
 	private JLabel labelCompuerta;
 	private JLabel labelId;
 	private String idCompuertaPadre;
 	
 	//Constructor para entradas y salidas
-	public Compuerta(int valorEntrada, tipoCompuerta tipo, String idCompuertaPadre) {
+	public Gate(int valorEntrada, tipoCompuerta tipo, String idCompuertaPadre) {
 		
 		if(tipo == tipoCompuerta.SALIDA) {
 			this.idProposicion = "o<" + cantProposicionesOut + ">";
@@ -51,7 +51,7 @@ public class Compuerta {
 		
 	}
 	
-	public Compuerta(tipoCompuerta tipo, JLabel labelCompuerta) {
+	public Gate(tipoCompuerta tipo, JLabel labelCompuerta) {
 		
 		this.idCompuerta = "C" + this.cantCompuertas;
 		this.labelId = new JLabel(this.idCompuerta);
@@ -61,19 +61,19 @@ public class Compuerta {
 		cantCompuertas++;
 		this.tipo = tipo;
 		this.labelCompuerta = labelCompuerta;
-		entradas = new ArrayList<Compuerta>();
+		entradas = new ArrayList<Gate>();
 		if(tipo != tipoCompuerta.NOT) {
-			entradas.add(new Compuerta(1, tipoCompuerta.ENTRADA,idCompuertaPadre));
-			entradas.add(new Compuerta(1,tipoCompuerta.ENTRADA,idCompuertaPadre));
+			entradas.add(new Gate(1, tipoCompuerta.ENTRADA,idCompuertaPadre));
+			entradas.add(new Gate(1,tipoCompuerta.ENTRADA,idCompuertaPadre));
 		}else {
-			entradas.add(new Compuerta(1,tipoCompuerta.ENTRADA,idCompuertaPadre));
+			entradas.add(new Gate(1,tipoCompuerta.ENTRADA,idCompuertaPadre));
 		}
-		salida = new Compuerta(1, tipoCompuerta.SALIDA,idCompuertaPadre);
+		salida = new Gate(1, tipoCompuerta.SALIDA,idCompuertaPadre);
 		this.labelCompuerta.setName(idCompuerta);
 	}
 	
-	public Compuerta buscarEntrada(String nombreEntrada) {
-		Compuerta c = null;
+	public Gate buscarEntrada(String nombreEntrada) {
+		Gate c = null;
 		for(int j = 0; j < getEntradas().size(); j++) {
 			if(getEntradas().get(j).getLabelCompuerta().getName().equals(nombreEntrada)) {
 				return getEntradas().get(j);
@@ -90,19 +90,19 @@ public class Compuerta {
 		this.bloqueada = bloqueada;
 	}
 
-	public ArrayList<Compuerta> getEntradas() {
+	public ArrayList<Gate> getEntradas() {
 		return entradas;
 	}
 
-	public void setEntradas(ArrayList<Compuerta> entradas) {
+	public void setEntradas(ArrayList<Gate> entradas) {
 		this.entradas = entradas;
 	}
 
-	public Compuerta getSalida() {
+	public Gate getSalida() {
 		return salida;
 	}
 
-	public void setSalida(Compuerta salida) {
+	public void setSalida(Gate salida) {
 		this.salida = salida;
 	}
 
@@ -127,7 +127,7 @@ public class Compuerta {
 	}
 
 	public static void setCantProposicionesIn(int cantProposicionesIn) {
-		Compuerta.cantProposicionesIn = cantProposicionesIn;
+		Gate.cantProposicionesIn = cantProposicionesIn;
 	}
 
 	public static int getCantProposicionesOut() {
@@ -135,7 +135,7 @@ public class Compuerta {
 	}
 
 	public static void setCantProposicionesOut(int cantProposicionesOut) {
-		Compuerta.cantProposicionesOut = cantProposicionesOut;
+		Gate.cantProposicionesOut = cantProposicionesOut;
 	}
 
 	public int getValorEntrada() {
@@ -152,7 +152,7 @@ public class Compuerta {
 	}
 
 	public static void setCantCompuertas(int cantCompuertas) {
-		Compuerta.cantCompuertas = cantCompuertas;
+		Gate.cantCompuertas = cantCompuertas;
 	}
 
 	public String getIdCompuerta() {
@@ -179,18 +179,18 @@ public class Compuerta {
 		this.labelId = labelId;
 	}
 
-	public static void imprimirDatosCompuertas(Compuerta newCompuerta) {
+	public static void imprimirDatosCompuertas(Gate newCompuerta) {
 		System.out.println();
 		System.out.println("Mostrando los datos de la compuerta: " + newCompuerta.getIdCompuerta());
 		for(int i = 0; i < newCompuerta.getEntradas().size(); i++) {
-			if(newCompuerta.getEntradas().get(i).getTipo() == Compuerta.tipoCompuerta.ENTRADA || newCompuerta.getEntradas().get(i).getTipo() == Compuerta.tipoCompuerta.SALIDA) {
+			if(newCompuerta.getEntradas().get(i).getTipo() == Gate.tipoCompuerta.ENTRADA || newCompuerta.getEntradas().get(i).getTipo() == Gate.tipoCompuerta.SALIDA) {
 				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdProposicion());
 			}else {
 				System.out.println("Entrada " + i + ": " + newCompuerta.getEntradas().get(i).getIdCompuerta());
 			}
 			
 		}
-		if(newCompuerta.getSalida().getTipo() == Compuerta.tipoCompuerta.ENTRADA || newCompuerta.getSalida().getTipo() == Compuerta.tipoCompuerta.SALIDA) {
+		if(newCompuerta.getSalida().getTipo() == Gate.tipoCompuerta.ENTRADA || newCompuerta.getSalida().getTipo() == Gate.tipoCompuerta.SALIDA) {
 			
 			System.out.println("Salida: " + newCompuerta.getSalida().getIdProposicion());
 			

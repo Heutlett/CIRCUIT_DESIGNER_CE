@@ -37,7 +37,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 	private JLabel copia;
 	private Sistema s1;
 	private boolean borrador = false;
-	private Compuerta copiaCompuerta;
+	private Gate copiaCompuerta;
 	private boolean borrarLinea = false;
 	private boolean dibujar = false;
 	private int x1;
@@ -149,7 +149,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
-	private void pintarLinea(int x1, int y1, int x2, int y2, Compuerta c1, Compuerta c2) {
+	private void pintarLinea(int x1, int y1, int x2, int y2, Gate c1, Gate c2) {
 		
 		dibujar = true;
 		color = new Color((int) (Math.random() * 255) + 1,(int) (Math.random() * 255) + 1,(int) (Math.random() * 255) + 1);
@@ -310,7 +310,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		});
 	}
 	
-	private void agregarEntradaSalida(Compuerta c) {
+	private void agregarEntradaSalida(Gate c) {
 		
 		for(int i = 0; i < c.getEntradas().size(); i++) {
 			add(c.getEntradas().get(i).getLabelCompuerta());
@@ -319,30 +319,30 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		add(c.getLabelId());
 	}
 	
-	private Compuerta crearCompuerta(String tipo, JLabel copiaLabel) {
+	private Gate crearCompuerta(String tipo, JLabel copiaLabel) {
 		
-		Compuerta newCompuerta = null;
+		Gate newCompuerta = null;
 		
 		if(tipo.equals("AND")) {
-			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.AND,copiaLabel);
+			newCompuerta = new Gate(Gate.tipoCompuerta.AND,copiaLabel);
 		}
 		if(tipo.equals("NAND")) {
-			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.NAND,copiaLabel);
+			newCompuerta = new Gate(Gate.tipoCompuerta.NAND,copiaLabel);
 		}
 		if(tipo.equals("OR")) {
-			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.OR,copiaLabel);
+			newCompuerta = new Gate(Gate.tipoCompuerta.OR,copiaLabel);
 		}
 		if(tipo.equals("NOR")) {
-			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.NOR,copiaLabel);
+			newCompuerta = new Gate(Gate.tipoCompuerta.NOR,copiaLabel);
 		}
 		if(tipo.equals("NOT")) {
-			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.NOT,copiaLabel);
+			newCompuerta = new Gate(Gate.tipoCompuerta.NOT,copiaLabel);
 		}
 		if(tipo.equals("XOR")) {
-			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.XOR,copiaLabel);
+			newCompuerta = new Gate(Gate.tipoCompuerta.XOR,copiaLabel);
 		}
 		if(tipo.equals("XNOR")){
-			newCompuerta = new Compuerta(Compuerta.tipoCompuerta.XNOR,copiaLabel);
+			newCompuerta = new Gate(Gate.tipoCompuerta.XNOR,copiaLabel);
 		}
 		
 		agregarEntradaSalida(newCompuerta);
@@ -412,7 +412,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
-	private void crearLinea(Compuerta compuertaEntrada, Compuerta compuertaSalida, String idBorrar) {
+	private void crearLinea(Gate compuertaEntrada, Gate compuertaSalida, String idBorrar) {
 		
 		if(compuertaEntrada.getIdCompuerta().equals(compuertaSalida.getIdCompuerta())) {
 			JOptionPane.showMessageDialog(null, "No se puede hacer una conexion entre la misma compuerta");
@@ -421,7 +421,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 		pintarLinea(puntoInicio.getX()+28,puntoInicio.getY()+21,puntoFinal.getX(),puntoFinal.getY()+15,compuertaEntrada,compuertaSalida);
 		
-		Compuerta compuertaBorrar = compuertaEntrada.buscarEntrada(idBorrar);
+		Gate compuertaBorrar = compuertaEntrada.buscarEntrada(idBorrar);
 		compuertaBorrar.getLabelCompuerta().setText(compuertaSalida.getIdCompuerta());
 		s1.borrarIn(compuertaBorrar.getIdProposicion());
 		compuertaEntrada.getEntradas().remove(compuertaBorrar);
@@ -436,7 +436,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
-	private void comportamientoEntradas(Compuerta c) {
+	private void comportamientoEntradas(Gate c) {
 		
 		//Solucionar problema de conectar entrada y salida de la misma compuerta
 		comprobacionDeLineas(c.getSalida().getLabelCompuerta());
@@ -451,11 +451,11 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 
-	private Compuerta copiarCompuerta(JLabel label) {
+	private Gate copiarCompuerta(JLabel label) {
 		
 		JLabel copiaLabel = new JLabel();
 		
-		Compuerta newCompuerta = crearCompuerta(label.getText(),copiaLabel);
+		Gate newCompuerta = crearCompuerta(label.getText(),copiaLabel);
 		
 		s1.agregarInsOuts(newCompuerta);
 		
@@ -505,7 +505,6 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			public void mousePressed(MouseEvent e) {
 				if(borrador) {
 					borrarLabelsCompuerta(newCompuerta);
-					//remove(copiaLabel);
 					s1.borrarCompuerta(newCompuerta);
 					actualizarPantalla();
 					borrador = false;
@@ -521,7 +520,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				Compuerta.imprimirDatosCompuertas(newCompuerta);
+				Gate.imprimirDatosCompuertas(newCompuerta);
 			}
 		});		
 
@@ -532,7 +531,7 @@ public class PanelWorkspace extends JPanel implements MouseListener{
 		
 	}
 	
-	private void borrarLabelsCompuerta(Compuerta c) {
+	private void borrarLabelsCompuerta(Gate c) {
 		remove(c.getLabelCompuerta());
 		remove(c.getSalida().getLabelCompuerta());
 		remove(c.getLabelId());

@@ -11,13 +11,13 @@ public class Linea {
 	private int y1;
 	private int x2;
 	private int y2;
-	private Compuerta cola;
-	private Compuerta pico;
+	private Gate cola;
+	private Gate pico;
 	private Color color;
 	private JLabel labelBorrarInicio;
 	private JLabel labelBorrarFinal;
 	
-	public Linea(int x1, int y1, int x2, int y2, Color color, JLabel label1, JLabel label2, Compuerta cola, Compuerta pico) {
+	public Linea(int x1, int y1, int x2, int y2, Color color, JLabel label1, JLabel label2, Gate cola, Gate pico) {
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;
@@ -86,19 +86,19 @@ public class Linea {
 		this.y2 = y2;
 	}
 
-	public Compuerta getCola() {
+	public Gate getCola() {
 		return cola;
 	}
 
-	public void setCola(Compuerta cola) {
+	public void setCola(Gate cola) {
 		this.cola = cola;
 	}
 
-	public Compuerta getPico() {
+	public Gate getPico() {
 		return pico;
 	}
 
-	public void setPico(Compuerta pico) {
+	public void setPico(Gate pico) {
 		this.pico = pico;
 	}
 
