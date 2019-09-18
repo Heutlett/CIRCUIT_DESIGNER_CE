@@ -225,15 +225,6 @@ public class Gate {
 		this.previusGateOutputID = previusGateOutputID;
 	}
 	
-	private boolean sonInputs() {
-		for(int i = 0; i < inputs.size(); i++) {
-			if(inputs.get(i).getValue() == 3) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
 	public int calculate() {
 		
 		
@@ -242,20 +233,55 @@ public class Gate {
 			
 			if(this.inputs.get(i).getValue() == 3) {
 				
-				if(inputs.get(i).calculate() == 0) {
-					return 0;
+				if(this.type == GateType.AND) {
+					if(inputs.get(i).calculate() == 0) {
+						return 0;
+					}
+				}
+				if(this.type == GateType.NAND) {
+					if(inputs.get(i).calculate() == 0) {
+						return 1;
+					}
+				}
+				if(this.type == GateType.OR) {
+					if(inputs.get(i).calculate() == 1) {
+						return 1;
+					}
+				}
+			}
+			else {
+				
+				if(this.type == GateType.AND) {
+					if(this.inputs.get(i).getValue() == 0) {
+						return 0;
+					}
 				}
 				
-			}
-			else if(this.inputs.get(i).getValue() == 0) {
-				return 0;
+				if(this.type == GateType.NAND) {
+					if(this.inputs.get(i).getValue() == 0) {
+						return 1;
+					}
+				}
+				if(this.type == GateType.OR) {
+					if(this.inputs.get(i).getValue() == 1) {
+						return 1;
+					}
+				}
+
 			}
 			
 		}
-
-		return 1;
-
 		
+		if(this.type == GateType.AND) {
+			return 1;
+		}
+		if(this.type == GateType.NAND) {
+			return 0;
+		}
+		if(this.type == GateType.OR) {
+			return 0;
+		}
+		return 9;
 		
 	}
 	
