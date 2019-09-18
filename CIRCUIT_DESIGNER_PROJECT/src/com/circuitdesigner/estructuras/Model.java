@@ -27,21 +27,42 @@ public class Model {
 	
 	private String[] generateColumnNames() {
 		
-		String [] columnNames = new String[inputList.size()+1];
+		//String [] columnNames = new String[inputList.size()+1];
+		
+		String [] columnNames = new String[inputList.size()+outputList.size()];
+		
+		System.out.println("Cantidad de columnas: " + (inputList.size()+outputList.size()));
 		
 		for(int i = 0; i < inputList.size(); i++) {
 			columnNames[i] = inputList.get(i).getGateID();
 		}
-		columnNames[inputList.size()] = outputList.get(0).getGateID();
+		for(int i = 0; i < outputList.size(); i++) {
+			columnNames[inputList.size()+i] = outputList.get(i).getGateID();
+		}
+		for(int i = 0; i < inputList.size()+outputList.size(); i++){
+			System.out.print(columnNames[i] +" ");
+		}
+		//columnNames[inputList.size()] = outputList.get(0).getGateID();
 		return columnNames;
 	}
 	
 	private void recalculate(Object [][] result, int indice) {
 		
 		
-		int resultado = outputGate.calculate();
+		//int resultado = outputGate.calculate();
+		int resultado;
 
-		result[indice][inputList.size()] = resultado;
+		//result[indice][inputList.size()] = resultado;
+		
+		for(int i = 0; i < outputList.size(); i++) {
+			
+			outputGate = gateList.getById(outputList.get(i).getPreviusGateOutputID());
+			
+			resultado = outputGate.calculate();
+
+			result[indice][inputList.size()+i] = resultado;
+			
+		}
 
 		
 		
@@ -70,19 +91,19 @@ public class Model {
 			JOptionPane.showMessageDialog(null, "No se puede ejecutar si se encuentra vacio!!!");
 			return;
 		}
-		
+		/*
 		if(outputList.size()>1) {
 			JOptionPane.showMessageDialog(null, "Solo puede existir una salida!!!");
 			return;
 		}
-		
-		outputGate = gateList.getById(outputList.get(0).getPreviusGateOutputID());
+		*/
+		//outputGate = gateList.getById(outputList.get(0).getPreviusGateOutputID());
 		
 		int [][] table = generateTable(inputList.size());
 		
 		String [] columnNames = generateColumnNames();
 		
-		Object [][] rowData = new Object [(int)Math.pow(2, inputList.size())][inputList.size()+1];
+		Object [][] rowData = new Object [(int)Math.pow(2, inputList.size())][inputList.size()+2];
 		
 		for(int i = 0; i < (int)Math.pow(2, inputList.size()); i++) {
 			for(int e = 0; e < inputList.size(); e++) {
@@ -287,8 +308,5 @@ public class Model {
 	public void setLineList(ArrayList<Line> lineList) {
 		this.lineList = lineList;
 	}
-	
-
-
 
 }
