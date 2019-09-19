@@ -174,6 +174,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 				if(!eraser) {
 					borrarLinea(l);
 					checkOutputsInputs();
+					checkForUnlockDrag();
 				}else {
 					eraser = false;
 					setCursor(Cursor.getDefaultCursor());
@@ -186,6 +187,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 				if(!eraser) {
 					borrarLinea(l);
 					checkOutputsInputs();
+					checkForUnlockDrag();
 				}else {
 					eraser = false;
 					setCursor(Cursor.getDefaultCursor());
@@ -611,11 +613,26 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		m1.removeGate(gate);
 		
 		checkOutputsInputs();
-		
+		checkForUnlockDrag();
 		actualizarPantalla();
 		eraser = false;
 		setCursor(Cursor.getDefaultCursor());
 		
+	}
+	
+	private void checkForUnlockDrag() {
+		boolean onlyInputs = true;
+		for(int i = 0; i < m1.getGateList().size();i++) {
+			if(m1.getGateList().get(i).getOutput() != null) {
+				if(!m1.getGateList().get(i).getOutput().getGateID().contains("C")){
+					for(int e = 0; e < m1.getGateList().get(i).getInputs().size(); e++) {
+						if(!m1.getGateList().get(i).getInputs().get(e).getGateID().contains("C")) {
+							m1.getGateList().get(i).setLocked(false);
+						}
+					}
+				}
+			}
+		}
 	}
 	/*
 	 * 
