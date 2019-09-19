@@ -16,6 +16,7 @@ public class Model {
 	private ArrayList<Gate> outputList;
 	private Gate outputGate;
 
+
 	private Model() {
 		
 		gateList = new GateLinkedList();
@@ -144,12 +145,13 @@ public class Model {
 	 * 
 	 */
 	private void removeInsOutsGate(Gate gate) {
-		removeInsOutsSons(gate);
+		
 		outputList.remove(gate.getOutput());
 		
 		for(int i = 0; i < gate.getInputs().size(); i++) {
 			inputList.remove(gate.getInputs().get(i));
 		}
+		removeInsOutsSons(gate);
 	}
 	/*
 	 * 

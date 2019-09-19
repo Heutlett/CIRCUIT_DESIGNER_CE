@@ -63,15 +63,21 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		//output
 		
 		//PEAK
-		if(l.getPeak().getOutput().equals(l.getPeak()) || l.getPeak().getOutput().equals(l.getTail())){
-			l.getPeak().setOutput(null);
+		if(l.getPeak().getOutput() != null) {
+			if(l.getPeak().getOutput().equals(l.getPeak()) || l.getPeak().getOutput().equals(l.getTail())){
+				l.getPeak().setOutput(null);
+			}
+			
 		}
-		
+
 		//Tail
-		if(l.getTail().getOutput().equals(l.getPeak()) || l.getTail().getOutput().equals(l.getTail())){
-			l.getTail().setOutput(null);
+		if(l.getTail().getOutput() != null) {
+			if(l.getTail().getOutput().equals(l.getPeak()) || l.getTail().getOutput().equals(l.getTail())){
+				l.getTail().setOutput(null);
+			}
+			
 		}
-		
+
 		//input
 		
 		//Peak
@@ -156,19 +162,34 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			g.drawLine(m1.getLineList().get(i).getX1(), m1.getLineList().get(i).getY1(), m1.getLineList().get(i).getX2(),m1.getLineList().get(i).getY2());
 		}
 	}
-	
+	/*
+	 * COMPORTAMIENTO DE LAS X DE LAS LINEAS
+	 * 
+	 */
 	private void agregarComportamientoLinea(Line l) {
 		
 		l.getPeakDeleteLabel().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				borrarLinea(l);
+				if(!eraser) {
+					borrarLinea(l);
+					checkOutputsInputs();
+				}else {
+					eraser = false;
+					setCursor(Cursor.getDefaultCursor());
+				}
 			}
 		});
 		l.getTailDeleteLabel().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				borrarLinea(l);
+				if(!eraser) {
+					borrarLinea(l);
+					checkOutputsInputs();
+				}else {
+					eraser = false;
+					setCursor(Cursor.getDefaultCursor());
+				}
 			}
 		});
 		
@@ -422,6 +443,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	
 	private void crearLinea(Gate compuertaEntrada, Gate compuertaSalida, String idBorrar) {
 		
+		if(compuertaEntrada == null || compuertaSalida == null) {
+			return;
+		}
+		
 		if(compuertaEntrada.getGateID().equals(compuertaSalida.getGateID())) {
 			JOptionPane.showMessageDialog(null, "No se puede hacer una conexion entre la misma compuerta");
 			return;
@@ -611,21 +636,23 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 					Gate nuevaEntrada = new Gate(1, GateType.INPUT,m1.getGateList().get(i).getGateID());
 					add(nuevaEntrada.getGateLabel());
 					nuevaEntrada.getGateLabel().setVisible(true);
-					
-					System.out.println("Mi nombre es: " + m1.getGateList().get(i).getGateID());
 					nuevaEntrada.getGateLabel().setLocation(m1.getGateList().get(i).getGateLabel().getX()-28, m1.getGateList().get(i).getGateLabel().getY()+yAnterior+20);
+					
 					yAnterior+=20;
+					if(yAnterior > 40) {
+						yAnterior = 0;
+					}
 					m1.getGateList().get(i).getInputs().add(nuevaEntrada);
 					m1.getInputList().add(nuevaEntrada);
 				}
 			}else if(m1.getGateList().get(i).getType().equals(GateType.NOT) && m1.getGateList().get(i).getInputs().size() == 0) {
+				encuentra = true;
 				Gate nuevaEntrada = new Gate(1, GateType.INPUT,m1.getGateList().get(i).getGateID());
 				add(nuevaEntrada.getGateLabel());
 				nuevaEntrada.getGateLabel().setVisible(true);
+				nuevaEntrada.getGateLabel().setLocation(m1.getGateList().get(i).getGateLabel().getX()-28, m1.getGateList().get(i).getGateLabel().getY()+34);
 				m1.getGateList().get(i).getInputs().add(nuevaEntrada);
 				m1.getInputList().add(nuevaEntrada);
-				
-				encuentra = true;
 			}
 			if(m1.getGateList().get(i).getOutput() == null) {
 				Gate nuevaSalida = new Gate(1, GateType.OUTPUT,m1.getGateList().get(i).getGateID());
