@@ -32,7 +32,6 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	private Model m1;
 	private boolean eraser = false;
 	private Gate lastGateCreated;
-	private boolean removeLine = false;
 	private boolean draw = false;
 	private int x1;
 	private int x2;
@@ -207,7 +206,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		});
 	}
 	
-private void desconectarCompuertas(Line l) {
+	private void desconectarCompuertas(Line l) {
 		
 		//output
 		
