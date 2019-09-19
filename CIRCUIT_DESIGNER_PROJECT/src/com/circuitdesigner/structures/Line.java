@@ -1,9 +1,7 @@
-package com.circuitdesigner.estructuras;
+package com.circuitdesigner.structures;
 
 import java.awt.Color;
-
 import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
 
 public class Line {
 	

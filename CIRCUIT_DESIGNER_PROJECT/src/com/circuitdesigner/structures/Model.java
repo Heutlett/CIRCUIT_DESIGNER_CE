@@ -1,4 +1,4 @@
-package com.circuitdesigner.estructuras;
+package com.circuitdesigner.structures;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,6 @@ public class Model {
 	private ArrayList<Gate> inputList;
 	private ArrayList<Gate> outputList;
 	private Gate outputGate;
-
 
 	private Model() {
 		
@@ -76,7 +75,7 @@ public class Model {
 		
 	}
 	
-	public void showTable() {
+	public void showTable(boolean insertValues) {
 		
 		if(inputList.size()<1) {
 			JOptionPane.showMessageDialog(null, "No se puede ejecutar si se encuentra vacio!!!");
@@ -84,20 +83,59 @@ public class Model {
 		}
 		int [][] table = generateTable(inputList.size());
 		
+		int [] valueTable = new int[inputList.size()];
+		
+		int n = 0;
+		
+		boolean iguales = true;
+		
+		if(insertValues) {
+			for(int i = 0; i < inputList.size(); i++) {
+				valueTable[i] = Integer.valueOf(JOptionPane.showInputDialog(null, "Ingrese el valor de: " + inputList.get(i).getGateID()+ "    (Entre 0 y 1)"));
+				if(valueTable[i] != 1 && valueTable[i] != 0) {
+					JOptionPane.showMessageDialog(null, "El valor ingresado es incorrecto, debe ser 0 o 1");
+					i--;
+				}
+			}
+		}
+		
+		for(int i = 0; i < (int) Math.pow(2, inputList.size()); i++) {
+			for(int e = 0; e < inputList.size(); e++) {
+				
+				if(table[i][e] != valueTable[e]) {
+					iguales = false;
+				}
+				
+			}
+			if(iguales) {
+				n = i;
+			}else {
+				iguales = true;
+			}
+			System.out.println();
+		}
+		
 		String [] columnNames = generateColumnNames();
 		
-		Object [][] rowData = new Object [(int)Math.pow(2, inputList.size())][inputList.size()+2];
+		Object [][] rowData = new Object [(int)Math.pow(2, inputList.size())][inputList.size()+outputList.size()];
 		
 		for(int i = 0; i < (int)Math.pow(2, inputList.size()); i++) {
 			for(int e = 0; e < inputList.size(); e++) {
 				rowData[i][e] = table[i][e];
 			}
 		}
+		
+		
 
 		calculate(table, rowData);
 		
 		Table t = new Table(rowData, columnNames);
+		
 		t.setVisible(true);
+		
+		if(insertValues) {
+			t.seleccionarFila(n);
+		}
 		
 	}
 	

@@ -1,10 +1,9 @@
-package com.circuitdesigner.estructuras;
+package com.circuitdesigner.structures;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
 
 public class Gate {
 	
@@ -377,9 +376,4 @@ public class Gate {
 		gatesQuantity--;
 	}
 	
-	public int getY() {
-		return (inputs.get(inputs.size()-1).getGateLabel().getY()+20)-249;
-		//return inputs.size()*20;
-	}
-
 }

@@ -1,4 +1,4 @@
-package com.circuitdesigner.estructuras;
+package com.circuitdesigner.structures;
 
 public class GateLinkedList {
 	

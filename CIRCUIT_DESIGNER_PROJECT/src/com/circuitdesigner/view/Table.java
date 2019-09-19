@@ -1,13 +1,9 @@
 package com.circuitdesigner.view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
 import javax.swing.JTable;
 
 public class Table extends JFrame {
@@ -24,8 +20,10 @@ public class Table extends JFrame {
 		table = new JTable(rowData, columnNames);
 		
 		add(new JScrollPane(table), BorderLayout.CENTER);
-		
-		
 
+	}
+	
+	public void seleccionarFila(int n) {
+		table.setRowSelectionInterval(n, n);
 	}
 }
