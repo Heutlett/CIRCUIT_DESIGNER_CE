@@ -49,7 +49,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	private JLabel endPoint;
 	private String[] stringTypeGates = {"AND", "NAND", "OR","NOR", "NOT","XOR","XNOR", "INPUT","OUTPUT"};
 	private GateType[] typeGates = {GateType.AND, GateType.NAND, GateType.OR, GateType.NOR, GateType.NOT, GateType.XOR, GateType.XNOR, GateType.INPUT, GateType.OUTPUT};
-	private Line lineaBorrar;
+	private int yAnterior = 0;
 	
 	public WorkspacePanel() {
 		
@@ -608,16 +608,13 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			if(!m1.getGateList().get(i).getType().equals(GateType.NOT) && m1.getGateList().get(i).getInputs().size() < 2) {
 				while(m1.getGateList().get(i).getInputs().size() < 2) {
 					encuentra = true;
-					int y = 20;
 					Gate nuevaEntrada = new Gate(1, GateType.INPUT,m1.getGateList().get(i).getGateID());
 					add(nuevaEntrada.getGateLabel());
 					nuevaEntrada.getGateLabel().setVisible(true);
-					if(m1.getGateList().get(i).getInputs().size() == 0) {
-						nuevaEntrada.getGateLabel().setLocation(m1.getGateList().get(i).getGateLabel().getX()-30, m1.getGateList().get(i).getGateLabel().getY()+150);
-					}
-					if(m1.getGateList().get(i).getInputs().size() == 1) {
-						nuevaEntrada.getGateLabel().setLocation(m1.getGateList().get(i).getGateLabel().getX()-30, m1.getGateList().get(i).getInputs().get(0).getGateLabel().getY()+20);
-					}
+					
+					System.out.println("Mi nombre es: " + m1.getGateList().get(i).getGateID());
+					nuevaEntrada.getGateLabel().setLocation(m1.getGateList().get(i).getGateLabel().getX()-28, m1.getGateList().get(i).getGateLabel().getY()+yAnterior+20);
+					yAnterior+=20;
 					m1.getGateList().get(i).getInputs().add(nuevaEntrada);
 					m1.getInputList().add(nuevaEntrada);
 				}
@@ -640,7 +637,6 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 				encuentra = true;
 			}
 			if(encuentra) {
-				//m1.getGateList().get(i).setInputOutputLocations2();
 				comportamientoEntradas(m1.getGateList().get(i));
 				encuentra = false;
 			}
