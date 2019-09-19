@@ -59,7 +59,6 @@ public class Gate {
 		this.labelID.setSize(40,20);
 		this.labelID.setVisible(false);
 		this.type = type;
-		//this.gateLabel = gateLabel;
 		this.gateLabel = new JLabel();
 		inputs = new ArrayList<Gate>();
 		if(type != GateType.NOT) {
@@ -90,32 +89,6 @@ public class Gate {
 		return gate;
 	}
 	
-	public static void printGatesInformation(Gate pGate) {
-		System.out.println();
-		System.out.println("Mostrando los datos de la compuerta: " + pGate.getGateID());
-		for(int i = 0; i < pGate.getInputs().size(); i++) {
-			if(pGate.getInputs().get(i).getType() == Gate.GateType.INPUT || pGate.getInputs().get(i).getType() == Gate.GateType.OUTPUT) {
-				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getGateID());
-			}else {
-				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getGateID());
-			}
-			
-		}
-		if(pGate.getOutput()!= null) {
-			if(pGate.getOutput().getType() == Gate.GateType.INPUT || pGate.getOutput().getType() == Gate.GateType.OUTPUT) {
-				
-				System.out.println("Salida: " + pGate.getOutput().getGateID());
-				
-			}else {
-				System.out.println("Salida: " + pGate.getOutput().getGateID());
-			}
-		}else {
-			System.out.println("Salida: null");
-		}
-		System.out.println("Cantidad de lineas: " + pGate.getLines().size());
-		System.out.println();
-	}
-	
 	public void setInputOutputLocations() {
 		
 		int y = this.getGateLabel().getY() - 20;
@@ -123,20 +96,6 @@ public class Gate {
 		
 		this.getOutput().getGateLabel().setLocation(x+90,y+20);
 		this.getLabelID().setLocation(x+40, y-20);
-		for(int i = 0; i < this.getInputs().size(); i++) {
-			
-			this.getInputs().get(i).getGateLabel().setLocation(x,y);
-			y += 30;	
-		}
-		
-	}
-	
-	public void setInputOutputLocations2() {
-		
-		int y = this.getGateLabel().getY()+10;
-		int x = this.getGateLabel().getX()-25;
-		
-		this.getOutput().getGateLabel().setLocation(x+120,y+20);
 		for(int i = 0; i < this.getInputs().size(); i++) {
 			
 			this.getInputs().get(i).getGateLabel().setLocation(x,y);
@@ -374,6 +333,32 @@ public class Gate {
 		inQuantity-=2;
 		outQuantity--;
 		gatesQuantity--;
+	}
+	
+	public static void toString(Gate pGate) {
+		System.out.println();
+		System.out.println("Mostrando los datos de la compuerta: " + pGate.getGateID());
+		for(int i = 0; i < pGate.getInputs().size(); i++) {
+			if(pGate.getInputs().get(i).getType() == Gate.GateType.INPUT || pGate.getInputs().get(i).getType() == Gate.GateType.OUTPUT) {
+				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getGateID());
+			}else {
+				System.out.println("Entrada " + i + ": " + pGate.getInputs().get(i).getGateID());
+			}
+			
+		}
+		if(pGate.getOutput()!= null) {
+			if(pGate.getOutput().getType() == Gate.GateType.INPUT || pGate.getOutput().getType() == Gate.GateType.OUTPUT) {
+				
+				System.out.println("Salida: " + pGate.getOutput().getGateID());
+				
+			}else {
+				System.out.println("Salida: " + pGate.getOutput().getGateID());
+			}
+		}else {
+			System.out.println("Salida: null");
+		}
+		System.out.println("Cantidad de lineas: " + pGate.getLines().size());
+		System.out.println();
 	}
 	
 }

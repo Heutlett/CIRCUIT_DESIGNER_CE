@@ -311,7 +311,7 @@ public class Model {
 	public void printGates() {
 		for(int i = 0; i < gateList.size(); i++) {
 
-			Gate.printGatesInformation(gateList.get(i));
+			Gate.toString(gateList.get(i));
 			
 		}
 	}

@@ -551,7 +551,7 @@ private void desconectarCompuertas(Line l) {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Gate.printGatesInformation(newGate);
+				Gate.toString(newGate);
 			}
 		});		
 
