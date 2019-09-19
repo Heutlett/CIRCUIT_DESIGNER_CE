@@ -52,15 +52,10 @@ public class Model {
 		for(int i = 0; i < outputList.size(); i++) {
 			
 			outputGate = gateList.getById(outputList.get(i).getPreviusGateOutputID());
-			
 			resultado = outputGate.calculate();
-
 			result[indice][inputList.size()+i] = resultado;
 			
 		}
-
-		
-		
 	}
 	
 	private void calculate(int [][] table, Object [][] result) {
@@ -163,11 +158,14 @@ public class Model {
 	 */
 	public void removeInsOutsSons(Gate gate) {
 		
-		if(gate.getOutput().getGateID().contains("C")) {
-			gate.getOutput().getInputs().remove(gate);
-			System.out.println("Soy " + gate.getOutput().getGateID() + " y borre mi entrada : " + gate.getGateID());
+		if(gate.getOutput() != null) {
+			if(gate.getOutput().getGateID().contains("C")) {
+				gate.getOutput().getInputs().remove(gate);
+				System.out.println("Soy " + gate.getOutput().getGateID() + " y borre mi entrada : " + gate.getGateID());
+			}
+			
 		}
-		
+
 		for(int i = 0; i < gate.getInputs().size(); i++) {
 			if(gate.getInputs().get(i).getGateID().contains("C")) {
 				if(gate.getInputs().get(i).getOutput().equals(gate)) {

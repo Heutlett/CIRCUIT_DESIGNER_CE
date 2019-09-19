@@ -131,6 +131,20 @@ public class Gate {
 		}
 		
 	}
+	
+	public void setInputOutputLocations2() {
+		
+		int y = this.getGateLabel().getY()+10;
+		int x = this.getGateLabel().getX()-25;
+		
+		this.getOutput().getGateLabel().setLocation(x+120,y+20);
+		for(int i = 0; i < this.getInputs().size(); i++) {
+			
+			this.getInputs().get(i).getGateLabel().setLocation(x,y);
+			y += 30;	
+		}
+		
+	}
 
 	public boolean isLocked() {
 		return locked;
@@ -363,5 +377,9 @@ public class Gate {
 		gatesQuantity--;
 	}
 	
+	public int getY() {
+		return (inputs.get(inputs.size()-1).getGateLabel().getY()+20)-249;
+		//return inputs.size()*20;
+	}
 
 }
