@@ -1,10 +1,15 @@
 package com.circuitdesigner.view;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import com.circuitdesigner.structures.WorkspacePanel;
+import java.awt.event.MouseWheelListener;
 
 public class Window extends JFrame{
 
@@ -22,10 +27,10 @@ public class Window extends JFrame{
 
 	private void initComponents() {
 
-		scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();		
 		scrollPane.setBounds(0,0,1500,1000);
-		panel = new WorkspacePanel();
 		scrollPane.setViewportView(panel);
 		getContentPane().add(scrollPane);
 	}
+	
 }

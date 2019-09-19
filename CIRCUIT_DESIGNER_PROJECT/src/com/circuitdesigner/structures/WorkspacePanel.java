@@ -16,11 +16,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
@@ -50,11 +54,12 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		m1 = Model.getInstance();
 		initComponents();
 		
+		
 	}
 	
-	
-	
 	private void initComponents() {
+		
+
 		
 		addMouseListener(this);
 		
@@ -65,6 +70,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBackground(Color.WHITE);
+		
+		setPreferredSize(new Dimension(2444, 1837));
 		
 		setLayout(null);
 		
@@ -143,7 +150,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		btn_borrador.setBounds(236, 0, 80, 80);
 		add(btn_borrador);
 		
-		setPreferredSize(new Dimension(2444, 1837));
+		
 		
 		JButton btnPlay = new JButton("Simulate");
 		btnPlay.addActionListener(new ActionListener() {
