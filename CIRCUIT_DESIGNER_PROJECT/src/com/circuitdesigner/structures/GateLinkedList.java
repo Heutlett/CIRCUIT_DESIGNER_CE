@@ -6,6 +6,10 @@ public class GateLinkedList {
 	private Node last;
 	private int size = 0;
 	
+    /**
+     * @author carlo
+     *
+     */
     private static class Node { 
     	  
         private Gate gate; 
@@ -19,6 +23,9 @@ public class GateLinkedList {
         }
     } 
     
+    /**
+     * @return
+     */
     private boolean isEmpty() {
     	if(first==null) {
     		return true;
@@ -26,6 +33,9 @@ public class GateLinkedList {
     	return false;
     }
     
+    /**
+     * @param g
+     */
     public void add(Gate g) {
     	if(isEmpty()) {
     		this.first = new Node(g);
@@ -40,6 +50,10 @@ public class GateLinkedList {
     	size++;
     }
     
+    /**
+     * @param index
+     * @return
+     */
     public Gate get(int index) {
     	
     	if(isEmpty()) {
@@ -58,6 +72,10 @@ public class GateLinkedList {
     	return null;
     }
     
+    /**
+     * @param id
+     * @return
+     */
     public Gate getById(String id) {
     	
     	if(isEmpty()) {
@@ -74,6 +92,10 @@ public class GateLinkedList {
     	return null;
     }
     
+    /**
+     * @param gate
+     * @return
+     */
     public boolean find(Gate gate){
 
         Node aux = first;
@@ -96,6 +118,9 @@ public class GateLinkedList {
         return finded;
     }
     
+    /**
+     * @param gate
+     */
     public void remove(Gate gate) {
     	
     	if (find(gate)) {
@@ -119,26 +144,44 @@ public class GateLinkedList {
     	
     }
 
+	/**
+	 * @return
+	 */
 	public Node getFirst() {
 		return first;
 	}
 
+	/**
+	 * @param first
+	 */
 	public void setFirst(Node first) {
 		this.first = first;
 	}
 
+	/**
+	 * @return
+	 */
 	public Node getLast() {
 		return last;
 	}
 
+	/**
+	 * @param last
+	 */
 	public void setLast(Node last) {
 		this.last = last;
 	}
 
+	/**
+	 * @return
+	 */
 	public int size() {
 		return size;
 	}
 
+	/**
+	 * @param size
+	 */
 	public void setSize(int size) {
 		this.size = size;
 	}

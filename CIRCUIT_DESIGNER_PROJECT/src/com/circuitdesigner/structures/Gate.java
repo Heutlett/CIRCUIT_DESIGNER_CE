@@ -28,6 +28,11 @@ public class Gate {
 	private int cantFalse = 0;
 	
 	//Constructor para entradas y salidas
+	/**
+	 * @param value
+	 * @param type
+	 * @param previusGateOutputID
+	 */
 	public Gate(int value, GateType type, String previusGateOutputID) {
 		
 		if(type == GateType.OUTPUT) {
@@ -50,6 +55,9 @@ public class Gate {
 		this.gateLabel.setName(gateID);
 	}
 	
+	/**
+	 * @param type
+	 */
 	public Gate(GateType type) {
 		
 		this.lines = new ArrayList<Line>();
@@ -72,6 +80,9 @@ public class Gate {
 		this.value = 3;
 	}
 	
+	/**
+	 * @return
+	 */
 	public String getNewGateID() {
 		
 		String id = "C" + this.gatesQuantity;
@@ -79,6 +90,10 @@ public class Gate {
 		return id;
 	}
 	
+	/**
+	 * @param pInputName
+	 * @return
+	 */
 	public Gate findInput(String pInputName) {
 		Gate gate = null;
 		for(int j = 0; j < getInputs().size(); j++) {
@@ -89,6 +104,9 @@ public class Gate {
 		return gate;
 	}
 	
+	/**
+	 * 
+	 */
 	public void setInputOutputLocations() {
 		
 		int y = this.getGateLabel().getY() - 20;
@@ -104,111 +122,192 @@ public class Gate {
 		
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean isLocked() {
 		return locked;
 	}
 
+	/**
+	 * @param bloqueada
+	 */
 	public void setLocked(boolean bloqueada) {
 		this.locked = bloqueada;
 	}
 
+	/**
+	 * @return
+	 */
 	public ArrayList<Gate> getInputs() {
 		return inputs;
 	}
 
+	/**
+	 * @param entradas
+	 */
 	public void setInputs(ArrayList<Gate> entradas) {
 		this.inputs = entradas;
 	}
 
+	/**
+	 * @return
+	 */
 	public Gate getOutput() {
 		return output;
 	}
 
+	/**
+	 * @param salida
+	 */
 	public void setOutput(Gate salida) {
 		this.output = salida;
 	}
 
+	/**
+	 * @return
+	 */
 	public GateType getType() {
 		return type;
 	}
 
+	/**
+	 * @param tipo
+	 */
 	public void setType(GateType tipo) {
 		this.type = tipo;
 	}
 
+	/**
+	 * @return
+	 */
 	public JLabel getGateLabel() {
 		return gateLabel;
 	}
 
+	/**
+	 * @param labelCompuerta
+	 */
 	public void setGateLabel(JLabel labelCompuerta) {
 		this.gateLabel = labelCompuerta;
 	}
 
+	/**
+	 * @return
+	 */
 	public static int getInQuantity() {
 		return inQuantity;
 	}
 
+	/**
+	 * @param cantProposicionesIn
+	 */
 	public static void setInQuantity(int cantProposicionesIn) {
 		Gate.inQuantity = cantProposicionesIn;
 	}
 
+	/**
+	 * @return
+	 */
 	public static int getOutQuantity() {
 		return outQuantity;
 	}
 
+	/**
+	 * @param cantProposicionesOut
+	 */
 	public static void setOutQuantity(int cantProposicionesOut) {
 		Gate.outQuantity = cantProposicionesOut;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getValue() {
 		return value;
 	}
 
+	/**
+	 * @param valorEntrada
+	 */
 	public void setValue(int valorEntrada) {
 		this.value = valorEntrada;
 	}
 
 
+	/**
+	 * @return
+	 */
 	public static int getGatesQuantity() {
 		return gatesQuantity;
 	}
 
+	/**
+	 * @param cantCompuertas
+	 */
 	public static void setGatesQuantity(int cantCompuertas) {
 		Gate.gatesQuantity = cantCompuertas;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getGateID() {
 		return gateID;
 	}
 
+	/**
+	 * @param idCompuerta
+	 */
 	public void setGateID(String idCompuerta) {
 		this.gateID = idCompuerta;
 	}
 
+	/**
+	 * @return
+	 */
 	public JLabel getLabelID() {
 		return labelID;
 	}
 
+	/**
+	 * @param labelId
+	 */
 	public void setLabelID(JLabel labelId) {
 		this.labelID = labelId;
 	}
 
+	/**
+	 * @return
+	 */
 	public ArrayList<Line> getLines() {
 		return lines;
 	}
 
+	/**
+	 * @param lines
+	 */
 	public void setLines(ArrayList<Line> lines) {
 		this.lines = lines;
 	}
 
+	/**
+	 * @return
+	 */
 	public String getPreviusGateOutputID() {
 		return previusGateOutputID;
 	}
 
+	/**
+	 * @param previusGateOutputID
+	 */
 	public void setPreviusGateOutputID(String previusGateOutputID) {
 		this.previusGateOutputID = previusGateOutputID;
 	}
 	
+	/**
+	 * @return
+	 */
 	public int calculate() {
 		
 		cantTrue = 0;
@@ -335,6 +434,9 @@ public class Gate {
 		gatesQuantity--;
 	}
 	
+	/**
+	 * @param pGate
+	 */
 	public static void toString(Gate pGate) {
 		System.out.println();
 		System.out.println("Mostrando los datos de la compuerta: " + pGate.getGateID());

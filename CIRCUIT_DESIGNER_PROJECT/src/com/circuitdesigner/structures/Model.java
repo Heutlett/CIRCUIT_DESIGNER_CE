@@ -16,6 +16,9 @@ public class Model {
 	private ArrayList<Gate> outputList;
 	private Gate outputGate;
 
+	/**
+	 * 
+	 */
 	private Model() {
 		
 		gateList = new GateLinkedList();
@@ -25,6 +28,9 @@ public class Model {
 		
 	}
 	
+	/**
+	 * @return
+	 */
 	private String[] generateColumnNames() {
 		
 		
@@ -45,6 +51,10 @@ public class Model {
 		return columnNames;
 	}
 	
+	/**
+	 * @param result
+	 * @param indice
+	 */
 	private void recalculate(Object [][] result, int indice) {
 		
 		int resultado;
@@ -58,6 +68,10 @@ public class Model {
 		}
 	}
 	
+	/**
+	 * @param table
+	 * @param result
+	 */
 	private void calculate(int [][] table, Object [][] result) {
 		
 		for(int i = 0; i < (int)Math.pow(2, inputList.size()); i++) {
@@ -75,6 +89,9 @@ public class Model {
 		
 	}
 	
+	/**
+	 * @param insertValues
+	 */
 	public void showTable(boolean insertValues) {
 		
 		if(inputList.size()<1) {
@@ -141,6 +158,10 @@ public class Model {
 	
 
 	
+	/**
+	 * @param n
+	 * @return
+	 */
 	public static int[][] generateTable(int n) {
 		
 		int number = 1;
@@ -182,6 +203,9 @@ public class Model {
 	/*
 	 * 
 	 */
+	/**
+	 * @param gate
+	 */
 	private void removeInsOutsGate(Gate gate) {
 		
 		outputList.remove(gate.getOutput());
@@ -195,6 +219,9 @@ public class Model {
 	 * 
 	 * elimina los inputs y outputs a los que estaba conectado el gate que se borrara
 	 * 
+	 */
+	/**
+	 * @param gate
 	 */
 	public void removeInsOutsSons(Gate gate) {
 		
@@ -216,6 +243,10 @@ public class Model {
 		
 	}
 	
+	/**
+	 * @param output
+	 * @return
+	 */
 	public Gate findGateByOutput(String output) {
 		
 		Gate gate = null;
@@ -229,6 +260,10 @@ public class Model {
 		return gate;
 	}
 	
+	/**
+	 * @param input
+	 * @return
+	 */
 	public Gate findGateByInput(String input) {
 		
 		Gate gate = null;
@@ -245,6 +280,9 @@ public class Model {
 		return gate;
 	}
 
+	/**
+	 * @param gate
+	 */
 	public void addInputsOutputs(Gate gate) {
 		
 		for(int i = 0; i < gate.getInputs().size(); i++) {
@@ -254,6 +292,9 @@ public class Model {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void printInputs() {
 		System.out.print("Ins: ");
 		for(int i = 0; i < inputList.size();i++) {
@@ -264,6 +305,9 @@ public class Model {
 		System.out.println();
 	}
 	
+	/**
+	 * 
+	 */
 	public void printOutputs() {
 		System.out.print("Outs: ");
 		for(int i = 0; i < outputList.size();i++) {
@@ -277,10 +321,20 @@ public class Model {
 	
     
     
-	public void addCompuertas(Gate c) {
+	/**
+	 * @param c
+	 */
+	/**
+	 * @param c
+	 */
+	public void addGate(Gate c) {
 		gateList.add(c);
 	}
 	
+	/**
+	 * @param n
+	 * @param finalTable
+	 */
 	public static void printTable(int n, int [][]finalTable) {
 		
 		for(int  i =0; i < (int) Math.pow(2, n); i++) {
@@ -293,6 +347,9 @@ public class Model {
 		
 	}
 	
+	/**
+	 * @param gate
+	 */
 	public void removeGate(Gate gate) {
 		removeInsOutsGate(gate);
 		gateList.remove(gate);
@@ -300,6 +357,9 @@ public class Model {
 		printOutputs();
 	}
 	
+	/**
+	 * 
+	 */
 	public void printLines() {
 		System.out.println("Lineas actuales");
 		for(int i = 0; i < lineList.size(); i++) {
@@ -308,6 +368,9 @@ public class Model {
 		System.out.println();
 	}
 	
+	/**
+	 * 
+	 */
 	public void printGates() {
 		for(int i = 0; i < gateList.size(); i++) {
 
@@ -316,6 +379,9 @@ public class Model {
 		}
 	}
 	
+	/**
+	 * @param l
+	 */
 	public void removeLine(Line l) {
 		for(int i = 0; i < lineList.size(); i++) {
 			if(lineList.get(i).getTail().getGateID().equals(l.getTail().getGateID()) && lineList.get(i).getPeak().getGateID().equals(l.getPeak().getGateID())) {
@@ -325,38 +391,65 @@ public class Model {
 		}
 	}
 	
+	/**
+	 * @return
+	 */
 	public ArrayList<Gate> getInputList() {
 		return inputList;
 	}
 
+	/**
+	 * @param inputList
+	 */
 	public void setInputList(ArrayList<Gate> inputList) {
 		this.inputList = inputList;
 	}
 
+	/**
+	 * @return
+	 */
 	public ArrayList<Gate> getOutputList() {
 		return outputList;
 	}
 
+	/**
+	 * @param outputList
+	 */
 	public void setOutputList(ArrayList<Gate> outputList) {
 		this.outputList = outputList;
 	}
 
+	/**
+	 * @return
+	 */
 	public static Model getInstance() {
         return INSTANCE;
     }
 	
+	/**
+	 * @return
+	 */
 	public GateLinkedList getGateList() {
 		return gateList;
 	}
 
+	/**
+	 * @param gateList
+	 */
 	public void setGateList(GateLinkedList gateList) {
 		this.gateList = gateList;
 	}
 
+	/**
+	 * @return
+	 */
 	public ArrayList<Line> getLineList() {
 		return lineList;
 	}
 
+	/**
+	 * @param lineList
+	 */
 	public void setLineList(ArrayList<Line> lineList) {
 		this.lineList = lineList;
 	}

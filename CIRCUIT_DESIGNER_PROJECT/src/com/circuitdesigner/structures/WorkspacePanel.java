@@ -516,7 +516,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		m1.addInputsOutputs(gate);
 		m1.printInputs();
 		m1.printOutputs();
-		m1.addCompuertas(gate);
+		m1.addGate(gate);
 		
 		gate.getGateLabel().setIcon(labelModel.getIcon());
 		gate.getGateLabel().setBounds(labelModel.getBounds());
