@@ -52,10 +52,10 @@ public class Model {
 	}
 	
 	/**
-	 * @param result
+	 * @param resultTable
 	 * @param indice
 	 */
-	private void recalculate(Object [][] result, int indice) {
+	private void calculate(Object [][] resultTable, int indice) {
 		
 		int resultado;
 
@@ -63,16 +63,16 @@ public class Model {
 			
 			outputGate = gateList.getById(outputList.get(i).getPreviusGateOutputID());
 			resultado = outputGate.calculate();
-			result[indice][inputList.size()+i] = resultado;
+			resultTable[indice][inputList.size()+i] = resultado;
 			
 		}
 	}
 	
 	/**
 	 * @param table
-	 * @param result
+	 * @param resultTable
 	 */
-	private void calculate(int [][] table, Object [][] result) {
+	private void calculateEachIteration(int [][] table, Object [][] resultTable) {
 		
 		for(int i = 0; i < (int)Math.pow(2, inputList.size()); i++) {
 			
@@ -84,7 +84,7 @@ public class Model {
 				
 			}
 			
-			recalculate(result, i);
+			calculate(resultTable, i);
 		}
 		
 	}
@@ -144,7 +144,7 @@ public class Model {
 		
 		
 
-		calculate(table, rowData);
+		calculateEachIteration(table, rowData);
 		
 		Table t = new Table(rowData, columnNames);
 		
@@ -162,7 +162,7 @@ public class Model {
 	 * @param n
 	 * @return
 	 */
-	public static int[][] generateTable(int n) {
+	public int[][] generateTable(int n) {
 		
 		int number = 1;
 		int [][] table = new int[n][(int) Math.pow(2, n)];
@@ -174,9 +174,9 @@ public class Model {
 			
 			for(int e = 0; e < (int) Math.pow(2, n); e++) {
 				
-				int trueOrFalse = (int) Math.pow(2, n-i)/2;
+				int repetitions = (int) Math.pow(2, n-i)/2;
 				
-				if(counter == trueOrFalse) {
+				if(counter == repetitions) {
 					if(number == 1) {
 						number = 0;
 					}else {

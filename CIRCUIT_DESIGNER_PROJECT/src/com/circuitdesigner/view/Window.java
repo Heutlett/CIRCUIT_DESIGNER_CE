@@ -26,7 +26,8 @@ public class Window extends JFrame{
 	}
 
 	private void initComponents() {
-
+		
+		panel = new WorkspacePanel();
 		scrollPane = new JScrollPane();		
 		scrollPane.setBounds(0,0,1500,1000);
 		scrollPane.setViewportView(panel);
