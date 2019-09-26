@@ -27,6 +27,7 @@ public class Gate {
 	private int cantTrue = 0;
 	private int cantFalse = 0;
 	
+
 	//Constructor para entradas y salidas
 	/**
 	 * @param value
@@ -44,7 +45,7 @@ public class Gate {
 		if(type ==GateType.INPUT) {
 			this.gateID = "i<" + inQuantity + ">";
 			inQuantity += 1;
-			this.value = value;
+			this.value = 1;
 		}
 		
 		this.type = type;

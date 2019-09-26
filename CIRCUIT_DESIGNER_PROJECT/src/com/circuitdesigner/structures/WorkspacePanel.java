@@ -260,11 +260,13 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 		for(int i = 0; i < l.getPeak().getLines().size(); i++) {
 			if(l.getPeak().getLines().get(i).equals(l)){
+
 				l.getPeak().getLines().remove(i);
 			}
 		}
 		for(int i = 0; i < l.getTail().getLines().size(); i++) {
 			if(l.getTail().getLines().get(i).equals(l)){
+
 				l.getTail().getLines().remove(i);
 			}
 		}
@@ -284,10 +286,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	
 	private void borrarLineasDelPanel(Gate c) {
 		
-		for(int i = 0; i < c.getLines().size(); i++) {
-			//c.getLines().get(i).getTail().getLines().remove(c.getLines().get(i));
-			//c.getLines().get(i).getPeak().getLines().remove(c.getLines().get(i));
-			borrarLinea(c.getLines().get(i));
+		while(c.getLines().size() != 0) {
+			borrarLinea(c.getLines().get(0));
 		}
 
 	}
