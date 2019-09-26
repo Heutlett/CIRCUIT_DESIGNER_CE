@@ -49,6 +49,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	private int yAnterior = 0;
 	private boolean insertValues = false;
 	
+	
 	public WorkspacePanel() {
 		
 		m1 = Model.getInstance();
@@ -185,6 +186,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			public void mouseDragged(MouseEvent e) {
 				lastGateCreated.getGateLabel().setLocation(e.getX()+label.getX()-40, e.getY()+label.getY()-35);
 			}
+
 		});
 		label.addMouseListener(new MouseAdapter() {
 			@Override

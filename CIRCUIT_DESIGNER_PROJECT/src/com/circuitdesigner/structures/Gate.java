@@ -70,8 +70,8 @@ public class Gate {
 		this.gateLabel = new JLabel();
 		inputs = new ArrayList<Gate>();
 		if(type != GateType.NOT) {
-			inputs.add(new Gate(1, GateType.INPUT,this.gateID));
-			inputs.add(new Gate(1,GateType.INPUT,this.gateID));
+			inputs.add(new Gate(1, GateType.INPUT, this.gateID));
+			inputs.add(new Gate(1,GateType.INPUT, this.gateID));
 		}else {
 			inputs.add(new Gate(1,GateType.INPUT,this.gateID));
 		}
