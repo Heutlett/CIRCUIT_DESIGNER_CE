@@ -535,4 +535,18 @@ public class Gate {
 		System.out.println("Y: " + output.getY());
 	}
 	
+	public boolean buscaLineaPorTailPeak(String tailID, String peakID) {
+		
+		for(int i = 0; i < lines.size(); i++) {
+			if((lines.get(i).getTail().getGateID().equals(tailID) && lines.get(i).getPeak().getGateID().equals(peakID)) || ((lines.get(i).getTail().getGateID().equals(peakID) && lines.get(i).getPeak().getGateID().equals(tailID)))) {
+				
+				return true;
+				
+			}
+		}
+		
+		return false;
+		
+	}
+	
 }

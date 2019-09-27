@@ -493,4 +493,17 @@ public class Model {
 		this.lineList = lineList;
 	}
 
+	public boolean buscaLineaPorTailPeak(String tailID, String peakID) {
+		
+		for(int i = 0; i < lineList.size(); i++) {
+			if((lineList.get(i).getTail().getGateID().equals(tailID) && lineList.get(i).getPeak().getGateID().equals(peakID)) || ((lineList.get(i).getTail().getGateID().equals(peakID) && lineList.get(i).getPeak().getGateID().equals(tailID)))) {
+				
+				return true;
+				
+			}
+		}
+		
+		return false;
+		
+	}
 }

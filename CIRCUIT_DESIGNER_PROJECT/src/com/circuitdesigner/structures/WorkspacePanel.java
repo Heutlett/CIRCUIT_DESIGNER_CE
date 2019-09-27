@@ -407,7 +407,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		this.add(label2);
 		Line l1 = new Line(x1,y1,x2,y2,color,label1, label2,c1,c2);
 		agregarComportamientoLinea(l1);
-		m1.getLineList().add(l1);
+		
+		if(!m1.buscaLineaPorTailPeak(l1.getTail().getGateID(), l1.getPeak().getGateID())) {
+			m1.getLineList().add(l1);
+		}
 		this.repaint();
 		
 		return l1;	
@@ -443,8 +446,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 					endPoint = (JLabel)e.getComponent();
 					endPoint.setForeground(Color.red);
 				}
-				
 				if(startPoint != null && endPoint != null) {
+
 					if(startPoint.getName().equals(endPoint.getName())) {
 						JOptionPane.showMessageDialog(null, "No se permite la conexion");
 						startPoint.setForeground(Color.black);
@@ -840,13 +843,18 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 					
 					entrada.getGateLabel().setLocation(nueva.getGateLabel().getX()-31, nueva.getGateLabel().getY()-5+(e*20));
 					
+					entrada.getGateLabel().setName(entrada.getGateID());
+					
 					nueva.getInputs().set(e, entrada);
+					
 					this.add(entrada.getGateLabel());
+					
 					entrada.getGateLabel().setVisible(true);
 					
 					comprobacionDeLineas(entrada.getGateLabel());
 					
-					m1.getInputList().add(entrada);				}
+					m1.getInputList().add(entrada);				
+				}
 			}
 			
 			if(nueva.getOutput().getType() == GateType.OUTPUT) {
@@ -854,12 +862,18 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 				Gate salida = new Gate(1, GateType.OUTPUT,nueva.getGateID());
 				
 				salida.getGateLabel().setLocation(nueva.getGateLabel().getX()+85, nueva.getGateLabel().getY()+5);
-				comprobacionDeLineas(salida.getGateLabel());
-				this.add(salida.getGateLabel());
-				salida.getGateLabel().setVisible(true);
-				m1.getOutputList().add(salida);
 				
-			}else {
+				salida.getGateLabel().setName(salida.getGateID());
+				
+				nueva.setOutput(salida);
+				
+				this.add(salida.getGateLabel());
+				
+				salida.getGateLabel().setVisible(true);
+				
+				comprobacionDeLineas(salida.getGateLabel());
+				
+				m1.getOutputList().add(salida);
 				
 			}
 			
@@ -872,6 +886,43 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			
 			
 		}
+		
+		agregarLineasRecuperar(listaGate);
+		actualizarPantalla();
+	}
+	
+	private void agregarLineasRecuperar(ArrayList<Gate> gates) {
+		
+		for(int i = 0; i < gates.size(); i++) {
+			
+			for(int e = 0; e < gates.get(i).getInputs().size(); e++) {
+				if(gates.get(i).getInputs().get(e).getType() != GateType.INPUT ) {
+					
+					Line line = pintarLinea(gates.get(i).getGateLabel().getX()-100,gates.get(i).getGateLabel().getY(),gates.get(i).getInputs().get(e).getX(),gates.get(i).getInputs().get(e).getY(),gates.get(i),gates.get(i).getInputs().get(e));
+					
+					if(!gates.get(i).getInputs().get(e).buscaLineaPorTailPeak(line.getTail().getGateID(), line.getPeak().getGateID())) {
+						gates.get(i).getInputs().get(e).getLines().add(line);
+					}
+					if(!gates.get(i).buscaLineaPorTailPeak(line.getTail().getGateID(), line.getPeak().getGateID())) {
+						gates.get(i).getLines().add(line);
+					}
+				}
+			}
+			
+			if(gates.get(i).getOutput().getType() != GateType.OUTPUT) {
+				
+				Line line = pintarLinea(gates.get(i).getGateLabel().getX(),gates.get(i).getGateLabel().getY(),gates.get(i).getOutput().getX(),gates.get(i).getOutput().getY(),gates.get(i),gates.get(i).getOutput());
+				
+				if(!gates.get(i).buscaLineaPorTailPeak(line.getTail().getGateID(), line.getPeak().getGateID())) {
+					gates.get(i).getLines().add(line);
+				}
+				
+				if(!gates.get(i).getOutput().buscaLineaPorTailPeak(line.getTail().getGateID(), line.getPeak().getGateID())) {
+					gates.get(i).getOutput().getLines().add(line);
+				}
+			}
+		}
+		
 	}
 	
 	private void ponerImagen(JLabel label, GateType type) {
