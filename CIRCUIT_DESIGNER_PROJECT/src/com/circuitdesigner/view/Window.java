@@ -20,7 +20,7 @@ public class Window extends JFrame{
 		setResizable(false);
 		setTitle("Circuit Designer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1450, 872);
+		setBounds(100, 100, 1450, 972);
 		setLocationRelativeTo(null);
 		initComponents();
 	}
