@@ -9,7 +9,12 @@ import javax.xml.transform.TransformerException;
 
 import com.circuitdesigner.view.Table;
 import com.circuitdesigner.xml.persistance.ControlGateXML;
-
+/**
+ * @autor Adrian Araya Ramirez
+ * 
+ * @version 1.8
+ * 
+ */
 public class Model {
 	
 	private static final Model INSTANCE = new Model();
@@ -32,6 +37,9 @@ public class Model {
 		
 	}
 	
+	/**
+	 * @param String
+	 */
 	public void guardarCircuito(String nombre) {
 		
 		try {
@@ -49,6 +57,9 @@ public class Model {
 		
 	}
 	
+	/**
+	 * @return ArrayList<Gate>
+	 */
 	private ArrayList<Gate> convertirArrayList() {
 		
 		ArrayList<Gate> lista = new ArrayList<Gate>();
@@ -66,9 +77,9 @@ public class Model {
 		return lista;
 		
 	}
-	
+
 	/**
-	 * @return
+	 * @return String[]
 	 */
 	private String[] generateColumnNames() {
 		
@@ -91,8 +102,8 @@ public class Model {
 	}
 	
 	/**
-	 * @param resultTable
-	 * @param indice
+	 * @param int
+	 * @param Object[][]
 	 */
 	private void calculate(Object [][] resultTable, int indice) {
 		
@@ -106,10 +117,10 @@ public class Model {
 			
 		}
 	}
-	
+
 	/**
-	 * @param table
-	 * @param resultTable
+	 * @param int [][]
+	 * @param Object[][]
 	 */
 	private void calculateEachIteration(int [][] table, Object [][] resultTable) {
 		
@@ -127,9 +138,9 @@ public class Model {
 		}
 		
 	}
-	
+
 	/**
-	 * @param insertValues
+	 * @param boolean
 	 */
 	public void showTable(boolean insertValues) {
 		
@@ -180,8 +191,6 @@ public class Model {
 				rowData[i][e] = table[i][e];
 			}
 		}
-		
-		
 
 		calculateEachIteration(table, rowData);
 		
@@ -194,12 +203,10 @@ public class Model {
 		}
 		
 	}
-	
 
-	
 	/**
-	 * @param n
-	 * @return
+	 * @param int
+	 * @return int[][]
 	 */
 	public int[][] generateTable(int n) {
 		
@@ -238,12 +245,9 @@ public class Model {
 
 		return finalTable;
 	}
-	
-	/*
-	 * 
-	 */
+
 	/**
-	 * @param gate
+	 * @param Gate
 	 */
 	private void removeInsOutsGate(Gate gate) {
 		
@@ -254,13 +258,9 @@ public class Model {
 		}
 		removeInsOutsSons(gate);
 	}
-	/*
-	 * 
-	 * elimina los inputs y outputs a los que estaba conectado el gate que se borrara
-	 * 
-	 */
+
 	/**
-	 * @param gate
+	 * @param Gate
 	 */
 	public void removeInsOutsSons(Gate gate) {
 		
@@ -281,10 +281,10 @@ public class Model {
 		}
 		
 	}
-	
+
 	/**
-	 * @param output
-	 * @return
+	 * @param String
+	 * @return Gate
 	 */
 	public Gate findGateByOutput(String output) {
 		
@@ -298,10 +298,10 @@ public class Model {
 		}
 		return gate;
 	}
-	
+
 	/**
-	 * @param input
-	 * @return
+	 * @param String
+	 * @return Gate
 	 */
 	public Gate findGateByInput(String input) {
 		
@@ -320,7 +320,7 @@ public class Model {
 	}
 
 	/**
-	 * @param gate
+	 * @param Gate
 	 */
 	public void addInputsOutputs(Gate gate) {
 		
@@ -330,7 +330,7 @@ public class Model {
 		outputList.add(gate.getOutput());
 		
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -343,7 +343,7 @@ public class Model {
 		}
 		System.out.println();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -357,22 +357,17 @@ public class Model {
 		System.out.println();
 		System.out.println();
 	}
-	
-    
-    
+
 	/**
-	 * @param c
-	 */
-	/**
-	 * @param c
+	 * @param Gate
 	 */
 	public void addGate(Gate c) {
 		gateList.add(c);
 	}
-	
+
 	/**
-	 * @param n
-	 * @param finalTable
+	 * @param int
+	 * @param int [][]
 	 */
 	public static void printTable(int n, int [][]finalTable) {
 		
@@ -385,9 +380,9 @@ public class Model {
 		}
 		
 	}
-	
+
 	/**
-	 * @param gate
+	 * @param Gate
 	 */
 	public void removeGate(Gate gate) {
 		removeInsOutsGate(gate);
@@ -395,7 +390,7 @@ public class Model {
 		printInputs();
 		printOutputs();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -406,7 +401,7 @@ public class Model {
 		}
 		System.out.println();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -417,9 +412,9 @@ public class Model {
 			
 		}
 	}
-	
+
 	/**
-	 * @param l
+	 * @param Line
 	 */
 	public void removeLine(Line l) {
 		for(int i = 0; i < lineList.size(); i++) {
@@ -429,23 +424,23 @@ public class Model {
 			}
 		}
 	}
-	
+
 	/**
-	 * @return
+	 * @return ArrayList<Gate>
 	 */
 	public ArrayList<Gate> getInputList() {
 		return inputList;
 	}
 
 	/**
-	 * @param inputList
+	 * @param ArrayList<Gate>
 	 */
 	public void setInputList(ArrayList<Gate> inputList) {
 		this.inputList = inputList;
 	}
 
 	/**
-	 * @return
+	 * @return ArrayList<Gate>
 	 */
 	public ArrayList<Gate> getOutputList() {
 		return outputList;
@@ -459,14 +454,14 @@ public class Model {
 	}
 
 	/**
-	 * @return
+	 * @return INSTANCE
 	 */
 	public static Model getInstance() {
         return INSTANCE;
     }
-	
+
 	/**
-	 * @return
+	 * @return GateLinkedList
 	 */
 	public GateLinkedList getGateList() {
 		return gateList;
@@ -480,19 +475,24 @@ public class Model {
 	}
 
 	/**
-	 * @return
+	 * @return ArrayList<Line>
 	 */
 	public ArrayList<Line> getLineList() {
 		return lineList;
 	}
 
 	/**
-	 * @param lineList
+	 * @param ArrayList<Line>
 	 */
 	public void setLineList(ArrayList<Line> lineList) {
 		this.lineList = lineList;
 	}
 
+	/**
+	 * @param String
+	 * @param String
+	 * @return boolean
+	 */
 	public boolean buscaLineaPorTailPeak(String tailID, String peakID) {
 		
 		for(int i = 0; i < lineList.size(); i++) {

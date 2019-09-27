@@ -33,9 +33,19 @@ import javax.xml.transform.TransformerException;
 
 import com.circuitdesigner.structures.Gate;
 import com.circuitdesigner.structures.Gate.GateType;
-
+/**
+ * 
+ * @author Adrian Araya Ramirez
+ * 
+ * @version 1.8
+ *
+ */
 public class ControlGateXML {
 
+	/**
+	 * @param String
+	 * @return ArrayList<Gate>
+	 */
 	public static ArrayList<Gate> readGateXML(String nombre){
 		
 		ArrayList<Gate> gateFinal = new ArrayList<Gate>();
@@ -48,8 +58,6 @@ public class ControlGateXML {
             Document document = documentBuilder.parse(file);
 			
             document.getDocumentElement().normalize();
-            
-            //System.out.println("Elemento raiz: " + document.getDocumentElement().getNodeName());
 			
             NodeList gateList = document.getElementsByTagName("GATE");
             
@@ -109,6 +117,10 @@ public class ControlGateXML {
 		return gateFinal;
 	}
 	
+	/**
+	 * @param String
+	 * @return GateType
+	 */
 	private static GateType devuelveGateType(String type) {
 		if(type.equals("AND")) {
 			return GateType.AND;
@@ -140,6 +152,14 @@ public class ControlGateXML {
 		return null;
 	}
 	
+	/**
+	 * @param ArrayList<Gate>
+	 * @param String
+	 * @return boolean
+	 * @throws ParserConfigurationException
+	 * @throws TransformerConfigurationException
+	 * @throws TransformerException
+	 */
 	public static boolean createXML(ArrayList<Gate> gateList, String nombreArchivo) throws ParserConfigurationException, TransformerConfigurationException, TransformerException {
 	
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

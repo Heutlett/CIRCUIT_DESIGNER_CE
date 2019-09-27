@@ -7,7 +7,9 @@ public class GateLinkedList {
 	private int size = 0;
 	
     /**
-     * @author carlo
+     * @author Adrian Araya Ramirez
+     * 
+     * @version 1.8
      *
      */
     private static class Node { 
@@ -15,7 +17,9 @@ public class GateLinkedList {
         private Gate gate; 
         private Node next; 
   
-        // Constructor 
+        /**
+         * @param Gate
+         */
         public Node(Gate g) 
         { 
             gate = g; 
@@ -24,7 +28,7 @@ public class GateLinkedList {
     } 
     
     /**
-     * @return
+     * @return boolean 
      */
     private boolean isEmpty() {
     	if(first==null) {
@@ -34,7 +38,7 @@ public class GateLinkedList {
     }
     
     /**
-     * @param g
+     * @param Gate
      */
     public void add(Gate g) {
     	if(isEmpty()) {
@@ -51,8 +55,8 @@ public class GateLinkedList {
     }
     
     /**
-     * @param index
-     * @return
+     * @param int
+     * @return Gate
      */
     public Gate get(int index) {
     	
@@ -73,8 +77,8 @@ public class GateLinkedList {
     }
     
     /**
-     * @param id
-     * @return
+     * @param String
+     * @return Gate
      */
     public Gate getById(String id) {
     	
@@ -93,8 +97,8 @@ public class GateLinkedList {
     }
     
     /**
-     * @param gate
-     * @return
+     * @param Gate
+     * @return boolean
      */
     public boolean find(Gate gate){
 
@@ -119,7 +123,7 @@ public class GateLinkedList {
     }
     
     /**
-     * @param gate
+     * @param Gate
      */
     public void remove(Gate gate) {
     	
@@ -145,7 +149,7 @@ public class GateLinkedList {
     }
 
 	/**
-	 * @return
+	 * @return Node
 	 */
 	public Node getFirst() {
 		return first;
@@ -159,28 +163,28 @@ public class GateLinkedList {
 	}
 
 	/**
-	 * @return
+	 * @return Node
 	 */
 	public Node getLast() {
 		return last;
 	}
 
 	/**
-	 * @param last
+	 * @param Node
 	 */
 	public void setLast(Node last) {
 		this.last = last;
 	}
 
 	/**
-	 * @return
+	 * @return int
 	 */
 	public int size() {
 		return size;
 	}
 
 	/**
-	 * @param size
+	 * @param int
 	 */
 	public void setSize(int size) {
 		this.size = size;

@@ -16,23 +16,24 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-
 import com.circuitdesigner.structures.Gate.GateType;
 import com.circuitdesigner.view.Window;
 import com.circuitdesigner.xml.persistance.ControlGateXML;
-
+/**
+ * 
+ * @author Adrian Araya Ramirez
+ * 
+ * @version 1.8
+ *
+ */
 public class WorkspacePanel extends JPanel implements MouseListener{
 
 	private Model m1;
@@ -57,18 +58,23 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	private JLabel lbl_palette_not;
 	private JLabel lbl_palette_xor;
 	private JLabel lbl_palette_xnor;
+	private boolean waitClick = false;
+	private String nombreArchivo;
 	
+	/**
+	 * 
+	 */
 	public WorkspacePanel() {
 		
 		m1 = Model.getInstance();
 		initComponents();
 		
-		
 	}
 	
+	/**
+	 * 
+	 */
 	private void initComponents() {
-		
-
 		
 		addMouseListener(this);
 		
@@ -207,9 +213,12 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre de circuito que desea abrir");
+				nombreArchivo = JOptionPane.showInputDialog(null, "Ingrese el nombre de circuito que desea abrir");
 				
-				recuperarModelo(nombre);
+				JOptionPane.showMessageDialog(null, "De click donde desea colocar el circuito");
+				
+				waitClick = true;
+				
 			}
 		});
 		lblGuardado.setBounds(55, 780, 116, 90);
@@ -217,6 +226,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
+	/**
+	 * @param label
+	 */
 	private void createMouseEvents(JLabel label) {
 		label.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -252,6 +264,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		});
 	}
 	
+	/**
+	 * @param l
+	 */
 	private void desconectarCompuertas(Line l) {
 		
 		//output
@@ -293,6 +308,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
+	/**
+	 * @param Line
+	 */
 	private void borrarLineasCompuerta(Line l) {
 		
 		for(int i = 0; i < l.getPeak().getLines().size(); i++) {
@@ -310,6 +328,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
+	/**
+	 * @param Line
+	 */
 	private void borrarLinea(Line l) {
 		this.remove(l.getPeakDeleteLabel());
 		this.remove(l.getTailDeleteLabel());
@@ -321,6 +342,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		this.repaint();
 	}
 	
+	/**
+	 * @param c
+	 */
 	private void borrarLineasDelPanel(Gate c) {
 		
 		while(c.getLines().size() != 0) {
@@ -343,12 +367,18 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		repintar(g2d);
 	}
 	
+	/**
+	 * 
+	 */
 	private void actualizarPantalla() {
 		
 		this.repaint();
 		
 	}
 	
+	/**
+	 * @param g
+	 */
 	private void repintar(Graphics2D g) {
 		
 		for(int i = 0; i < m1.getLineList().size();i++) {
@@ -356,9 +386,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			g.drawLine(m1.getLineList().get(i).getX1(), m1.getLineList().get(i).getY1(), m1.getLineList().get(i).getX2(),m1.getLineList().get(i).getY2());
 		}
 	}
-	/*
-	 * COMPORTAMIENTO DE LAS X DE LAS LINEAS
-	 * 
+	/**
+	 * @param Line
 	 */
 	private void agregarComportamientoLinea(Line l) {
 		
@@ -391,6 +420,15 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
+	/**
+	 * @param int
+	 * @param int
+	 * @param int
+	 * @param int
+	 * @param Gate
+	 * @param Gate
+	 * @return
+	 */
 	private Line pintarLinea(int x1, int y1, int x2, int y2, Gate c1, Gate c2) {
 		
 		draw = true;
@@ -416,6 +454,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		return l1;	
 	}
 	
+	/**
+	 * @param Gate
+	 */
 	private void agregarEntradaSalida(Gate c) {
 		
 		for(int i = 0; i < c.getInputs().size(); i++) {
@@ -424,9 +465,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		add(c.getOutput().getGateLabel());
 		add(c.getLabelID());
 	}
-	
-	
-	
+	/**
+	 * @param JLabel
+	 */
 	private void comprobacionDeLineas(JLabel l) {
 		
 		l.addMouseListener(new MouseAdapter() {
@@ -481,6 +522,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
+	/**
+	 * 
+	 */
 	private void resetPoints() {
 		if(startPoint!=null) {
 			startPoint.setForeground(Color.black);
@@ -492,6 +536,11 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		endPoint = null;
 	}
 	
+	/**
+	 * @param Gate
+	 * @param Gate
+	 * @param String
+	 */
 	private void crearLinea(Gate compuertaEntrada, Gate compuertaSalida, String idBorrar) {
 		
 		if(compuertaEntrada == null || compuertaSalida == null) {
@@ -524,6 +573,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
+	/**
+	 * @param c
+	 */
 	private void comportamientoEntradas(Gate c) {
 		
 		comprobacionDeLineas(c.getOutput().getGateLabel());
@@ -538,6 +590,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 
+	/**
+	 * @param String
+	 * @return GateType
+	 */
 	private GateType stringToGateType(String type) {
 		
 		for(int i = 0; i < 7; i++) {
@@ -547,10 +603,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		}
 		return null;
 	}
-	/*
-	 * 
-	 * Inicia los atributos de la compuerta y la agrega al modelo
-	 * 
+	/**
+	 * @param Gate
+	 * @param JLabel
 	 */
 	private void initGate(Gate gate, JLabel labelModel) {
 		agregarEntradaSalida(gate);
@@ -569,6 +624,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		comportamientoEntradas(gate);
 	}
 	
+	/**
+	 * @param JLabel
+	 * @return Gate
+	 */
 	private Gate createGate(JLabel labelModel) {
 		
 		Gate newGate = new Gate(stringToGateType(labelModel.getText()));
@@ -609,8 +668,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		return newGate;
 	}
 	
-	/*
-	 * Arrastra el gate por la pantalla
+	/**
+	 * @param Gate
+	 * @param MouseEvent
 	 */
 	private void dragGate(Gate gate, MouseEvent e) {
 		if(!gate.isLocked()) {
@@ -633,10 +693,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		}
 	}
 	
-	/*
-	 * 
-	 * Reubica la compuerta si se sale del borde del panel
-	 * 
+	/**
+	 * @param Gate
 	 */
 	private void limitLocation(Gate gate) {
 		if(gate.getGateLabel().getX()<189) {
@@ -648,10 +706,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			gate.getLabelID().setLocation(300, gate.getLabelID().getY());
 		}
 	}
-	/*
-	 * 
-	 * Elimina la compuerta
-	 * 
+
+	/**
+	 * @param Gate
 	 */
 	private void removeGate(Gate gate) {
 		
@@ -669,6 +726,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
+	/**
+	 * 
+	 */
 	private void checkForUnlockDrag() {
 		for(int i = 0; i < m1.getGateList().size();i++) {
 			if(m1.getGateList().get(i).getOutput() != null) {
@@ -684,12 +744,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			}
 		}
 	}
-	/*
-	 * 
-	 * 
-	 * Recorre la lista de compuertas en busca de una compuerta con menos de 2 entradas o sin salida y se las agrega
-	 * 
-	 * atrapar excepcion de not
+
+	/**
 	 * 
 	 */
 	private void checkOutputsInputs() {
@@ -739,7 +795,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 
-	
+	/**
+	 * @param Gate
+	 */
 	private void borrarLabelsCompuerta(Gate c) {
 		remove(c.getGateLabel());
 		if(!c.getOutput().getGateID().contains("C")) {
@@ -754,6 +812,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		}
 	}
 	
+	/**
+	 * @param ArrayList<Gate>
+	 */
 	private void unirCompuertas(ArrayList<Gate> compuertas) {
 		
 		for(int i = 0; i < compuertas.size(); i++) {
@@ -775,7 +836,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 	}
 	
-	private void recuperarModelo(String nombre) {
+	/**
+	 * @param String
+	 */
+	private ArrayList<Gate> recuperarModelo(String nombre) {
 		
 		ArrayList<Gate> listaGate = ControlGateXML.readGateXML(nombre);
 		
@@ -801,7 +865,6 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			this.add(labelID);
 			
 			JLabel label = new JLabel();
-			label.setText("asdasd");
 			label.setSize(80,32);
 			label.setLocation(nueva.getX(), nueva.getY());
 			ponerImagen(label, listaGate.get(i).getType());
@@ -877,54 +940,74 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 				
 			}
 			
-			
-			
 			this.repaint();
 			
 			m1.addGate(nueva);
 			
+		}
+		
+		
+		return listaGate;
+
+	}
+	/**
+	 * 
+	 * @param ArrayList<Gate>
+	 * @param int
+	 * @param int
+	 */
+	private void ubicarTodo(ArrayList<Gate> gateList, int x, int y) {
+		
+		x = x - 400;
+		y = y -250;
+		
+		for(int i = 0; i < gateList.size(); i++) {
 			
+			gateList.get(i).getLabelID().setLocation(gateList.get(i).getLabelID().getX()+x, gateList.get(i).getLabelID().getY()+y);
+			gateList.get(i).getGateLabel().setLocation(gateList.get(i).getGateLabel().getX()+x, gateList.get(i).getGateLabel().getY()+y);
+			
+			for(int e = 0; e < gateList.get(i).getInputs().size(); e++) {
+				
+				if(gateList.get(i).getInputs().get(e).getType().equals(GateType.INPUT)) {
+					gateList.get(i).getInputs().get(e).getGateLabel().setLocation(gateList.get(i).getInputs().get(e).getGateLabel().getX()+x, gateList.get(i).getInputs().get(e).getGateLabel().getY()+y);
+				}
+			}
+			if(gateList.get(i).getOutput().getType().equals(GateType.OUTPUT)) {
+				gateList.get(i).getOutput().getGateLabel().setLocation(gateList.get(i).getOutput().getGateLabel().getX()+x,gateList.get(i).getOutput().getGateLabel().getY() + y );
+			}
 			
 		}
 		
-		agregarLineasRecuperar(listaGate);
+		agregarLineasRecuperar(gateList);
 		actualizarPantalla();
 	}
 	
+	/**
+	 * @param ArrayList<Gate>
+	 */
 	private void agregarLineasRecuperar(ArrayList<Gate> gates) {
 		
 		for(int i = 0; i < gates.size(); i++) {
 			
-			for(int e = 0; e < gates.get(i).getInputs().size(); e++) {
-				if(gates.get(i).getInputs().get(e).getType() != GateType.INPUT ) {
+			if(gates.get(i).getOutput() != null) {
+				
+				if(gates.get(i).getOutput().getType() != GateType.OUTPUT) {
 					
-					Line line = pintarLinea(gates.get(i).getGateLabel().getX()-100,gates.get(i).getGateLabel().getY(),gates.get(i).getInputs().get(e).getX(),gates.get(i).getInputs().get(e).getY(),gates.get(i),gates.get(i).getInputs().get(e));
+					Line line = pintarLinea(gates.get(i).getGateLabel().getX(), gates.get(i).getGateLabel().getY(), gates.get(i).getOutput().getGateLabel().getX(), gates.get(i).getOutput().getGateLabel().getY(), gates.get(i), gates.get(i).getOutput());
+					gates.get(i).getLines().add(line);
+					gates.get(i).getOutput().getLines().add(line);
 					
-					if(!gates.get(i).getInputs().get(e).buscaLineaPorTailPeak(line.getTail().getGateID(), line.getPeak().getGateID())) {
-						gates.get(i).getInputs().get(e).getLines().add(line);
-					}
-					if(!gates.get(i).buscaLineaPorTailPeak(line.getTail().getGateID(), line.getPeak().getGateID())) {
-						gates.get(i).getLines().add(line);
-					}
 				}
 			}
 			
-			if(gates.get(i).getOutput().getType() != GateType.OUTPUT) {
-				
-				Line line = pintarLinea(gates.get(i).getGateLabel().getX(),gates.get(i).getGateLabel().getY(),gates.get(i).getOutput().getX(),gates.get(i).getOutput().getY(),gates.get(i),gates.get(i).getOutput());
-				
-				if(!gates.get(i).buscaLineaPorTailPeak(line.getTail().getGateID(), line.getPeak().getGateID())) {
-					gates.get(i).getLines().add(line);
-				}
-				
-				if(!gates.get(i).getOutput().buscaLineaPorTailPeak(line.getTail().getGateID(), line.getPeak().getGateID())) {
-					gates.get(i).getOutput().getLines().add(line);
-				}
-			}
 		}
 		
 	}
 	
+	/**
+	 * @param JLabel
+	 * @param GateType
+	 */
 	private void ponerImagen(JLabel label, GateType type) {
 		
 		if(type.equals(GateType.AND)) {
@@ -957,6 +1040,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		actualizarPantalla();
 		setCursor(Cursor.getDefaultCursor());
 		eraser = false;
+		if(waitClick) {
+			ubicarTodo(recuperarModelo(nombreArchivo),e.getX(),e.getY());
+			waitClick = false;
+		}
 	}
 
 	@Override

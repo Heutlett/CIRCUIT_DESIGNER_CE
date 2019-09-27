@@ -1,53 +1,54 @@
 package com.circuitdesigner.xml.dao;
 
 import java.util.ArrayList;
-
+/**
+ * 
+ * @author Adrian Araya Ramirez
+ *
+ * @version 1.8
+ *
+ * @param <T>
+ */
 public interface DAO <T>{
 	
     /**
-     * Inserta a la base de datos.
-     * 
-     * @param t parametro a insertar
-     * @return si fue insertado
+     * @param T 
+     * @param String 
+     * @return boolean
      */
 	boolean insert(T t, String nombre);
     
 	/**
-     * Obtiene el objeto con el id proporcionado, de la base ed datos.
-     * 
-     * @param id del objeto solicitado
-     * @return el objeto solicitado o null si no existe
+     * @param String
+     * @param String
+     * @return T
      */
 	T get(String id, String nombre);
     
 	/**
-     * Modifica el objeto en la base de datos.
-     * 
-     * @param t objeto a modificar
-     * @return si fue modificado
+     * @param T
+     * @param String
+     * @return boolean
      */
 	boolean modify(T t, String nombre);
     
 	/**
-     * Elimina el objeto de la base de datos.
-     * 
-     * @param id del objeto a eliminar.
-     * @return si fue eliminado
+     * @param String
+     * @param String
+     * @return boolean
      */
 	boolean delete(String id, String nombre);
     
 	/**
-     * Obtiene todos los objetos de un tipo.
-     * 
-     * @return una arreglo de todos los objetos de un tipo.
+     * @param String
+     * @return ArrayList<T>
      */
 	ArrayList<T> getAll(String nombre);
     
 	/**
-     * Guarda el objeto en la base de datos.
-     * 
-     * @param t objeto a guardar
-     * @return si se guardo
+     * @param ArrayList<T>
+     * @param String
+     * @return boolean
      */
 	boolean save(ArrayList<T> t, String nombre);
 	

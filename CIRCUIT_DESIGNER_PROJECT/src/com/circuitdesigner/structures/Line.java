@@ -2,7 +2,13 @@ package com.circuitdesigner.structures;
 
 import java.awt.Color;
 import javax.swing.JLabel;
-
+/**
+ * 
+ * @author Adrian Araya Ramirez
+ * 
+ * @version 1.8
+ *
+ */
 public class Line {
 	
 	private int x1;
@@ -16,15 +22,15 @@ public class Line {
 	private JLabel peakDeleteLabel;
 	
 	/**
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
-	 * @param color
-	 * @param tailDeleteLabel
-	 * @param peakDeleteLabel
-	 * @param tail
-	 * @param peak
+	 * @param int
+	 * @param int
+	 * @param int
+	 * @param int
+	 * @param Color
+	 * @param JLabel
+	 * @param JLabel
+	 * @param Gate
+	 * @param Gate
 	 */
 	public Line(int x1, int y1, int x2, int y2, Color color, JLabel tailDeleteLabel, JLabel peakDeleteLabel, Gate tail, Gate peak) {
 		this.x1 = x1;
@@ -42,144 +48,136 @@ public class Line {
 		this.peak = peak;
 	}
 
-	
 	/**
-	 * @return
+	 * @return JLabel
 	 */
 	public JLabel getTailDeleteLabel() {
 		return tailDeleteLabel;
 	}
 
-
 	/**
-	 * @param tailDeleteLabel
+	 * @param JLabel
 	 */
 	public void setTailDeleteLabel(JLabel tailDeleteLabel) {
 		this.tailDeleteLabel = tailDeleteLabel;
 	}
 
-
 	/**
-	 * @return
+	 * @return JLabel
 	 */
 	public JLabel getPeakDeleteLabel() {
 		return peakDeleteLabel;
 	}
 
-
 	/**
-	 * @param peakDeleteLabel
+	 * @param JLabel
 	 */
 	public void setPeakDeleteLabel(JLabel peakDeleteLabel) {
 		this.peakDeleteLabel = peakDeleteLabel;
 	}
 
-
 	/**
-	 * @return
+	 * @return int
 	 */
 	public int getX1() {
 		return x1;
 	}
 
 	/**
-	 * @param x1
+	 * @param int
 	 */
 	public void setX1(int x1) {
 		this.x1 = x1;
 	}
 
 	/**
-	 * @return
+	 * @return int
 	 */
 	public int getY1() {
 		return y1;
 	}
 
 	/**
-	 * @param y1
+	 * @param int
 	 */
 	public void setY1(int y1) {
 		this.y1 = y1;
 	}
 
 	/**
-	 * @return
+	 * @return int
 	 */
 	public int getX2() {
 		return x2;
 	}
 
 	/**
-	 * @param x2
+	 * @param int
 	 */
 	public void setX2(int x2) {
 		this.x2 = x2;
 	}
 
 	/**
-	 * @return
+	 * @return int
 	 */
 	public int getY2() {
 		return y2;
 	}
 
 	/**
-	 * @param y2
+	 * @param int
 	 */
 	public void setY2(int y2) {
 		this.y2 = y2;
 	}
 
 	/**
-	 * @return
+	 * @return Gate
 	 */
 	public Gate getTail() {
 		return tail;
 	}
 
 	/**
-	 * @param tail
+	 * @param Gate
 	 */
 	public void setTail(Gate tail) {
 		this.tail = tail;
 	}
 
 	/**
-	 * @return
+	 * @return Gate
 	 */
 	public Gate getPeak() {
 		return peak;
 	}
 
 	/**
-	 * @param peak
+	 * @param Gate
 	 */
 	public void setPeak(Gate peak) {
 		this.peak = peak;
 	}
 
 	/**
-	 * @return
+	 * @return Color
 	 */
 	public Color getColor() {
 		return color;
 	}
 
 	/**
-	 * @param color
+	 * @param Color
 	 */
 	public void setColor(Color color) {
 		this.color = color;
 	}
 	
 	/**
-	 *
+	 * @param String
 	 */
 	public String toString() {
 		return " tail: " + getTail().getGateID() + "   peak: " + getPeak().getGateID();
 	}
-	
-	
-
 }

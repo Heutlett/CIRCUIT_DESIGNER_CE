@@ -10,6 +10,12 @@ import com.circuitdesigner.xml.persistance.ControlGateXML;
 
 public class GateDAOxml implements GateDAO, Serializable{
 
+	/**
+	 * @param Gate
+	 * @param String
+	 * @return boolean
+	 *
+	 */
 	@Override
 	public boolean insert(Gate t, String nombre) {
 		
@@ -21,6 +27,11 @@ public class GateDAOxml implements GateDAO, Serializable{
         		
 	}
 
+	/**
+	 * @param String
+	 * @param String
+	 * @return Gate
+	 */
 	@Override
 	public Gate get(String id, String nombre) {
 		ArrayList<Gate> gateList = getAll(nombre);
@@ -33,12 +44,22 @@ public class GateDAOxml implements GateDAO, Serializable{
 		return null;
 	}
 
+	/**
+	 * @param Gate
+	 * @param String
+	 * @return boolean
+	 */
 	@Override
 	public boolean modify(Gate t, String nombre) {
 		delete(t.getGateID(), nombre);
 		return insert(t, nombre);
 	}
 
+	/**
+	 * @param String
+	 * @param String
+	 * @return boolean
+	 */
 	@Override
 	public boolean delete(String id, String nombre) {
 		
@@ -53,11 +74,20 @@ public class GateDAOxml implements GateDAO, Serializable{
 		return false;
 	}
 
+	/**
+	 * @param String
+	 * @return ArrayList<Gate>
+	 */
 	@Override
 	public ArrayList<Gate> getAll(String nombre) {
 		return ControlGateXML.readGateXML(nombre);
 	}
 
+	/**
+	 * @param ArrayList<Gate>
+	 * @param String
+	 * @return boolean
+	 */
 	@Override
 	public boolean save(ArrayList<Gate> t, String nombre) {
 		
@@ -68,9 +98,5 @@ public class GateDAOxml implements GateDAO, Serializable{
         }
         
 	}
-
-	
-	
-	
 	
 }

@@ -4,7 +4,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
-
+/**
+ * 
+ * @author Adrian Araya Ramirez
+ *
+ * @version 1.8
+ *
+ */
 public class Gate {
 	
 	public static enum GateType{
@@ -29,12 +35,10 @@ public class Gate {
 	private int x;
 	private int y;
 	
-
-	//Constructor para entradas y salidas
 	/**
-	 * @param value
-	 * @param type
-	 * @param previusGateOutputID
+	 * @param int
+	 * @param GateType
+	 * @param String
 	 */
 	public Gate(int value, GateType type, String previusGateOutputID) {
 		
@@ -59,7 +63,7 @@ public class Gate {
 	}
 	
 	/**
-	 * @param type
+	 * @param GateType
 	 */
 	public Gate(GateType type) {
 		
@@ -82,9 +86,14 @@ public class Gate {
 		this.gateLabel.setName(gateID);
 		this.value = 3;
 	}
-	
-	//Constructor para recuperar compuertas guardadas
-	
+	/**
+	 * 
+	 * @param int
+	 * @param boolean
+	 * @param GateType
+	 * @param int
+	 * @param int
+	 */
 	public Gate(int value, boolean locked, GateType type, int x, int y) {
 		
 		this.value = value;
@@ -95,8 +104,257 @@ public class Gate {
 		
 	}
 	
+	
+
 	/**
-	 * @return
+	 * @return boolean
+	 */
+	public boolean isLocked() {
+		return locked;
+	}
+
+	/**
+	 * @param boolean
+	 */
+	public void setLocked(boolean bloqueada) {
+		this.locked = bloqueada;
+	}
+
+	/**
+	 * @return ArrayList<Gate>
+	 */
+	public ArrayList<Gate> getInputs() {
+		return inputs;
+	}
+
+	/**
+	 * @param ArrayList<Gate>
+	 */
+	public void setInputs(ArrayList<Gate> entradas) {
+		this.inputs = entradas;
+	}
+
+	/**
+	 * @return Gate
+	 */
+	public Gate getOutput() {
+		return output;
+	}
+
+	/**
+	 * @param Gate
+	 */
+	public void setOutput(Gate salida) {
+		this.output = salida;
+	}
+
+	/**
+	 * @return GateType
+	 */
+	public GateType getType() {
+		return type;
+	}
+
+	/**
+	 * @param GateType
+	 */
+	public void setType(GateType tipo) {
+		this.type = tipo;
+	}
+
+	/**
+	 * @return JLabel
+	 */
+	public JLabel getGateLabel() {
+		return gateLabel;
+	}
+
+	/**
+	 * @param JLabel
+	 */
+	public void setGateLabel(JLabel labelCompuerta) {
+		this.gateLabel = labelCompuerta;
+	}
+
+	/**
+	 * @return int
+	 */
+	public static int getInQuantity() {
+		return inQuantity;
+	}
+
+	/**
+	 * @param int
+	 */
+	public static void setInQuantity(int cantProposicionesIn) {
+		Gate.inQuantity = cantProposicionesIn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public static int getOutQuantity() {
+		return outQuantity;
+	}
+
+	/**
+	 * @param int
+	 */
+	public static void setOutQuantity(int cantProposicionesOut) {
+		Gate.outQuantity = cantProposicionesOut;
+	}
+
+	/**
+	 * @return int
+	 */
+	
+	public int getValue() {
+		return value;
+	}
+
+	/**
+	 * @param int
+	 */
+	public void setValue(int valorEntrada) {
+		this.value = valorEntrada;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public static int getGatesQuantity() {
+		return gatesQuantity;
+	}
+	
+	/**
+	 * @param int
+	 */
+	public static void setGatesQuantity(int cantCompuertas) {
+		Gate.gatesQuantity = cantCompuertas;
+	}
+
+	/**
+	 * @return String
+	 */
+	public String getGateID() {
+		return gateID;
+	}
+
+	/**
+	 * @param String
+	 */
+	public void setGateID(String idCompuerta) {
+		this.gateID = idCompuerta;
+	}
+
+	/**
+	 * @return JLabel
+	 */
+	public JLabel getLabelID() {
+		return labelID;
+	}
+
+	/**
+	 * @param JLabel 
+	 */
+	public void setLabelID(JLabel labelId) {
+		this.labelID = labelId;
+	}
+
+	/**
+	 * @return ArrayList<Line>
+	 */
+	public ArrayList<Line> getLines() {
+		return lines;
+	}
+
+	/**
+	 * @param ArrayList<Line>
+	 */
+	public void setLines(ArrayList<Line> lines) {
+		this.lines = lines;
+	}
+
+	/**
+	 * @return String
+	 */
+	public String getPreviusGateOutputID() {
+		return previusGateOutputID;
+	}
+
+	/**
+	 * @param String
+	 */
+	public void setPreviusGateOutputID(String previusGateOutputID) {
+		this.previusGateOutputID = previusGateOutputID;
+	}
+	
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getCantTrue() {
+		return cantTrue;
+	}
+	
+	/**
+	 * 
+	 * @param int
+	 */
+	public void setCantTrue(int cantTrue) {
+		this.cantTrue = cantTrue;
+	}
+
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getCantFalse() {
+		return cantFalse;
+	}
+	
+	/**
+	 * 
+	 * @param int
+	 */
+	public void setCantFalse(int cantFalse) {
+		this.cantFalse = cantFalse;
+	}
+	
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getX() {
+		return x;
+	}
+	
+	/**
+	 * 
+	 * @param int
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	/**
+	 * 
+	 * @return int
+	 */
+	public int getY() {
+		return y;
+	}
+
+	/**
+	 * 
+	 * @param int
+	 */
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	/**
+	 * @return String
 	 */
 	public static String getNewGateID() {
 		
@@ -106,8 +364,8 @@ public class Gate {
 	}
 	
 	/**
-	 * @param pInputName
-	 * @return
+	 * @param String
+	 * @return Gate
 	 */
 	public Gate findInput(String pInputName) {
 		Gate gate = null;
@@ -136,192 +394,9 @@ public class Gate {
 		}
 		
 	}
-
-	/**
-	 * @return
-	 */
-	public boolean isLocked() {
-		return locked;
-	}
-
-	/**
-	 * @param bloqueada
-	 */
-	public void setLocked(boolean bloqueada) {
-		this.locked = bloqueada;
-	}
-
-	/**
-	 * @return
-	 */
-	public ArrayList<Gate> getInputs() {
-		return inputs;
-	}
-
-	/**
-	 * @param entradas
-	 */
-	public void setInputs(ArrayList<Gate> entradas) {
-		this.inputs = entradas;
-	}
-
-	/**
-	 * @return
-	 */
-	public Gate getOutput() {
-		return output;
-	}
-
-	/**
-	 * @param salida
-	 */
-	public void setOutput(Gate salida) {
-		this.output = salida;
-	}
-
-	/**
-	 * @return
-	 */
-	public GateType getType() {
-		return type;
-	}
-
-	/**
-	 * @param tipo
-	 */
-	public void setType(GateType tipo) {
-		this.type = tipo;
-	}
-
-	/**
-	 * @return
-	 */
-	public JLabel getGateLabel() {
-		return gateLabel;
-	}
-
-	/**
-	 * @param labelCompuerta
-	 */
-	public void setGateLabel(JLabel labelCompuerta) {
-		this.gateLabel = labelCompuerta;
-	}
-
-	/**
-	 * @return
-	 */
-	public static int getInQuantity() {
-		return inQuantity;
-	}
-
-	/**
-	 * @param cantProposicionesIn
-	 */
-	public static void setInQuantity(int cantProposicionesIn) {
-		Gate.inQuantity = cantProposicionesIn;
-	}
-
-	/**
-	 * @return
-	 */
-	public static int getOutQuantity() {
-		return outQuantity;
-	}
-
-	/**
-	 * @param cantProposicionesOut
-	 */
-	public static void setOutQuantity(int cantProposicionesOut) {
-		Gate.outQuantity = cantProposicionesOut;
-	}
-
-	/**
-	 * @return
-	 */
-	public int getValue() {
-		return value;
-	}
-
-	/**
-	 * @param valorEntrada
-	 */
-	public void setValue(int valorEntrada) {
-		this.value = valorEntrada;
-	}
-
-
-	/**
-	 * @return
-	 */
-	public static int getGatesQuantity() {
-		return gatesQuantity;
-	}
-
-	/**
-	 * @param cantCompuertas
-	 */
-	public static void setGatesQuantity(int cantCompuertas) {
-		Gate.gatesQuantity = cantCompuertas;
-	}
-
-	/**
-	 * @return
-	 */
-	public String getGateID() {
-		return gateID;
-	}
-
-	/**
-	 * @param idCompuerta
-	 */
-	public void setGateID(String idCompuerta) {
-		this.gateID = idCompuerta;
-	}
-
-	/**
-	 * @return
-	 */
-	public JLabel getLabelID() {
-		return labelID;
-	}
-
-	/**
-	 * @param labelId
-	 */
-	public void setLabelID(JLabel labelId) {
-		this.labelID = labelId;
-	}
-
-	/**
-	 * @return
-	 */
-	public ArrayList<Line> getLines() {
-		return lines;
-	}
-
-	/**
-	 * @param lines
-	 */
-	public void setLines(ArrayList<Line> lines) {
-		this.lines = lines;
-	}
-
-	/**
-	 * @return
-	 */
-	public String getPreviusGateOutputID() {
-		return previusGateOutputID;
-	}
-
-	/**
-	 * @param previusGateOutputID
-	 */
-	public void setPreviusGateOutputID(String previusGateOutputID) {
-		this.previusGateOutputID = previusGateOutputID;
-	}
 	
 	/**
-	 * @return
+	 * @return int
 	 */
 	public int calculate() {
 		
@@ -443,6 +518,10 @@ public class Gate {
 		return 9;
 		
 	}
+	
+	/**
+	 * 
+	 */
 	public static void decreaseQuantity() {
 		inQuantity-=2;
 		outQuantity--;
@@ -450,7 +529,7 @@ public class Gate {
 	}
 	
 	/**
-	 * @param pGate
+	 * @param Gate
 	 */
 	public static void toString(Gate pGate) {
 		System.out.println();
@@ -478,38 +557,9 @@ public class Gate {
 		System.out.println();
 	}
 	
-	public int getCantTrue() {
-		return cantTrue;
-	}
-
-	public void setCantTrue(int cantTrue) {
-		this.cantTrue = cantTrue;
-	}
-
-	public int getCantFalse() {
-		return cantFalse;
-	}
-
-	public void setCantFalse(int cantFalse) {
-		this.cantFalse = cantFalse;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
+	/**
+	 * 
+	 */
 	public void toStringXML() {
 		
 		System.out.println("GATE");
@@ -535,6 +585,12 @@ public class Gate {
 		System.out.println("Y: " + output.getY());
 	}
 	
+	/**
+	 * 
+	 * @param String
+	 * @param String
+	 * @return boolean
+	 */
 	public boolean buscaLineaPorTailPeak(String tailID, String peakID) {
 		
 		for(int i = 0; i < lines.size(); i++) {
