@@ -26,6 +26,8 @@ public class Gate {
 	private String previusGateOutputID;
 	private int cantTrue = 0;
 	private int cantFalse = 0;
+	private int x;
+	private int y;
 	
 
 	//Constructor para entradas y salidas
@@ -81,12 +83,24 @@ public class Gate {
 		this.value = 3;
 	}
 	
+	//Constructor para recuperar compuertas guardadas
+	
+	public Gate(int value, boolean locked, GateType type, int x, int y) {
+		
+		this.value = value;
+		this.locked = locked;
+		this.type = type;
+		this.x = x;
+		this.y = y;
+		
+	}
+	
 	/**
 	 * @return
 	 */
-	public String getNewGateID() {
+	public static String getNewGateID() {
 		
-		String id = "C" + this.gatesQuantity;
+		String id = "C" + gatesQuantity;
 		gatesQuantity++;
 		return id;
 	}
@@ -462,6 +476,63 @@ public class Gate {
 		}
 		System.out.println("Cantidad de lineas: " + pGate.getLines().size());
 		System.out.println();
+	}
+	
+	public int getCantTrue() {
+		return cantTrue;
+	}
+
+	public void setCantTrue(int cantTrue) {
+		this.cantTrue = cantTrue;
+	}
+
+	public int getCantFalse() {
+		return cantFalse;
+	}
+
+	public void setCantFalse(int cantFalse) {
+		this.cantFalse = cantFalse;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public void toStringXML() {
+		
+		System.out.println("GATE");
+		System.out.println("VALUE: " + this.value);
+		System.out.println("LOCKED: " + this.locked);
+		System.out.println("TYPE: " + this.type.toString());
+		System.out.println("X: : " + this.x );
+		System.out.println("Y: " + this.y);
+		System.out.println("INPUTS");
+		for(int i = 0; i < inputs.size(); i++) {
+			System.out.println("INPUT");
+			System.out.println("VALUE: " + inputs.get(i).getValue());
+			System.out.println("LOCKED: " + inputs.get(i).isLocked());
+			System.out.println("TYPE: " + inputs.get(i).getType().toString());
+			System.out.println("X: : " + inputs.get(i).getX());
+			System.out.println("Y: " + inputs.get(i).getY());
+		}
+		System.out.println("OUTPUT");
+		System.out.println("VALUE: " + output.getValue());
+		System.out.println("LOCKED: " + output.isLocked());
+		System.out.println("TYPE: " + output.getType().toString());
+		System.out.println("X: : " + output.getX());
+		System.out.println("Y: " + output.getY());
 	}
 	
 }

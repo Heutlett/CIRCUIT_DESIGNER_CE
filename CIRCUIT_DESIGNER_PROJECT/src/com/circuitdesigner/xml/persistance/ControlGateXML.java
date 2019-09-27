@@ -36,12 +36,12 @@ import com.circuitdesigner.structures.Gate.GateType;
 
 public class ControlGateXML {
 
-	public static ArrayList<Gate> readGateXML(){
+	public static ArrayList<Gate> readGateXML(String nombre){
 		
 		ArrayList<Gate> gateFinal = new ArrayList<Gate>();
 		
 		try {
-			File file = new File("Gates.xml");
+			File file = new File(nombre + ".xml");
 			
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = factory.newDocumentBuilder();
@@ -49,36 +49,106 @@ public class ControlGateXML {
 			
             document.getDocumentElement().normalize();
             
-            System.out.println("Elemento raiz: " + document.getDocumentElement().getNodeName());
+            //System.out.println("Elemento raiz: " + document.getDocumentElement().getNodeName());
 			
             NodeList gateList = document.getElementsByTagName("GATE");
             
             for(int i = 0 ; i < gateList.getLength() ; i++) {
                 Node nodo = gateList.item(i);
                 
-                
+                if(nodo.getNodeType() == Node.ELEMENT_NODE) {
+                	
+                	Element element = (Element) nodo;
+                	
+                	int value = Integer.valueOf(element.getElementsByTagName("VALUE").item(0).getTextContent());
+                	boolean locked = Boolean.valueOf(element.getElementsByTagName("LOCKED").item(0).getTextContent());
+                	GateType type = devuelveGateType(element.getElementsByTagName("TYPE").item(0).getTextContent());
+                	int x = Integer.valueOf(element.getElementsByTagName("X").item(0).getTextContent());
+                	int y = Integer.valueOf(element.getElementsByTagName("Y").item(0).getTextContent());
+                	
+                	
+                	ArrayList<Gate> inputs = new ArrayList<Gate>();
+                	
+                	for(int a = 0; a < element.getElementsByTagName("INPUTS").item(0).getChildNodes().getLength(); a++) {
+                		
+                		
+                    	int value2 = Integer.valueOf(element.getElementsByTagName("INPUTS").item(0).getChildNodes().item(a).getChildNodes().item(0).getTextContent());
+                    	boolean locked2 = Boolean.valueOf(element.getElementsByTagName("INPUTS").item(0).getChildNodes().item(a).getChildNodes().item(1).getTextContent());
+                    	GateType type2 = devuelveGateType(element.getElementsByTagName("INPUTS").item(0).getChildNodes().item(a).getChildNodes().item(2).getTextContent());
+                    	int x2 = Integer.valueOf(element.getElementsByTagName("INPUTS").item(0).getChildNodes().item(a).getChildNodes().item(3).getTextContent());
+                    	int y2 = Integer.valueOf(element.getElementsByTagName("INPUTS").item(0).getChildNodes().item(a).getChildNodes().item(4).getTextContent());
+                		
+                    	inputs.add(new Gate(value2, locked2, type2, x2, y2));
+                    	
+                    	
+                	}
+                	int value3 = Integer.valueOf(element.getElementsByTagName("OUTPUT").item(0).getChildNodes().item(0).getTextContent());
+                	boolean locked3 = Boolean.valueOf(element.getElementsByTagName("OUTPUT").item(0).getChildNodes().item(1).getTextContent());
+                	GateType type3 = devuelveGateType(element.getElementsByTagName("OUTPUT").item(0).getChildNodes().item(2).getTextContent());
+                	int x3 = Integer.valueOf(element.getElementsByTagName("OUTPUT").item(0).getChildNodes().item(3).getTextContent());
+                	int y3 = Integer.valueOf(element.getElementsByTagName("OUTPUT").item(0).getChildNodes().item(4).getTextContent());
+                	
+                	
+                	
+                	Gate gate = new Gate(value, locked, type, x, y);
+                	gate.setInputs(inputs);
+                	gate.setOutput(new Gate(value3, locked3, type3, x3, y3));
+                	
+                	gateFinal.add(gate);
+                	
+                	
+                }
                 
             }
             
 		}catch(Exception e) {
-			
+			return gateFinal;
 		}
 		
 		
 		return gateFinal;
 	}
 	
-	public static boolean createXML(ArrayList<Gate> gateList) throws ParserConfigurationException, TransformerConfigurationException, TransformerException {
+	private static GateType devuelveGateType(String type) {
+		if(type.equals("AND")) {
+			return GateType.AND;
+		}
+		if(type.equals("NAND")) {
+			return GateType.NAND;
+		}
+		if(type.equals("OR")) {
+			return GateType.OR;
+		}
+		if(type.equals("NOR")) {
+			return GateType.NOR;
+		}
+		if(type.equals("NOT")) {
+			return GateType.NOT;
+		}
+		if(type.equals("XOR")) {
+			return GateType.XOR;
+		}
+		if(type.equals("XNOR")) {
+			return GateType.XNOR;
+		}
+		if(type.equals("INPUT")) {
+			return GateType.INPUT;
+		}
+		if(type.equals("OUTPUT")) {
+			return GateType.OUTPUT;
+		}
+		return null;
+	}
+	
+	public static boolean createXML(ArrayList<Gate> gateList, String nombreArchivo) throws ParserConfigurationException, TransformerConfigurationException, TransformerException {
 	
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
-		String nomArchivo = "Gates";
 		
 		try {
 			
 			DocumentBuilder builder = factory.newDocumentBuilder();
             DOMImplementation implementation = builder.getDOMImplementation();
-            Document document = implementation.createDocument(null, nomArchivo, null);
+            Document document = implementation.createDocument(null, nombreArchivo, null);
             document.setXmlVersion("1.0");
             
             // NODO RAIZ
@@ -90,18 +160,13 @@ public class ControlGateXML {
             	
             	//ATRIBUTOS NORMALES
                 
-                Element gateIdNode = document.createElement("GATEID");
-                Text nodeGateIdValue =document.createTextNode(gateList.get(i).getGateID());
-                gateIdNode.appendChild(nodeGateIdValue);
-                itemNode.appendChild(gateIdNode);
-                
                 Element gateValueNode = document.createElement("VALUE");
-                Text nodeGateValueValue =document.createTextNode(gateList.get(i).getGateID());
+                Text nodeGateValueValue =document.createTextNode(String.valueOf(gateList.get(i).getValue()));
                 gateValueNode.appendChild(nodeGateValueValue);
                 itemNode.appendChild(gateValueNode);
                 
                 Element gateLockedNode = document.createElement("LOCKED");
-                Text nodeGateLockedValue =document.createTextNode(gateList.get(i).getGateID());
+                Text nodeGateLockedValue =document.createTextNode(String.valueOf(gateList.get(i).isLocked()));
                 gateLockedNode.appendChild(nodeGateLockedValue);
                 itemNode.appendChild(gateLockedNode);
                 
@@ -138,15 +203,164 @@ public class ControlGateXML {
                 gateTypeNode.appendChild(nodeGateTypeValue);
                 itemNode.appendChild(gateTypeNode);
                 
+                Element gateXNode = document.createElement("X");
+                Text nodeGateXValue =document.createTextNode(String.valueOf(gateList.get(i).getGateLabel().getX()));
+                gateXNode.appendChild(nodeGateXValue);
+                itemNode.appendChild(gateXNode);
                 
+                Element gateYNode = document.createElement("Y");
+                Text nodeGateYValue =document.createTextNode(String.valueOf(gateList.get(i).getGateLabel().getY()));
+                gateYNode.appendChild(nodeGateYValue);
+                itemNode.appendChild(gateYNode);
                 
+                Element listaInputsNode = document.createElement("INPUTS");
+                
+                if(!gateList.get(i).getInputs().isEmpty()){
+                	
+                	for(int e = 0; e < gateList.get(i).getInputs().size(); e++) {
+                		
+                		Element elementoListaInputs = document.createElement("INPUT");
+                		
+                        Element elementoListaInputsValueNode = document.createElement("VALUE");
+                        Text nodeElementoListaInputsValueValue =document.createTextNode(String.valueOf(gateList.get(i).getInputs().get(e).getValue()));
+                        elementoListaInputsValueNode.appendChild(nodeElementoListaInputsValueValue);
+                        elementoListaInputs.appendChild(elementoListaInputsValueNode);
+                        
+                        Element elementoListaInputsLockedNode = document.createElement("LOCKED");
+                        Text nodeElementoListaInputsLockedValue =document.createTextNode(String.valueOf(gateList.get(i).getInputs().get(e).isLocked()));
+                        elementoListaInputsLockedNode.appendChild(nodeElementoListaInputsLockedValue);
+                        elementoListaInputs.appendChild(elementoListaInputsLockedNode);
+                        
+                        
+                        Text nodeElementoListaInputsTypeValue = null;
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.AND)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("AND");
+                        }
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.NAND)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("NAND");
+                        }
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.OR)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("OR");
+                        }
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.NOR)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("NOR");
+                        }
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.NOT)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("NOT");
+                        }
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.XOR)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("XOR");
+                        }
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.XNOR)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("XNOR");
+                        }
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.INPUT)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("INPUT");
+                        }
+                        if(gateList.get(i).getInputs().get(e).getType().equals(GateType.OUTPUT)) {
+                        	nodeElementoListaInputsTypeValue =document.createTextNode("OUTPUT");
+                        }
+                        
+                        
+                        Element elementoListaInputsTypeNode = document.createElement("TYPE");
+                        elementoListaInputsTypeNode.appendChild(nodeElementoListaInputsTypeValue);
+                        elementoListaInputs.appendChild(elementoListaInputsTypeNode);
+                        
+                        Element elementoListaInputsXNode = document.createElement("X");
+                        Text nodeElementoListaInputsXValue =document.createTextNode(String.valueOf(gateList.get(i).getInputs().get(e).getGateLabel().getX()));
+                        elementoListaInputsXNode.appendChild(nodeElementoListaInputsXValue);
+                        elementoListaInputs.appendChild(elementoListaInputsXNode);
+                        
+                        Element elementoListaInputsYNode = document.createElement("Y");
+                        Text nodeElementoListaInputsYValue =document.createTextNode(String.valueOf(gateList.get(i).getInputs().get(e).getGateLabel().getY()));
+                        elementoListaInputsYNode.appendChild(nodeElementoListaInputsYValue);
+                        elementoListaInputs.appendChild(elementoListaInputsYNode);
+                        
+                        listaInputsNode.appendChild(elementoListaInputs);
+                		
+                	}
+                }
+                
+                itemNode.appendChild(listaInputsNode);
+                
+                if(gateList.get(i).getOutput() != null) {
+                	
+            		Element outputNode = document.createElement("OUTPUT");
+            		
+                    Element elementoOutputValueNode = document.createElement("VALUE");
+                    Text nodeElementoOutputValueValue =document.createTextNode(String.valueOf(gateList.get(i).getOutput().getValue()));
+                    elementoOutputValueNode.appendChild(nodeElementoOutputValueValue);
+                    outputNode.appendChild(elementoOutputValueNode);
+                    
+                    Element elementoOutputLockedNode = document.createElement("LOCKED");
+                    Text nodeElementoOutputLockedValue =document.createTextNode(String.valueOf(gateList.get(i).getOutput().isLocked()));
+                    elementoOutputLockedNode.appendChild(nodeElementoOutputLockedValue);
+                    outputNode.appendChild(elementoOutputLockedNode);
+                    
+                    Text nodeElementoOutputTypeValue = null;
+                    if(gateList.get(i).getOutput().getType().equals(GateType.AND)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("AND");
+                    }
+                    if(gateList.get(i).getOutput().getType().equals(GateType.NAND)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("NAND");
+                    }
+                    if(gateList.get(i).getOutput().getType().equals(GateType.OR)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("OR");
+                    }
+                    if(gateList.get(i).getOutput().getType().equals(GateType.NOR)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("NOR");
+                    }
+                    if(gateList.get(i).getOutput().getType().equals(GateType.NOT)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("NOT");
+                    }
+                    if(gateList.get(i).getOutput().getType().equals(GateType.XOR)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("XOR");
+                    }
+                    if(gateList.get(i).getOutput().getType().equals(GateType.XNOR)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("XNOR");
+                    }
+                    if(gateList.get(i).getOutput().getType().equals(GateType.INPUT)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("INPUT");
+                    }
+                    if(gateList.get(i).getOutput().getType().equals(GateType.OUTPUT)) {
+                    	nodeElementoOutputTypeValue =document.createTextNode("OUTPUT");
+                    }
+                    
+                    
+                    Element elementoOutputTypeNode = document.createElement("TYPE");
+                    elementoOutputTypeNode.appendChild(nodeElementoOutputTypeValue);
+                    outputNode.appendChild(elementoOutputTypeNode);
+                    
+                    
+                    Element elementoOutputXNode = document.createElement("X");
+                    Text nodeElementoOutputXValue =document.createTextNode(String.valueOf(gateList.get(i).getOutput().getGateLabel().getX()));
+                    elementoOutputXNode.appendChild(nodeElementoOutputXValue);
+                    outputNode.appendChild(elementoOutputXNode);
+                    
+                    Element elementoOutputYNode = document.createElement("Y");
+                    Text nodeElementoOutputYValue =document.createTextNode(String.valueOf(gateList.get(i).getOutput().getGateLabel().getY()));
+                    elementoOutputYNode.appendChild(nodeElementoOutputYValue);
+                    outputNode.appendChild(elementoOutputYNode);
+                    
+                    itemNode.appendChild(outputNode);
+                  
+                }
+                
+                raiz.appendChild(itemNode);
                 
             }
             
+            // GENERA XML
+            Source source = new DOMSource(document);
+            
+            // DONDE SE GUARDARA
+            
+            Result result = new StreamResult(new java.io.File(nombreArchivo + ".xml"));
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(source, result);
 			
-			
-		}catch(Exception e) {
-			
+		}catch(ParserConfigurationException e) {
+			return false;
 		}
 		return true;
 	

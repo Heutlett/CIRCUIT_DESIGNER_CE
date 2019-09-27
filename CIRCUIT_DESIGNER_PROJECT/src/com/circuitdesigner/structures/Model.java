@@ -3,8 +3,12 @@ package com.circuitdesigner.structures;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import com.circuitdesigner.view.Table;
+import com.circuitdesigner.xml.persistance.ControlGateXML;
 
 public class Model {
 	
@@ -25,6 +29,41 @@ public class Model {
 		lineList = new ArrayList<Line>();
 		inputList = new ArrayList<Gate>();
 		outputList = new ArrayList<Gate>();
+		
+	}
+	
+	public void guardarCircuito(String nombre) {
+		
+		try {
+			ControlGateXML.createXML(convertirArrayList(), nombre);
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private ArrayList<Gate> convertirArrayList() {
+		
+		ArrayList<Gate> lista = new ArrayList<Gate>();
+		
+		int i = 0;
+		
+		while(gateList.get(i) != null) {
+			
+			lista.add(gateList.get(i));
+			
+			i++;
+			
+		}
+		
+		return lista;
 		
 	}
 	

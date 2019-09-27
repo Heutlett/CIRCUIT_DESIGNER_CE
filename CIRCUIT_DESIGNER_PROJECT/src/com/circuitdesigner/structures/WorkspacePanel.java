@@ -18,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,6 +31,7 @@ import javax.swing.border.LineBorder;
 
 import com.circuitdesigner.structures.Gate.GateType;
 import com.circuitdesigner.view.Window;
+import com.circuitdesigner.xml.persistance.ControlGateXML;
 
 public class WorkspacePanel extends JPanel implements MouseListener{
 
@@ -48,7 +50,13 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	private GateType[] typeGates = {GateType.AND, GateType.NAND, GateType.OR, GateType.NOR, GateType.NOT, GateType.XOR, GateType.XNOR, GateType.INPUT, GateType.OUTPUT};
 	private int yAnterior = 0;
 	private boolean insertValues = false;
-	
+	private JLabel lbl_palette_and;
+	private JLabel lbl_palette_nand;
+	private JLabel lbl_palette_or;
+	private JLabel lbl_palette_nor;
+	private JLabel lbl_palette_not;
+	private JLabel lbl_palette_xor;
+	private JLabel lbl_palette_xnor;
 	
 	public WorkspacePanel() {
 		
@@ -76,43 +84,43 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 		setLayout(null);
 		
-		JLabel lbl_palette_and = new JLabel("AND");
+		lbl_palette_and = new JLabel("AND");
 		lbl_palette_and.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_and.PNG")));
 		lbl_palette_and.setBounds(74, 100, 80, 80);
 		add(lbl_palette_and);
 		createMouseEvents(lbl_palette_and);;
 		
-		JLabel lbl_palette_nand = new JLabel("NAND");
+		lbl_palette_nand = new JLabel("NAND");
 		lbl_palette_nand.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_nand.PNG")));
 		lbl_palette_nand.setBounds(74, 200, 80, 80);
 		add(lbl_palette_nand);
 		createMouseEvents(lbl_palette_nand);
 		
-		JLabel lbl_palette_or = new JLabel("OR");
+		lbl_palette_or = new JLabel("OR");
 		lbl_palette_or.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_or.PNG")));
 		lbl_palette_or.setBounds(74, 300, 80, 80);
 		add(lbl_palette_or);
 		createMouseEvents(lbl_palette_or);
 		
-		JLabel lbl_palette_nor = new JLabel("NOR");
+		lbl_palette_nor = new JLabel("NOR");
 		lbl_palette_nor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_nor.PNG")));
 		lbl_palette_nor.setBounds(74, 400, 80, 80);
 		add(lbl_palette_nor);
 		createMouseEvents(lbl_palette_nor);
 		
-		JLabel lbl_palette_not = new JLabel("NOT");
+		lbl_palette_not = new JLabel("NOT");
 		lbl_palette_not.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_not.PNG")));
 		lbl_palette_not.setBounds(74, 500, 80, 80);
 		add(lbl_palette_not);
 		createMouseEvents(lbl_palette_not);
 		
-		JLabel lbl_palette_xor = new JLabel("XOR");
+		lbl_palette_xor = new JLabel("XOR");
 		lbl_palette_xor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_xor.PNG")));
 		lbl_palette_xor.setBounds(74, 600, 80, 80);
 		add(lbl_palette_xor);
 		createMouseEvents(lbl_palette_xor);
 		
-		JLabel lbl_palette_xnor = new JLabel("XNOR");
+		lbl_palette_xnor = new JLabel("XNOR");
 		lbl_palette_xnor.setIcon(new ImageIcon(Window.class.getResource("/com/circuitdesigner/media/img_xnor.PNG")));
 		lbl_palette_xnor.setBounds(74, 700, 80, 80);
 		add(lbl_palette_xnor);
@@ -127,7 +135,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		
 		JLabel lbl_linea1 = new JLabel("");
 		lbl_linea1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		lbl_linea1.setBounds(0, 0, 237, 841);
+		lbl_linea1.setBounds(0, 0, 237, 945);
 		add(lbl_linea1);
 		
 		JLabel lbl_linea2 = new JLabel("");
@@ -177,6 +185,35 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		});
 		btnPrint.setBounds(457, 0, 146, 41);
 		add(btnPrint);
+		
+		JButton btnNewButton = new JButton("Guardar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre con el que desea guardar el circuito");
+				
+				m1.guardarCircuito(nombre);
+				
+			}
+		});
+		btnNewButton.setBounds(622, 0, 132, 41);
+		add(btnNewButton);
+		
+		JLabel lblGuardado = new JLabel("GUARDADO");
+		lblGuardado.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblGuardado.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+		lblGuardado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGuardado.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre de circuito que desea abrir");
+				
+				recuperarModelo(nombre);
+			}
+		});
+		lblGuardado.setBounds(55, 780, 116, 90);
+		add(lblGuardado);
 		
 	}
 	
@@ -712,6 +749,155 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			}
 			
 		}
+	}
+	
+	private void unirCompuertas(ArrayList<Gate> compuertas) {
+		
+		for(int i = 0; i < compuertas.size(); i++) {
+			for(int e = 0; e < compuertas.size(); e++) {
+				
+				for(int a = 0; a < compuertas.get(i).getInputs().size(); a++) {
+					if(compuertas.get(i).getInputs().get(a).getX() == compuertas.get(e).getX() && compuertas.get(i).getInputs().get(a).getY() == compuertas.get(e).getY()) {
+						compuertas.get(i).getInputs().set(a, compuertas.get(e));
+					}
+						
+				}
+				
+				if(compuertas.get(i).getOutput().getX() == compuertas.get(e).getX() && compuertas.get(i).getOutput().getY() == compuertas.get(e).getY()) {
+					compuertas.get(i).setOutput(compuertas.get(e));
+				}
+				
+			}
+		}
+		
+	}
+	
+	private void recuperarModelo(String nombre) {
+		
+		ArrayList<Gate> listaGate = ControlGateXML.readGateXML(nombre);
+		
+		unirCompuertas(listaGate);
+		
+		for(int i = 0; i < listaGate.size(); i++) {
+			listaGate.get(i).toStringXML();
+		}
+		
+		
+		for(int i = 0; i < listaGate.size(); i++) {
+			
+			Gate nueva = listaGate.get(i);
+			
+			nueva.setGateID(Gate.getNewGateID());
+			
+			nueva.setLines(new ArrayList<Line>());
+			
+			JLabel labelID = new JLabel(nueva.getGateID());
+			labelID.setForeground(Color.blue);
+			labelID.setSize(40,20);
+			nueva.setLabelID(labelID);
+			this.add(labelID);
+			
+			JLabel label = new JLabel();
+			label.setText("asdasd");
+			label.setSize(80,32);
+			label.setLocation(nueva.getX(), nueva.getY());
+			ponerImagen(label, listaGate.get(i).getType());
+			this.add(label);
+			nueva.setGateLabel(label);
+			nueva.getGateLabel().setName(nueva.getGateID());
+			
+			nueva.getLabelID().setLocation(nueva.getGateLabel().getX()+25,nueva.getGateLabel().getY()-19);
+			
+			nueva.getGateLabel().addMouseMotionListener(new MouseMotionAdapter() {
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					dragGate(nueva, e);
+				}
+				
+			});
+			nueva.getGateLabel().addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if(eraser) {
+						removeGate(nueva);
+					}
+				}
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					limitLocation(nueva);
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					Gate.toString(nueva);
+				}
+			});		
+			
+			
+			for(int e = 0; e < nueva.getInputs().size(); e++) {
+				if(nueva.getInputs().get(e).getType() == GateType.INPUT ) {
+					
+					Gate entrada = new Gate(1, GateType.INPUT, nueva.getGateID());
+					
+					entrada.getGateLabel().setLocation(nueva.getGateLabel().getX()-31, nueva.getGateLabel().getY()-5+(e*20));
+					
+					nueva.getInputs().set(e, entrada);
+					this.add(entrada.getGateLabel());
+					entrada.getGateLabel().setVisible(true);
+					
+					comprobacionDeLineas(entrada.getGateLabel());
+					
+					m1.getInputList().add(entrada);				}
+			}
+			
+			if(nueva.getOutput().getType() == GateType.OUTPUT) {
+				
+				Gate salida = new Gate(1, GateType.OUTPUT,nueva.getGateID());
+				
+				salida.getGateLabel().setLocation(nueva.getGateLabel().getX()+85, nueva.getGateLabel().getY()+5);
+				comprobacionDeLineas(salida.getGateLabel());
+				this.add(salida.getGateLabel());
+				salida.getGateLabel().setVisible(true);
+				m1.getOutputList().add(salida);
+				
+			}else {
+				
+			}
+			
+			
+			
+			this.repaint();
+			
+			m1.addGate(nueva);
+			
+			
+			
+		}
+	}
+	
+	private void ponerImagen(JLabel label, GateType type) {
+		
+		if(type.equals(GateType.AND)) {
+			label.setIcon(lbl_palette_and.getIcon());
+		}
+		if(type.equals(GateType.NAND)) {
+			label.setIcon(lbl_palette_nand.getIcon());
+		}
+		if(type.equals(GateType.OR)) {
+			label.setIcon(lbl_palette_or.getIcon());
+		}
+		if(type.equals(GateType.NOR)) {
+			label.setIcon(lbl_palette_nor.getIcon());
+		}
+		if(type.equals(GateType.NOT)) {
+			label.setIcon(lbl_palette_not.getIcon());
+		}
+		if(type.equals(GateType.XOR)) {
+			label.setIcon(lbl_palette_xor.getIcon());
+		}
+		if(type.equals(GateType.XNOR)) {
+			label.setIcon(lbl_palette_xnor.getIcon());
+		}
+		
 	}
 
 	@Override
