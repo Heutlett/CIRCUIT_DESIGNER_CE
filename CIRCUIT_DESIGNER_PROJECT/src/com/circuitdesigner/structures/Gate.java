@@ -36,6 +36,9 @@ public class Gate {
 	private int y;
 	
 	/**
+	 * 
+	 * Constructor para compuertas tipo entrada o salida.
+	 * 
 	 * @param int
 	 * @param GateType
 	 * @param String
@@ -63,6 +66,9 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Contructor para compuertas generales: AND, NAND, OR, NOR, NOT, XOR, XNOR.
+	 * 
 	 * @param GateType
 	 */
 	public Gate(GateType type) {
@@ -88,6 +94,8 @@ public class Gate {
 	}
 	/**
 	 * 
+	 * Constructor para compuertas recuperadas de XML.
+	 * 
 	 * @param int
 	 * @param boolean
 	 * @param GateType
@@ -104,9 +112,10 @@ public class Gate {
 		
 	}
 	
-	
-
 	/**
+	 * 
+	 * Si la compuerta esta bloqueada devuelve true, y false de lo contrario.
+	 * 
 	 * @return boolean
 	 */
 	public boolean isLocked() {
@@ -114,6 +123,10 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Bloquea la compuerta para que esta no se pueda arrastrar con el mouse, este bloqueo se aplica cuando la compuerta tiene
+	 * enlaces a otras compuertas para evitar problemas con las lineas (si se borran sus conexiones, se vuelve a desbloquear).
+	 * 
 	 * @param boolean
 	 */
 	public void setLocked(boolean bloqueada) {
@@ -121,6 +134,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve una lista que guarda las entradas de la compuerta.
+	 * 
 	 * @return ArrayList<Gate>
 	 */
 	public ArrayList<Gate> getInputs() {
@@ -128,6 +144,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Sustituye la lista de entradas por la lista de entradas pasada por parametro.
+	 * 
 	 * @param ArrayList<Gate>
 	 */
 	public void setInputs(ArrayList<Gate> entradas) {
@@ -135,6 +154,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve la salida de la compuerta.
+	 * 
 	 * @return Gate
 	 */
 	public Gate getOutput() {
@@ -142,6 +164,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna una salida a la compuerta.
+	 * 
 	 * @param Gate
 	 */
 	public void setOutput(Gate salida) {
@@ -149,6 +174,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve el tipo de la compuerta (AND, NAND, OR, NOR, NOT, XOR, XNOR, INPUT, OUTPUT).
+	 * 
 	 * @return GateType
 	 */
 	public GateType getType() {
@@ -156,6 +184,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna el tipo de la compuerta (AND, NAND, OR, NOR, NOT, XOR, XNOR, INPUT, OUTPUT).
+	 * 
 	 * @param GateType
 	 */
 	public void setType(GateType tipo) {
@@ -163,6 +194,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve el JLabel que se encarga de mostrar la imagen de la compuerta.
+	 * 
 	 * @return JLabel
 	 */
 	public JLabel getGateLabel() {
@@ -170,6 +204,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna el JLabel que se encarga de mostrar la imagen de la compuerta.
+	 * 
 	 * @param JLabel
 	 */
 	public void setGateLabel(JLabel labelCompuerta) {
@@ -177,6 +214,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve la cantidad de entradas que existen en el programa.
+	 * 
 	 * @return int
 	 */
 	public static int getInQuantity() {
@@ -184,6 +224,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna la cantidad de proposiones totales de programa.
+	 * 
 	 * @param int
 	 */
 	public static void setInQuantity(int cantProposicionesIn) {
@@ -191,6 +234,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve la cantidad de salidas que existen en el programa.
+	 * 
 	 * @return int
 	 */
 	public static int getOutQuantity() {
@@ -198,6 +244,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna la cantidad de salidas que existen en el programa.
+	 * 
 	 * @param int
 	 */
 	public static void setOutQuantity(int cantProposicionesOut) {
@@ -205,14 +254,19 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve el valor de la compuerta (0,1).
+	 * 
 	 * @return int
 	 */
-	
 	public int getValue() {
 		return value;
 	}
 
 	/**
+	 * 
+	 * Asigna el valor de la compuerta.
+	 * 
 	 * @param int
 	 */
 	public void setValue(int valorEntrada) {
@@ -220,6 +274,9 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Devuelve la cantidad total de compuertas que existen en el programa.
+	 * 
 	 * @return int
 	 */
 	public static int getGatesQuantity() {
@@ -227,6 +284,9 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Asigna la cantidad total de compuertas que existen en el programa.
+	 * 
 	 * @param int
 	 */
 	public static void setGatesQuantity(int cantCompuertas) {
@@ -234,6 +294,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve el ID de la compuerta (i<n>, o<n>, C<n>).
+	 * 
 	 * @return String
 	 */
 	public String getGateID() {
@@ -241,6 +304,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna el ID de la compuerta (i<n>, o<n>, C<n>).
+	 * 
 	 * @param String
 	 */
 	public void setGateID(String idCompuerta) {
@@ -248,6 +314,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve el JLabel que permite que se vea el identificador de la compuerta (i<n>, o<n>, C<n>).
+	 * 
 	 * @return JLabel
 	 */
 	public JLabel getLabelID() {
@@ -255,6 +324,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna el JLabel que permite que se vea el identificador de la compuerta (i<n>, o<n>, C<n>).
+	 * 
 	 * @param JLabel 
 	 */
 	public void setLabelID(JLabel labelId) {
@@ -262,6 +334,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve la lista que almacena las lineas que posee esta compuerta.
+	 * 
 	 * @return ArrayList<Line>
 	 */
 	public ArrayList<Line> getLines() {
@@ -269,6 +344,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna la lista que almacena las lineas que posee la compuerta.
+	 * 
 	 * @param ArrayList<Line>
 	 */
 	public void setLines(ArrayList<Line> lines) {
@@ -276,6 +354,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve el ID de la compuerta padre, en caso de ser una compuerta hija.
+	 * 
 	 * @return String
 	 */
 	public String getPreviusGateOutputID() {
@@ -283,6 +364,9 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Asigna el ID de la compuerta padre, en caso de ser una compuerta hija.
+	 * 
 	 * @param String
 	 */
 	public void setPreviusGateOutputID(String previusGateOutputID) {
@@ -290,6 +374,8 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Devuelve la cantidad de trues que tiene la compuerta en sus entradas para realizar el calculo de su salida.
 	 * 
 	 * @return int
 	 */
@@ -299,6 +385,8 @@ public class Gate {
 	
 	/**
 	 * 
+	 * Asigna la cantidad de trues que tiene la compuerta en sus entradas para realizar el calculo de su salida.
+	 * 
 	 * @param int
 	 */
 	public void setCantTrue(int cantTrue) {
@@ -306,6 +394,8 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve la cantidad de falses que tiene la compuerta en sus entradas para realizar el calculo de su salida.
 	 * 
 	 * @return int
 	 */
@@ -315,6 +405,8 @@ public class Gate {
 	
 	/**
 	 * 
+	 * Asigna la cantidad de falses que tiene la compuerta en sus entradas para realizar el calculo de su salida.
+	 * 
 	 * @param int
 	 */
 	public void setCantFalse(int cantFalse) {
@@ -322,6 +414,8 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Devuelve la coordenada X donde se encuentra ubicada la compuerta en el panel.
 	 * 
 	 * @return int
 	 */
@@ -331,6 +425,8 @@ public class Gate {
 	
 	/**
 	 * 
+	 * Asigna la coordenada X donde se encuentra ubicada la compuerta en el panel.
+	 * 
 	 * @param int
 	 */
 	public void setX(int x) {
@@ -338,6 +434,8 @@ public class Gate {
 	}
 
 	/**
+	 * 
+	 * Devuelve la coordenada Y donde se encuentra ubicada la compuerta en el panel.
 	 * 
 	 * @return int
 	 */
@@ -347,6 +445,8 @@ public class Gate {
 
 	/**
 	 * 
+	 * Asigna la coordenada Y donde se encuentra ubicada la compuerta en el panel.
+	 * 
 	 * @param int
 	 */
 	public void setY(int y) {
@@ -354,6 +454,9 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Devuelve un ID unico de compuerta general (AND, NAND, OR, NOR, NOT, XOR, XNOR).
+	 * 
 	 * @return String
 	 */
 	public static String getNewGateID() {
@@ -364,6 +467,9 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Busca una entrada por ID en la lista de entradas de la compuerta y la devuelve en caso de encontrarla.
+	 * 
 	 * @param String
 	 * @return Gate
 	 */
@@ -378,6 +484,8 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Ubica los labels de la compuerta en el panel.
 	 * 
 	 */
 	public void setInputOutputLocations() {
@@ -396,6 +504,9 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Hace el calculo de la salida de la compuerta por medio de un metodo recursivo.
+	 * 
 	 * @return int
 	 */
 	public int calculate() {
@@ -521,6 +632,8 @@ public class Gate {
 	
 	/**
 	 * 
+	 * Disminuye el valor de los contadores, se utiliza cuando se borra una compuerta.
+	 * 
 	 */
 	public static void decreaseQuantity() {
 		inQuantity-=2;
@@ -529,6 +642,9 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Imprime en consola la informacion de la compuerta.
+	 * 
 	 * @param Gate
 	 */
 	public static void toString(Gate pGate) {
@@ -558,7 +674,7 @@ public class Gate {
 	}
 	
 	/**
-	 * 
+	 * Imprime en consola la informacion de la compuerta importada de XML.
 	 */
 	public void toStringXML() {
 		
@@ -586,6 +702,9 @@ public class Gate {
 	}
 	
 	/**
+	 * 
+	 * Busca si la compuerta posee una linea que tenga el tail y el peak igual al de los parametros y devuelve true si la encuentra y 
+	 * false de lo contrario.
 	 * 
 	 * @param String
 	 * @param String

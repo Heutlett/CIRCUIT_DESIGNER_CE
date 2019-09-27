@@ -62,7 +62,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	private String nombreArchivo;
 	
 	/**
-	 * 
+	 * Constructor del panel.
 	 */
 	public WorkspacePanel() {
 		
@@ -72,7 +72,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * 
+	 * Inicializa el panel y sus componentes.
 	 */
 	private void initComponents() {
 		
@@ -227,7 +227,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * @param label
+	 * 
+	 * Crea los eventos a los labels del palette.
+	 * 
+	 * @param JLabel
 	 */
 	private void createMouseEvents(JLabel label) {
 		label.addMouseMotionListener(new MouseMotionAdapter() {
@@ -265,13 +268,13 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * @param l
+	 * 
+	 * Desconecta las compuertas cuando se borra una linea (quita las referencias que tenian las compuertas unidas por esta linea).
+	 * 
+	 * @param Line
 	 */
 	private void desconectarCompuertas(Line l) {
-		
-		//output
-		
-		//PEAK
+
 		if(l.getPeak().getOutput() != null) {
 			if(l.getPeak().getOutput().equals(l.getPeak()) || l.getPeak().getOutput().equals(l.getTail())){
 				l.getPeak().setOutput(null);
@@ -279,7 +282,6 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			
 		}
 
-		//Tail
 		if(l.getTail().getOutput() != null) {
 			if(l.getTail().getOutput().equals(l.getPeak()) || l.getTail().getOutput().equals(l.getTail())){
 				l.getTail().setOutput(null);
@@ -287,9 +289,6 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			
 		}
 
-		//input
-		
-		//Peak
 		for(int i = 0; i < l.getPeak().getInputs().size(); i++) {
 			
 			if(l.getPeak().getInputs().get(i).equals(l.getPeak()) || l.getPeak().getInputs().get(i).equals(l.getTail())) {
@@ -297,18 +296,19 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 			}
 			
 		}
-		//tail
+
 		for(int i = 0; i < l.getTail().getInputs().size(); i++) {
 			
 			if(l.getTail().getInputs().get(i).equals(l.getPeak()) || l.getTail().getInputs().get(i).equals(l.getTail())) {
 				l.getTail().getInputs().remove(i);
 			}
-			
 		}
-		
 	}
 	
 	/**
+	 * 
+	 * Elimina las referencias a esta linea que tengan otras compuertas.
+	 * 
 	 * @param Line
 	 */
 	private void borrarLineasCompuerta(Line l) {
@@ -329,6 +329,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Elimina la linea pasada por parametro.
+	 * 
 	 * @param Line
 	 */
 	private void borrarLinea(Line l) {
@@ -343,7 +346,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * @param c
+	 * 
+	 * Borra de panel las lineas de la compuerta pasada por parametro.
+	 * 
+	 * @param Gate
 	 */
 	private void borrarLineasDelPanel(Gate c) {
 		
@@ -368,7 +374,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * 
+	 * Actualiza la pantalla.
 	 */
 	private void actualizarPantalla() {
 		
@@ -377,7 +383,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * @param g
+	 * 
+	 * Vuelve a trazar las lineas en el panel.
+	 * 
+	 * @param Graphics2D
 	 */
 	private void repintar(Graphics2D g) {
 		
@@ -387,6 +396,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		}
 	}
 	/**
+	 * 
+	 * Agrega los eventos a las lineas.
+	 * 
 	 * @param Line
 	 */
 	private void agregarComportamientoLinea(Line l) {
@@ -421,6 +433,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Crea una nueva linea y la traza en el panel.
+	 * 
 	 * @param int
 	 * @param int
 	 * @param int
@@ -455,6 +470,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Agrega al panel las JLabels de la compuerta pasada por parametro.
+	 * 
 	 * @param Gate
 	 */
 	private void agregarEntradaSalida(Gate c) {
@@ -466,6 +484,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		add(c.getLabelID());
 	}
 	/**
+	 * 
+	 * Asigna los eventos de raton que deben tener las lineas.
+	 * 
 	 * @param JLabel
 	 */
 	private void comprobacionDeLineas(JLabel l) {
@@ -523,7 +544,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * 
+	 * Reinicia las flags que controlan el punto inicial y final de una nueva linea a crear.
 	 */
 	private void resetPoints() {
 		if(startPoint!=null) {
@@ -537,6 +558,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Crea una nueva linea.
+	 * 
 	 * @param Gate
 	 * @param Gate
 	 * @param String
@@ -574,7 +598,10 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * @param c
+	 * 
+	 * Agrega el comportamiento a las entradas de la compuerta pasada por parametro.
+	 * 
+	 * @param Gate
 	 */
 	private void comportamientoEntradas(Gate c) {
 		
@@ -591,6 +618,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 
 	/**
+	 * 
+	 * Devuelve el GateType equivalente al String pasado por parametro.
+	 * 
 	 * @param String
 	 * @return GateType
 	 */
@@ -604,6 +634,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 		return null;
 	}
 	/**
+	 * 
+	 * Inicializa las caracteristicas principales de una nueva compuerta.
+	 * 
 	 * @param Gate
 	 * @param JLabel
 	 */
@@ -625,6 +658,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Crea una nueva compuerta.
+	 * 
 	 * @param JLabel
 	 * @return Gate
 	 */
@@ -669,6 +705,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Agrega el comportamiento de arrastre de las compuertas.
+	 * 
 	 * @param Gate
 	 * @param MouseEvent
 	 */
@@ -694,6 +733,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Limita las compuertas para que no se puedan arrastras fuera de los limites.
+	 * 
 	 * @param Gate
 	 */
 	private void limitLocation(Gate gate) {
@@ -708,6 +750,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 
 	/**
+	 * 
+	 * Elimina una compuerta.
+	 * 
 	 * @param Gate
 	 */
 	private void removeGate(Gate gate) {
@@ -727,7 +772,7 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
-	 * 
+	 * Checkea si la compuerta no tiene enlaces para desbloquear su arrastre.
 	 */
 	private void checkForUnlockDrag() {
 		for(int i = 0; i < m1.getGateList().size();i++) {
@@ -746,7 +791,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 
 	/**
-	 * 
+	 * Revisa la lista de compuertas en busca de compuertas que se encuentren incompletas (entradas faltantes, salidas faltantes)
+	 * y en caso de estar incompletas las arregla.
 	 */
 	private void checkOutputsInputs() {
 		
@@ -796,6 +842,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 
 	/**
+	 * 
+	 * Borra los labels de la compuerta pasada por parametro.
+	 * 
 	 * @param Gate
 	 */
 	private void borrarLabelsCompuerta(Gate c) {
@@ -813,6 +862,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Enlaza las compuertas del ArrayList de compuertas importadas de XML.
+	 * 
 	 * @param ArrayList<Gate>
 	 */
 	private void unirCompuertas(ArrayList<Gate> compuertas) {
@@ -837,6 +889,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Se encarga de cargar un circuito que se encuentra guardado en el equipo en formato XML.
+	 * 
 	 * @param String
 	 */
 	private ArrayList<Gate> recuperarModelo(String nombre) {
@@ -952,6 +1007,8 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	/**
 	 * 
+	 * Localiza las compuertas del circuito cargado en donde clickee el usuario.
+	 * 
 	 * @param ArrayList<Gate>
 	 * @param int
 	 * @param int
@@ -983,6 +1040,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Agrega las lineas a las compuertas recuperadas de XML.
+	 * 
 	 * @param ArrayList<Gate>
 	 */
 	private void agregarLineasRecuperar(ArrayList<Gate> gates) {
@@ -1005,6 +1065,9 @@ public class WorkspacePanel extends JPanel implements MouseListener{
 	}
 	
 	/**
+	 * 
+	 * Asigna las imagenes a los JLabel de las compuertas recuperadas de XML.
+	 * 
 	 * @param JLabel
 	 * @param GateType
 	 */

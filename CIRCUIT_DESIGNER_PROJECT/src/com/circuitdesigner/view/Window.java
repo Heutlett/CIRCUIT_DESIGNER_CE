@@ -10,12 +10,20 @@ import javax.swing.JScrollPane;
 
 import com.circuitdesigner.structures.WorkspacePanel;
 import java.awt.event.MouseWheelListener;
-
+/**
+ * 
+ * @author Adrian Araya Ramirez
+ * 
+ * @version 1.8
+ *
+ */
 public class Window extends JFrame{
 
 	private JPanel panel;
 	private JScrollPane scrollPane;	
-	
+	/**
+	 * Constructor de la ventana.
+	 */
 	public Window() {
 		setResizable(false);
 		setTitle("Circuit Designer");
@@ -24,7 +32,9 @@ public class Window extends JFrame{
 		setLocationRelativeTo(null);
 		initComponents();
 	}
-
+	/**
+	 * Inicializa los componentes de la ventana.
+	 */
 	private void initComponents() {
 		
 		panel = new WorkspacePanel();

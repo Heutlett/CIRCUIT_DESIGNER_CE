@@ -1,5 +1,11 @@
 package com.circuitdesigner.structures;
-
+/**
+ * 
+ * @author Adrian Araya Ramirez
+ * 
+ * @version 1.8
+ *
+ */
 public class GateLinkedList {
 	
 	private Node first;
@@ -28,6 +34,9 @@ public class GateLinkedList {
     } 
     
     /**
+     * 
+     * Devuelve true si la lista esta vacia, y false de lo contrario.
+     * 
      * @return boolean 
      */
     private boolean isEmpty() {
@@ -38,6 +47,9 @@ public class GateLinkedList {
     }
     
     /**
+     * 
+     * Agrega una compuerta al final de la lista.
+     * 
      * @param Gate
      */
     public void add(Gate g) {
@@ -55,6 +67,9 @@ public class GateLinkedList {
     }
     
     /**
+     * 
+     * Devuelve la compuerta que se encuentra en el indice pasado por parametro.
+     * 
      * @param int
      * @return Gate
      */
@@ -77,6 +92,9 @@ public class GateLinkedList {
     }
     
     /**
+     * 
+     * Busca en la lista una compuerta por ID y la devuelve si la encuentra, devuelve null si no la encuentra.
+     * 
      * @param String
      * @return Gate
      */
@@ -97,6 +115,9 @@ public class GateLinkedList {
     }
     
     /**
+     * 
+     * Busca la compuerta pasada por parametro en la lista, si la encuentra devuelve true y false de lo contrario.
+     * 
      * @param Gate
      * @return boolean
      */
@@ -123,6 +144,9 @@ public class GateLinkedList {
     }
     
     /**
+     * 
+     * Elimina de la lista la compuerta pasada por parametro.
+     * 
      * @param Gate
      */
     public void remove(Gate gate) {
@@ -147,49 +171,16 @@ public class GateLinkedList {
         }
     	
     }
-
+    
 	/**
-	 * @return Node
-	 */
-	public Node getFirst() {
-		return first;
-	}
-
-	/**
-	 * @param first
-	 */
-	public void setFirst(Node first) {
-		this.first = first;
-	}
-
-	/**
-	 * @return Node
-	 */
-	public Node getLast() {
-		return last;
-	}
-
-	/**
-	 * @param Node
-	 */
-	public void setLast(Node last) {
-		this.last = last;
-	}
-
-	/**
+	 * 
+	 * Devuelve el tamano de la lista.
+	 * 
 	 * @return int
 	 */
 	public int size() {
 		return size;
 	}
-
-	/**
-	 * @param int
-	 */
-	public void setSize(int size) {
-		this.size = size;
-	}
-	
 	
 }
 

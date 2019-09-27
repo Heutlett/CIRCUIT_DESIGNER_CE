@@ -22,6 +22,9 @@ public class Line {
 	private JLabel peakDeleteLabel;
 	
 	/**
+	 * 
+	 * Constructor de lineas
+	 * 
 	 * @param int
 	 * @param int
 	 * @param int
@@ -49,6 +52,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve el JLabel que se utiliza para borrar las lineas.
+	 * 
 	 * @return JLabel
 	 */
 	public JLabel getTailDeleteLabel() {
@@ -56,6 +62,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna el JLabel que se utiliza para borrar las lineas.
+	 * 
 	 * @param JLabel
 	 */
 	public void setTailDeleteLabel(JLabel tailDeleteLabel) {
@@ -63,6 +72,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve el JLabel que se utiliza para borrar las lineas.
+	 * 
 	 * @return JLabel
 	 */
 	public JLabel getPeakDeleteLabel() {
@@ -70,6 +82,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna el JLabel que se utiliza para borrar las lineas.
+	 * 
 	 * @param JLabel
 	 */
 	public void setPeakDeleteLabel(JLabel peakDeleteLabel) {
@@ -77,6 +92,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve la coordenada x1 de la linea.
+	 * 
 	 * @return int
 	 */
 	public int getX1() {
@@ -84,6 +102,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna la coordenada x1 de la linea.
+	 * 
 	 * @param int
 	 */
 	public void setX1(int x1) {
@@ -91,6 +112,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve la coordenada y1 de la linea.
+	 * 
 	 * @return int
 	 */
 	public int getY1() {
@@ -98,6 +122,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna la coordenada y1 de la linea.
+	 * 
 	 * @param int
 	 */
 	public void setY1(int y1) {
@@ -105,6 +132,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve la coordenada x2 de la linea.
+	 * 
 	 * @return int
 	 */
 	public int getX2() {
@@ -112,6 +142,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna la coordenada x2 de la linea.
+	 * 
 	 * @param int
 	 */
 	public void setX2(int x2) {
@@ -119,6 +152,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve la coordenada y2 de la linea.
+	 * 
 	 * @return int
 	 */
 	public int getY2() {
@@ -126,6 +162,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna la coordenada y2 de la linea.
+	 * 
 	 * @param int
 	 */
 	public void setY2(int y2) {
@@ -133,6 +172,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve la compuerta que tiene en la cola la linea.
+	 * 
 	 * @return Gate
 	 */
 	public Gate getTail() {
@@ -140,6 +182,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna la compuerta que tiene en la cola la linea.
+	 * 
 	 * @param Gate
 	 */
 	public void setTail(Gate tail) {
@@ -147,6 +192,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve la compuerta que se encuentra en el pico de la linea.
+	 * 
 	 * @return Gate
 	 */
 	public Gate getPeak() {
@@ -154,6 +202,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna la compuerta que se encuentra en el pico de la linea.
+	 * 
 	 * @param Gate
 	 */
 	public void setPeak(Gate peak) {
@@ -161,6 +212,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Devuelve el color de la linea.
+	 * 
 	 * @return Color
 	 */
 	public Color getColor() {
@@ -168,6 +222,9 @@ public class Line {
 	}
 
 	/**
+	 * 
+	 * Asigna el color de la linea.
+	 * 
 	 * @param Color
 	 */
 	public void setColor(Color color) {
@@ -175,6 +232,9 @@ public class Line {
 	}
 	
 	/**
+	 * 
+	 * Devuelve un String con la informacion de la linea.
+	 * 
 	 * @param String
 	 */
 	public String toString() {

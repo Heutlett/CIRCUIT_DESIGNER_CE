@@ -10,7 +10,4 @@ public class Main {
 		w.setVisible(true);
 
 	}
-	
-	
-
 }

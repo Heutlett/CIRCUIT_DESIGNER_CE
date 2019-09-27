@@ -26,7 +26,7 @@ public class Model {
 	private Gate outputGate;
 
 	/**
-	 * 
+	 * Constructor del modelo.
 	 */
 	private Model() {
 		
@@ -38,6 +38,9 @@ public class Model {
 	}
 	
 	/**
+	 * 
+	 * Guarda el circuito en un archivo XML (Parsing).
+	 * 
 	 * @param String
 	 */
 	public void guardarCircuito(String nombre) {
@@ -58,6 +61,9 @@ public class Model {
 	}
 	
 	/**
+	 * 
+	 * Convierte la lista enlazada de compuertas en un ArrayList para el parsing.
+	 * 
 	 * @return ArrayList<Gate>
 	 */
 	private ArrayList<Gate> convertirArrayList() {
@@ -79,6 +85,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Devuelve un arreglo de Strings que almacena los nombres de las columnas de la tabla resultante (i<0>, i<1>, o<0>).
+	 * 
 	 * @return String[]
 	 */
 	private String[] generateColumnNames() {
@@ -102,6 +111,9 @@ public class Model {
 	}
 	
 	/**
+	 * 
+	 * Hace el calculo de la combinacion de valores segun el indice que se pasa y agrega el valor resultante de salida.
+	 * 
 	 * @param int
 	 * @param Object[][]
 	 */
@@ -119,6 +131,10 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Pasa a la funcion calculate cada iteracion/combinacion de la tabla de proposiones para que haga el calculo y llene los 
+	 * resultados de las salidas.
+	 * 
 	 * @param int [][]
 	 * @param Object[][]
 	 */
@@ -140,6 +156,10 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Se encarga de mostrar la tabla con los resultados en pantalla, si se le pasa por parametro que el usuario desea ingresar 
+	 * los valores de las compuertas se le muestran showInputDialogs para que ingrese estos valores.
+	 * 
 	 * @param boolean
 	 */
 	public void showTable(boolean insertValues) {
@@ -205,6 +225,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Genera y devuelve una tabla con las 2^n cantidad de combinaciones posibles segun la cantidad de entradas.
+	 * 
 	 * @param int
 	 * @return int[][]
 	 */
@@ -247,6 +270,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Elimina de la lista de entradas y salidas, las entradas y salidas de la compuerta pasada por parametro.
+	 * 
 	 * @param Gate
 	 */
 	private void removeInsOutsGate(Gate gate) {
@@ -260,6 +286,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * La compuerta pasada por parametro busca si otras compuertas se enlazan con ella, y se elimina la referencia de ser asi.
+	 * 
 	 * @param Gate
 	 */
 	public void removeInsOutsSons(Gate gate) {
@@ -267,7 +296,6 @@ public class Model {
 		if(gate.getOutput() != null) {
 			if(gate.getOutput().getGateID().contains("C")) {
 				gate.getOutput().getInputs().remove(gate);
-				System.out.println("Soy " + gate.getOutput().getGateID() + " y borre mi entrada : " + gate.getGateID());
 			}
 			
 		}
@@ -283,6 +311,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Busca y devuelve una compuerta si esta tiene en su salida la salida pasada por parametro.
+	 * 
 	 * @param String
 	 * @return Gate
 	 */
@@ -300,6 +331,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Busca y devuelve una compuerta si esta tiene en sus entradas la entrada pasada por parametro.
+	 * 
 	 * @param String
 	 * @return Gate
 	 */
@@ -320,6 +354,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Agrega a las listas de inputs y outputs las entradas y salidas de la compuerta pasada por parametro.
+	 * 
 	 * @param Gate
 	 */
 	public void addInputsOutputs(Gate gate) {
@@ -332,7 +369,7 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Imprime en consola las entradas que existen en el programa.
 	 */
 	public void printInputs() {
 		System.out.print("Ins: ");
@@ -345,7 +382,7 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Imprime en consola las salidas que existen en el programa.
 	 */
 	public void printOutputs() {
 		System.out.print("Outs: ");
@@ -359,6 +396,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Agrega a la lista de compuertas la compuerta pasada por parametro.
+	 * 
 	 * @param Gate
 	 */
 	public void addGate(Gate c) {
@@ -366,6 +406,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Imprime en consola la tabla pasada por parametro.
+	 * 
 	 * @param int
 	 * @param int [][]
 	 */
@@ -382,6 +425,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * ELimina la compuerta pasada por parametro de la lista de compuertas.
+	 * 
 	 * @param Gate
 	 */
 	public void removeGate(Gate gate) {
@@ -392,7 +438,7 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Imprime en consola las lineas que existen en el programa.
 	 */
 	public void printLines() {
 		System.out.println("Lineas actuales");
@@ -403,7 +449,7 @@ public class Model {
 	}
 
 	/**
-	 * 
+	 * Imprime en pantalla la informacion de todas las compuertas que existen en el programa.
 	 */
 	public void printGates() {
 		for(int i = 0; i < gateList.size(); i++) {
@@ -414,6 +460,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Elimina la linea pasada por parametro de la lista de lineas.
+	 * 
 	 * @param Line
 	 */
 	public void removeLine(Line l) {
@@ -426,6 +475,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Devuelve la lista de entradas.
+	 * 
 	 * @return ArrayList<Gate>
 	 */
 	public ArrayList<Gate> getInputList() {
@@ -433,6 +485,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Asigna la lista de entradas.
+	 * 
 	 * @param ArrayList<Gate>
 	 */
 	public void setInputList(ArrayList<Gate> inputList) {
@@ -440,6 +495,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Devuelve la lista de salidas.
+	 * 
 	 * @return ArrayList<Gate>
 	 */
 	public ArrayList<Gate> getOutputList() {
@@ -447,6 +505,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Asigna la lista de salidas.
+	 * 
 	 * @param outputList
 	 */
 	public void setOutputList(ArrayList<Gate> outputList) {
@@ -454,6 +515,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Metodo de Singleton que devuelve la instancia de la clase.
+	 * 
 	 * @return INSTANCE
 	 */
 	public static Model getInstance() {
@@ -461,6 +525,9 @@ public class Model {
     }
 
 	/**
+	 * 
+	 * Devuelve la lista de compuertas.
+	 * 
 	 * @return GateLinkedList
 	 */
 	public GateLinkedList getGateList() {
@@ -468,6 +535,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Asigna la lista de compuertas.
+	 * 
 	 * @param gateList
 	 */
 	public void setGateList(GateLinkedList gateList) {
@@ -475,6 +545,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Devuelve la lista de lineas.
+	 * 
 	 * @return ArrayList<Line>
 	 */
 	public ArrayList<Line> getLineList() {
@@ -482,6 +555,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Asigna la lista de lineas.
+	 * 
 	 * @param ArrayList<Line>
 	 */
 	public void setLineList(ArrayList<Line> lineList) {
@@ -489,6 +565,9 @@ public class Model {
 	}
 
 	/**
+	 * 
+	 * Busca una linea en la lista de lineas segun los parametros y devuelve true si la encuentra y false de lo contrario.
+	 * 
 	 * @param String
 	 * @param String
 	 * @return boolean

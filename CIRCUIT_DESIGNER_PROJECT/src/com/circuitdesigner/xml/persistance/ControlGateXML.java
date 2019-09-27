@@ -43,6 +43,9 @@ import com.circuitdesigner.structures.Gate.GateType;
 public class ControlGateXML {
 
 	/**
+	 * 
+	 * Parsing de XML a ArrayList de compuertas.
+	 * 
 	 * @param String
 	 * @return ArrayList<Gate>
 	 */
@@ -118,6 +121,9 @@ public class ControlGateXML {
 	}
 	
 	/**
+	 * 
+	 * Devuelve el equivalente GateType del String pasado por parametro, ej: "AND" = GateType.NAN.
+	 * 
 	 * @param String
 	 * @return GateType
 	 */
@@ -153,6 +159,9 @@ public class ControlGateXML {
 	}
 	
 	/**
+	 * 
+	 * Parsing de ArrayList a XML.
+	 * 
 	 * @param ArrayList<Gate>
 	 * @param String
 	 * @return boolean

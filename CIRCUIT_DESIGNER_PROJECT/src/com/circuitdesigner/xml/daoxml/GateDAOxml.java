@@ -11,6 +11,9 @@ import com.circuitdesigner.xml.persistance.ControlGateXML;
 public class GateDAOxml implements GateDAO, Serializable{
 
 	/**
+	 * 
+	 * Inserta una compuerta al final de la lista.
+	 * 
 	 * @param Gate
 	 * @param String
 	 * @return boolean
@@ -28,6 +31,9 @@ public class GateDAOxml implements GateDAO, Serializable{
 	}
 
 	/**
+	 * 
+	 * Devuelve la compuerta con el ID pasado por parametro.
+	 * 
 	 * @param String
 	 * @param String
 	 * @return Gate
@@ -45,6 +51,9 @@ public class GateDAOxml implements GateDAO, Serializable{
 	}
 
 	/**
+	 * 
+	 * Modifica la compuerta pasada por parametro.
+	 * 
 	 * @param Gate
 	 * @param String
 	 * @return boolean
@@ -56,6 +65,9 @@ public class GateDAOxml implements GateDAO, Serializable{
 	}
 
 	/**
+	 * 
+	 * Elimina la compuerta con el ID pasado por parametro de la lista.
+	 * 
 	 * @param String
 	 * @param String
 	 * @return boolean
@@ -75,6 +87,9 @@ public class GateDAOxml implements GateDAO, Serializable{
 	}
 
 	/**
+	 * 
+	 * Devuelve la lista de compuertas.
+	 * 
 	 * @param String
 	 * @return ArrayList<Gate>
 	 */
@@ -84,6 +99,9 @@ public class GateDAOxml implements GateDAO, Serializable{
 	}
 
 	/**
+	 * 
+	 * Guarda la lista.
+	 * 
 	 * @param ArrayList<Gate>
 	 * @param String
 	 * @return boolean
